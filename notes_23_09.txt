@@ -1,0 +1,45 @@
+reflechir aux objets metier
+(busness objects)
+creer les services rest qu'y sont associées
+Il faut que ça soit jolie, qu'on puisse deplacer les taches et que ça amarche
+
+--Listes
+
+ 
+--Taches
+    * id createur
+    * id assignée
+    * contenue
+    * time stamp
+
+
+--Utilisateur
+     * id 
+     * nom
+     * premon
+     * roles ?
+
+Config,
+app.get + cle, done le contenu
+app.get(host) = "localhost"
+
+
+
+base de donnes
+Postgress pour avoir acces aux cles exterieures
+
+
+
+
+faire un trello
+
+back end qui marche
+*creer base des donnes postgress
+
+
+*objets metiers
+*deplyer regulierement pour voir si tuout va bien
+
+*proceder par merge requests et 
+
+pascal gitlab @pallau
