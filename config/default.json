@@ -46,6 +46,16 @@
   },
   "postgres": {
     "client": "pg",
-    "connection": "postgres://postgres:@localhost:5432/andres_pascal"
+    "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
+    "migrations" : {
+      "directory" : "../database/migrations",
+      "tablename" : "knew_migrations"
+    },
+    
+      "seeds" : {
+        "directory" : "../database/seeds"
+      }
+     
   }
+
 }
