@@ -1,0 +1,83 @@
+Model Projet AndresPascal
+Users
+
+    -_Id
+
+    -userName (psuedo)
+
+    -nom Prenom
+
+    -Email
+
+    -password
+
+    -Avatar(photo)
+
+    -boards auxquelles il fait partie (db ou logic)
+
+
+Board (les boards sont l'equivalent des projets chez trello)
+
+    -_Id
+
+    -nom
+
+    -membres (list d Users_Id)
+
+    -createdBy
+
+    -dateCreation
+
+    -background
+
+    -privé => à definir ce qu'on veut dire par privé => visibilité (publique tout le monde peut voir mais pas modifier)
+
+    -description
+
+    ??  Questions à trancher
+
+    -lists-id (chaque list ne peut apartenir qu'a une board) 
+
+
+    -gestion des droits (est ce que on fait la gestion des droits sur les boards ou sur les Users)
+
+        un objet avec {board_Id, {edit, read, voir d'autres droits) dans chaque user
+
+        un objet access {edit : [user_id ...], read : [user_id], ...} dans chaque board
+
+    
+Lists
+
+    -_Id
+
+    -boardId (table.unique('boardId').required
+
+    -name
+
+    -order (position dans le board)
+
+
+
+Task
+
+    -_Id
+
+    -listId (required et unique) une task peut changer de liste et de board.
+
+    -title
+
+    -description
+
+    -order (position sur la liste)
+
+    -members
+
+    -labels/tag
+
+    -dueDate
+
+
+
+
+
+

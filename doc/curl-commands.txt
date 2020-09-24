@@ -1,0 +1,14 @@
+CURL commands to test api
+
+post commands :
+
+curl -X POST http://localhost:3030/tasks -H "Content-Type: application/json" --data '{"text":"my first task"}'
+
+
+curl -X POST http://localhost:3030/users -H "Content-Type: application/json" --data '{"email":"dede@dede.dede", "password":"dede"}'
+
+curl -X get http://localhost:3030/users -H "Content-Type: application/json" --data '{"email":"dede@dede.dede", "password":"dede"}'
+
+curl -X get http://localhost:3030/users -H "Content-Type: application/json" --data '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJpYXQiOjE2MDA5NDg2NzksImV4cCI6MTYwMTAzNTA3OSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiMSIsImp0aSI6IjM4YjUzYWU5LWFjM2UtNGI0Yi04MGUxLTI3ZjJjNjU0NDdmOSJ9.Oc1zoykSctI5C5wF5GsGMYZweEk6dUWoRKTwUICFgls"}'
+
+curl -X POST http://localhost:3030/authentication -H "Content-Type: application/json" --data '{"strategy":"local","email":"dede@dede.dede", "password":"dede"}'

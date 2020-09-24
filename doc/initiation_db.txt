@@ -1,0 +1,75 @@
+commandes pour creer une base de donnes
+
+creer un utilisateur: 
+TO DO
+
+creer une bd
+TO DO
+
+texte a rajouter au config/default.json
+
+ "postgres": {
+    "client": "pg",
+    "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
+    "migrations" : {
+      "directory" : "../database/migrations",
+      "tablename" : "knew_migrations"
+    },
+    
+      "seeds" : {
+        "directory" : "../database/seeds"
+      }
+     
+ 
+ npx knex init
+ 
+ modifier knexfile.js 
+   development: {
+    client: 'postgresql',
+    connection: {
+      database: 'andres_pascal',
+      user : 'andres_pascal',
+      password : '2345'
+    },
+    pool : {
+      min : 2,
+      max : 10
+    },
+    migrations : {
+      tableName : 'knex_migrations'
+    }
+  },
+
+
+npx knex migrate:make init
+
+will create a /migration folder 
+{date-stamp}_init.js à modifier
+
+modify ..._init.js :
+
+exports.up = function(knex) {
+  return knex.schema
+    .createTable('tasks', table => {
+      table.increments('id');
+      table.string('text');
+    })
+    .createTable('users', table => {
+      table.increments('id');
+      table.string('email').unique();
+      table.string('password');
+      table.string('googleId');
+      table.string('facebookId');
+    });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('tasks').dropTable('users');
+};
+
+todo :
+
+
+how to create external ids on the db?
+
+

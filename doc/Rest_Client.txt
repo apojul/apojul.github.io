@@ -1,0 +1,15 @@
+Rest Client
+
+env variables 
+declared with 
+@name
+
+called with
+{{name}}
+
+ex:
+Authorization: {{token}}
+
+request :
+
+POST {{host}}/tasks HTTP/v1.1
