@@ -4,13 +4,18 @@ creer les services rest qu'y sont associées
 Il faut que ça soit jolie, qu'on puisse deplacer les taches et que ça amarche
 
 --Listes
-
+    *nom colonne
+    *id createur
+    *id colonne
+    
  
 --Taches
     * id createur
     * id assignée
+    * id colonne
     * contenue
     * time stamp
+    * 
 
 
 --Utilisateur
@@ -26,7 +31,7 @@ app.get(host) = "localhost"
 
 
 base de donnes
-Postgress pour avoir acces aux cles exterieures
+Postgress pour avoir acces aux cles etrangeres
 
 
 

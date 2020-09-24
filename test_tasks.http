@@ -1,0 +1,13 @@
+@hostname = http://localhost
+@port = 3030
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+
+POST {{host}}/tasks HTTP/1.1
+content-type : {{contentType}}
+{
+    "text": "first task"
+}
+
