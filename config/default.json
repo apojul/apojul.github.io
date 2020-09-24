@@ -49,13 +49,13 @@
     "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
     "migrations" : {
       "directory" : "../database/migrations",
-      "tablename" : "knew_migrations"
+      "tableName" : "knew_migrations"
     },
-    
+
       "seeds" : {
         "directory" : "../database/seeds"
       }
-     
+
   }
 
 }
