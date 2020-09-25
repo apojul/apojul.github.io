@@ -11,7 +11,10 @@ module.exports = function (app) {
     if(!exists) {
       db.schema.createTable(tableName, table => {
         table.increments('id');
-        table.string('text');
+        table.string('name');
+        table.integer('rank'); //utiliser list_id
+        table.integer('board_id').references('id').inTable('boards').notNull().onDelete('CASCADE');
+//        table.boolean('archived');
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));
