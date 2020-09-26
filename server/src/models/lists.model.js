@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 // lists-model.js - A KnexJS
-// 
+//
 // See http://knexjs.org/
 // for more of what you can do here.
 module.exports = function (app) {
@@ -11,16 +11,18 @@ module.exports = function (app) {
     if(!exists) {
       db.schema.createTable(tableName, table => {
         table.increments('id');
-        table.string('name');
+        table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
+        table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
+        table.string('title');
         table.integer('rank'); //utiliser list_id
-        table.integer('board_id').references('id').inTable('boards').notNull().onDelete('CASCADE');
-//        table.boolean('archived');
+        table.integer('created_on').references('id').inTable('boards').notNull().onDelete('CASCADE');
+        // table.boolean('archived');
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));
     }
   });
-  
+
 
   return db;
 };
