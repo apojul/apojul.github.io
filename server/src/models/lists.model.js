@@ -13,10 +13,10 @@ module.exports = function (app) {
         table.increments('id');
         table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
         table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
-        table.string('title');
-        table.integer('rank'); //utiliser list_id
+        table.string('name');
+        table.integer('rank'); //use list_id
         table.integer('created_on').references('id').inTable('boards').notNull().onDelete('CASCADE');
-        // table.boolean('archived');
+        table.boolean('archived').defaultTo('false');
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));

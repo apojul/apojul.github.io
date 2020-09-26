@@ -16,6 +16,7 @@ module.exports = function (app) {
         table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
         table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
         table.integer('created_by ').references('id').inTable('users').notNull().onDelete('CASCADE');
+        table.integer('members').references('id').inTable('users').notNull().onDelete('CASCADE');
         table.string('background');
         // this string will be an url, is there a way to make sure a
         // valid URL is entered?
