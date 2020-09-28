@@ -14,7 +14,7 @@ module.exports = function (app) {
         table.string('description');
         table.string('title');
         table.integer('order');
-        table.integer('lists_id').references('id').inTable('lists').notNull().onDelete('CASCADE');
+        table.integer('list_id').references('id').inTable('lists').notNull().onDelete('CASCADE');
         table.integer('created_by').references('id').inTable('users').notNull().onDelete('CASCADE');
         table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
         table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
