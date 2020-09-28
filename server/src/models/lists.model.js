@@ -11,12 +11,12 @@ module.exports = function (app) {
     if(!exists) {
       db.schema.createTable(tableName, table => {
         table.increments('id');
-        table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
-        table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
         table.string('name');
-        table.integer('rank'); //use list_id
+        table.integer('rank');
         table.integer('created_on').references('id').inTable('boards').notNull().onDelete('CASCADE');
-        table.boolean('archived').defaultTo('false');
+        table.timestamps(true, true);
+        table.boolean('archived').defaultTo(false);
+
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));
