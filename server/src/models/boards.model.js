@@ -13,18 +13,18 @@ module.exports = function (app) {
         // are there any tables that need to be unique?
         table.increments('id');
         table.string('name');
-        table.timestamp('created_at').notNullable().defaultTo(db.fn.now());
-        table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
+        table.string('description');
         table.integer('created_by ').references('id').inTable('users').notNull().onDelete('CASCADE');
-        table.integer('members').references('id').inTable('users').notNull().onDelete('CASCADE');
+        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
         table.string('background');
         // this string will be an url, is there a way to make sure a
         // valid URL is entered?
-        table.boolean('is_private');
+        table.boolean('is_private').defaultTo(false);
         // publique : tout le monde peut voir mais pas modifier
-        table.string('description');
         // The content of these two arrays is a foreingkey (lists.id and users.id)
         // Should that be indicated now or later?
+        table.timestamps(true,true);
+        table.boolean('archived').defaultTo(false);
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));

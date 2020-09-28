@@ -12,13 +12,12 @@ module.exports = function (app) {
     if(!exists) {
       db.schema.createTable(tableName, table => {
         table.increments('id');
-        table.timestamp('created_at').defaultTo(db.fn.now());
-        table.timestamp('updated_at').notNullable().defaultTo(db.fn.now());
-        table.string('email').notNullable().unique();
-        table.string('password').notNullable();
-        table.string('googleId');
-        table.string('facebookId');
         table.string('full_name').notNullable();
+        table.string('email').unique().notNullable();
+        table.string('password').notNullable();
+        table.string('google_id');
+        table.string('facebook_id');
+        table.timestamps(true, true);
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));
