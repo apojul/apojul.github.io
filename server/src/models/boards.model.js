@@ -25,7 +25,6 @@ module.exports = function (app) {
         // Should that be indicated now or later?
         table.timestamps(true,true);
         table.boolean('archived').defaultTo(false);
-
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));

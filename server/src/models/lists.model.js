@@ -16,7 +16,6 @@ module.exports = function (app) {
         table.integer('created_on').references('id').inTable('boards').notNull().onDelete('CASCADE');
         table.timestamps(true, true);
         table.boolean('archived').defaultTo(false);
-
       })
         .then(() => console.log(`Created ${tableName} table`))
         .catch(e => console.error(`Error creating ${tableName} table`, e));
