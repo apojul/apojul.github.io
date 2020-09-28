@@ -1,3 +1,8 @@
+const bcrypt = require('bcrypt');
+const salt = 10;
+const passwd = '2345';
+
+const pwd = bcrypt.hashSync(passwd, salt);
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
@@ -5,9 +10,9 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {email: 'pascalallau@gmail.com', password:'2345', full_name: 'pascal'},
-        {email: 'pascal.allau@laposte.net', password:'2345', full_name: 'apojul'},
-        {email: 'andres@lilo.org', password:'2345', full_name: 'andres'}
+        {email: 'pascalallau@gmail.com', password:pwd, full_name: 'pascal'},
+        {email: 'pascal.allau@laposte.net', password:pwd, full_name: 'apojul'},
+        {email: 'andres@lilo.org', password:pwd, full_name: 'andres'}
       ]);
     });
 };
