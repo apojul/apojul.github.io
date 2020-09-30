@@ -1,32 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="page-header">
+      <h1>Kanban Board</h1>
+      <p class="lead">Andres_Pascal Kanban board</p>
     </div>
-    <router-view/>
+    <menu-bar></menu-bar>
+    <router-view />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import MenuBar from "@/components/MenuBar";
+
+export default {
+  name: "app",
+  components: {
+    "menu-bar": MenuBar
+  }
+};
+</script>
+
+<style>
+.page-header h1 {
+  font-weight: 300;
 }
 
-#nav {
-  padding: 30px;
+.card {
+  margin-bottom: 10px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.card:last-child {
+  margin-bottom: 25px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.card-block {
+  padding: 15px;
 }
 </style>
