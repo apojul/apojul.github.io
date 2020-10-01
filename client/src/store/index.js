@@ -1,11 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
-
+import app from "@/feathers-client"
 Vue.use(Vuex);
 
 const state = {
-  boards: []
+  boards: undefined
 };
 
 const getters = {
@@ -15,27 +14,39 @@ const getters = {
 };
 
 const mutations = {
-  SET_BOARDS: (state, boards) => (state.boards = boards)
-};
-
-const actions = {
-  loadBoards({ commit }) {
-    axios
-      .get("http://127.0.0.1:3030/boards", {
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJpYXQiOjE2MDE0NjMwMzcsImV4cCI6MTYwMTU0OTQzNywiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiMSIsImp0aSI6Ijk0MTU0OGUzLWI3M2EtNGE1NS05ZWI0LTk3ODBmNjdmOTNkZSJ9.LfviN7udifdQtQTNYJNTfV6mkxDJVMt9IkpQRs8j5Cs"
-        }
-      })
-      .then(result => {
-        commit("SET_BOARDS", result.data.data);
-      })
-      .catch(error => {
-        throw new Error(`API ${error}`);
-      });
+  SET_BOARDS: (state, boardList) => {
+    state.boards = {}
+      boardList.forEach(board => {
+        state.boards[board.id]=board
+    });
+  },
+  SET_BOARD: (state, board) => {    
+        //state.boards[board.id]=board
+        Vue.set(state.boards, board.id, board)
+  },
+  ADD_BOARD: (state, board) => {
+       Vue.set(state.boards, board.id, board)
   }
 };
 
+const actions = {
+  async FETCH_BOARD_LIST({ commit }) {
+
+    let boardList = await app.service('boards').find() 
+    commit("SET_BOARDS", boardList);
+  },
+  async CREATE_BOARD ({ commit }) {
+    let newBoard = await app.service('boards').create({
+      name: undefined,
+      descritpion: undefined,
+      background: undefined
+    })
+    console.log('newBoard =', newBoard)
+    commit("ADD_BOARDS", newBoard)
+    //TODO voir comment ça marche pour afficher la nouvelle liste dans store.state.boards
+    // voir comment on peut voir quelle est la reponse de cette action. 
+  }
+}
 export default new Vuex.Store({
   state: state,
   getters: getters,

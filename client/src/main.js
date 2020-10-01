@@ -6,6 +6,7 @@ import store from "./store";
 import vuelidate from "vuelidate";
 import vuetify from "./plugins/vuetify";
 
+
 Vue.config.productionTip = false;
 
 new Vue({

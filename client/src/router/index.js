@@ -1,13 +1,13 @@
 import Vue from "vue";
 //import store from "@/store";
 import VueRouter from "vue-router";
-import Boards from "../components/Boards.vue";
+import Boards from "../views/Boards.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "*",
+    path: "/boards",
     name: "boards",
     component: Boards
   },
