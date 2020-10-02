@@ -10,12 +10,12 @@ module.exports = function (app) {
   db.schema.hasTable(tableName).then(exists => {
     if(!exists) {
       db.schema.createTable(tableName, table => {
-        // are there any tables that need to be unique?
         table.increments('id');
         table.string('name');
         table.string('description');
         table.integer('created_by ').references('id').inTable('users').notNull().onDelete('CASCADE');
-        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
+//        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
+//        TODO this is an intermediary table        
         table.string('background');
         // this string will be an url, is there a way to make sure a
         // valid URL is entered?
