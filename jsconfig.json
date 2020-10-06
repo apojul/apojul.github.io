@@ -1,0 +1,15 @@
+{
+    "include": [
+      "./server/src/**/*",
+      "./client/src/**/*"
+    ],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "components/*": [
+                "src/components/*"
+            ]
+        }
+    }
+}
+

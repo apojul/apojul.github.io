@@ -3,19 +3,19 @@ import Vuex from "vuex";
 import app from "@/feathers-client"
 Vue.use(Vuex);
 
-const state = {
+const state = { //ici juste les info que sont pour tout le monde
+  // id d'utilisateur loggé
   boards: undefined,
-  newBoard: {
-    name: "this is a name",
-    description: 'this is a description',
-    created_by: 2
+  activeUser : undefined,
+  /* TODO otherUsers {
+    get all users_id,
+    onLine: true/false => subscribe to an event that tells who has logedin/logout
   }
+  */
 };
 
 const getters = {
-  countBoards: state => {
-    return state.boards.length;
-  }
+  // TODO one the user is loged in, the getters should determine which info is brought over from the db
 };
 
 const mutations = {
@@ -29,14 +29,14 @@ const mutations = {
         //state.boards[board.id]=board
         Vue.set(state.boards, board.id, board)
   },
-  ADD_NEW_BOARD: (state, board) => {
-       Vue.set(state.boards, board.id, board)
+  SET_SIGNIN_USER: (state, user) => { 
+     state.activeUser = user
   },
-  INITIALIZE_NEW_BOARD: (state, payload) => {
-    state.newBoard.name = payload.name;
-    state.newBoard.description = payload.description;
-    state.newBoard.created_by = payload.created_by;
+  CLEAR_SESSION: (state) => { // TODO to be called when user log out event is received
+    state.activeUser = undefined
+
   }
+  
 }
 const actions = {
   async FETCH_BOARD_LIST({ commit }) {
@@ -44,18 +44,30 @@ const actions = {
     let boardList = await app.service('boards').find() 
     commit("SET_BOARDS", boardList);
   },
-  async CREATE_BOARD ({ commit }, ) {
+  async CREATE_BOARD (_, payload) {  //question JC pourquoi faut il mettre un premier argument?
+    console.log("payload: ", payload)
     let newBoard = await app.service('boards').create({
-      name: state.newBoard.name,
-      description: state.newBoard.description,
-      created_by: state.newBoard.created_by
+      ...payload
     })
     console.log('newBoard =', newBoard)
-    commit("ADD_NEW_BOARD", newBoard)
-    //TODO voir comment ça marche pour afficher la nouvelle liste dans store.state.boards
-    // voir comment on peut voir quelle est la reponse de cette action. 
-  }
+  },
+  async AUTHENTICATE_USER (payload) {
+
+      try {
+        return await app.reAuthenticate();
+      } catch (error) {
+        return await app.authenticate({
+          strategy: 'local',
+          ...payload
+        });
+      }
+    },
+    async LOG_OUT () {
+      await app.logout()
+    }
 }
+
+
 export default new Vuex.Store({
   state: state,
   getters: getters,
