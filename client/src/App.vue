@@ -1,39 +1,24 @@
 <template>
-  <div id="app">
-    <div class="page-header">
-      <h1>Kanban Board</h1>
-      <p class="lead">Andres_Pascal Kanban board</p>
-    </div>
-    <menu-bar></menu-bar>
-    <router-view />
-  </div>
+  <v-app>
+    <NavBar/>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import MenuBar from "@/components/MenuBar";
+import NavBar from "@/components/NavBar";
 
 export default {
-  name: "app",
+  name: "App",
+
   components: {
-    "menu-bar": MenuBar
-  }
+    NavBar
+  },
+
+  data: () => ({
+    //
+  })
 };
 </script>
-
-<style>
-.page-header h1 {
-  font-weight: 300;
-}
-
-.card {
-  margin-bottom: 10px;
-}
-
-.card:last-child {
-  margin-bottom: 25px;
-}
-
-.card-block {
-  padding: 15px;
-}
-</style>

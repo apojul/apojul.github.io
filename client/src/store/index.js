@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import app from "@/feathers-client"
+import app from "@/feathers-client";
 Vue.use(Vuex);
 
-const state = { //ici juste les info que sont pour tout le monde
+const state = {
+  //ici juste les info que sont pour tout le monde
   // id d'utilisateur loggé
   boards: undefined,
-  activeUser : undefined,
+  activeUser: undefined
   /* TODO otherUsers {
     get all users_id,
     onLine: true/false => subscribe to an event that tells who has logedin/logout
@@ -20,53 +21,50 @@ const getters = {
 
 const mutations = {
   SET_BOARDS: (state, boardList) => {
-    state.boards = {}
-      boardList.forEach(board => {
-        state.boards[board.id]=board
+    state.boards = {};
+    boardList.forEach(board => {
+      state.boards[board.id] = board;
     });
   },
-  SET_BOARD: (state, board) => {    
-        //state.boards[board.id]=board
-        Vue.set(state.boards, board.id, board)
+  SET_BOARD: (state, board) => {
+    //state.boards[board.id]=board
+    Vue.set(state.boards, board.id, board);
   },
-  SET_SIGNIN_USER: (state, user) => { 
-     state.activeUser = user
+  SET_SIGNIN_USER: (state, user) => {
+    state.activeUser = user;
   },
-  CLEAR_SESSION: (state) => { // TODO to be called when user log out event is received
-    state.activeUser = undefined
-
+  CLEAR_SESSION: state => {
+    // TODO to be called when user log out event is received
+    state.activeUser = undefined;
   }
-  
-}
+};
 const actions = {
   async FETCH_BOARD_LIST({ commit }) {
-
-    let boardList = await app.service('boards').find() 
+    let boardList = await app.service("boards").find();
     commit("SET_BOARDS", boardList);
   },
-  async CREATE_BOARD (_, payload) {  //question JC pourquoi faut il mettre un premier argument?
-    console.log("payload: ", payload)
-    let newBoard = await app.service('boards').create({
+  async CREATE_BOARD(_, payload) {
+    //question JC pourquoi faut il mettre un premier argument?
+    console.log("payload: ", payload);
+    let newBoard = await app.service("boards").create({
       ...payload
-    })
-    console.log('newBoard =', newBoard)
+    });
+    console.log("newBoard =", newBoard);
   },
-  async AUTHENTICATE_USER (payload) {
-
-      try {
-        return await app.reAuthenticate();
-      } catch (error) {
-        return await app.authenticate({
-          strategy: 'local',
-          ...payload
-        });
-      }
-    },
-    async LOG_OUT () {
-      await app.logout()
+  async AUTHENTICATE_USER(payload) {
+    try {
+      return await app.reAuthenticate();
+    } catch (error) {
+      return await app.authenticate({
+        strategy: "local",
+        ...payload
+      });
     }
-}
-
+  },
+  async LOG_OUT() {
+    await app.logout();
+  }
+};
 
 export default new Vuex.Store({
   state: state,
@@ -75,3 +73,4 @@ export default new Vuex.Store({
   actions: actions,
   modules: {}
 });
+

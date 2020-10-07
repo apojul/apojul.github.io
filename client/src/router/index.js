@@ -2,7 +2,7 @@ import Vue from "vue";
 //import store from "@/store";
 import VueRouter from "vue-router";
 import Boards from "../views/Boards.vue";
-import LogIn from "../views/LogIn"
+import LogIn from "../views/LogIn";
 Vue.use(VueRouter);
 
 const routes = [
@@ -24,7 +24,7 @@ const routes = [
     path: "/login",
     name: "Log In",
     component: LogIn
-  },
+  }
 ];
 
 const router = new VueRouter({

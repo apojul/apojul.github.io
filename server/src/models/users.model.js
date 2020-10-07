@@ -12,7 +12,7 @@ module.exports = function (app) {
     if(!exists) {
       db.schema.createTable(tableName, table => {
         table.increments('id');
-        table.string('full_name').notNullable();
+        table.string('full_name');
         table.string('email').unique().notNullable();
         table.string('password').notNullable();
         table.string('google_id');

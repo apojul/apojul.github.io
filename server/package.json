@@ -51,7 +51,7 @@
     "cors": "^2.8.5",
     "feathers-knex": "^7.1.1",
     "helmet": "^3.23.3",
-    "knex": "^0.21.5",
+    "knex": "^0.21.6",
     "pg": "^8.3.3",
     "serve-favicon": "^2.5.0",
     "winston": "^3.3.3"

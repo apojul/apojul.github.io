@@ -14,8 +14,8 @@ module.exports = function (app) {
         table.string('name');
         table.string('description');
         table.integer('created_by ').references('id').inTable('users').notNull().onDelete('CASCADE');
-//        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
-//        TODO this is an intermediary table        
+        //        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
+        //        TODO this is an intermediary table        
         table.string('background');
         // this string will be an url, is there a way to make sure a
         // valid URL is entered?
