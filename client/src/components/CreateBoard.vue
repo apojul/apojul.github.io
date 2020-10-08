@@ -7,9 +7,7 @@
       <v-card-text>
         <v-form class="px-3" ref="form">
           <v-text-field v-model="name" label="Name"></v-text-field>
-          <v-text-field v-model="created_by" label="Created By"></v-text-field>
           <v-textarea v-model="description" label="Description"></v-textarea>
-
           <v-spacer></v-spacer>
           <v-btn text @click="submitNewBoard" class="red mx-0 mt-3"
             >Add Board</v-btn
@@ -21,28 +19,19 @@
 </template>
 
 <script>
-// import app from "../feathers-client"
-// let test = app.service("boards").on("created", board => {
-//    return board
-//})
 export default {
   name: "CreateBoard",
   data: () => {
     return {
       name: "",
       description: "",
-      created_by: 0
-      //test: test()
+      created_by: 2 // once authUser works, this should be this.$store.authUser.id
     };
   },
 
   methods: {
     submitNewBoard() {
-      //   console.log("SNBname, ", this.name, " SNBdescriptop, ", this.description, " SNBcreated by, ", this.created_by)
-      //   let payload = {name:this.name, description:this.description, created_by:this.created_by}
-      //  console.log( "   p ", payload)
-
-      this.$store.dispatch("CREATE_BOARD", {
+    this.$store.dispatch("CREATE_BOARD", {
         name: this.name,
         description: this.description,
         created_by: this.created_by
@@ -50,7 +39,5 @@ export default {
     }
   }
 };
-//   computed: {
 
-// }
 </script>

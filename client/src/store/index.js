@@ -51,7 +51,7 @@ const actions = {
     });
     console.log("newBoard =", newBoard);
   },
-  async AUTHENTICATE_USER(payload) {
+  async AUTHENTICATE_USER(_, payload) {
     try {
       return await app.reAuthenticate();
     } catch (error) {

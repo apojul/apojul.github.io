@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <boardsList />
-    <CreateBoard />
-  </div>
+  <container>
+    <v-flex>
+      <boardNav />
+      <DisplayBoard />
+    </v-flex>
+   
+  </container>
 </template>
 
 <script>
-//import { mapState, mapGetters } from "vuex";
-import CreateBoard from "@/components/CreateBoard";
-import boardsList from "@/components/boardsList";
+import boardNav from "@/components/BoardsNavDrawer";
+import DisplayBoard from "@/components/DisplayBoard";
 export default {
   name: "Boards",
   components: {
-    CreateBoard,
-    boardsList
+    boardNav,
+    DisplayBoard
   }
   //ecrire explicitement la computed boards
 };
