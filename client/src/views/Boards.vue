@@ -1,7 +1,6 @@
 <template>
   <container>
     <v-flex>
-      <boardNav />
       <DisplayBoard />
     </v-flex>
    
@@ -9,12 +8,16 @@
 </template>
 
 <script>
-import boardNav from "@/components/BoardsNavDrawer";
 import DisplayBoard from "@/components/DisplayBoard";
+import app from '@/feathers-client'
 export default {
+    async mounted() {
+    let conUser = await app.service('con_users').create({})
+    console.log(conUser)
+  },
+
   name: "Boards",
   components: {
-    boardNav,
     DisplayBoard
   }
   //ecrire explicitement la computed boards

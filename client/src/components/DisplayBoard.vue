@@ -1,7 +1,8 @@
 <template>
     <div>
         <p>there no info yet</p>
-        <p>{{this.$store.data}}</p>
+        <p>{{Object.values(this.$store.state.boards).find(board => board.id)
+            }}</p>
     </div>
 </template>
 <script>

@@ -37,15 +37,16 @@ module.exports = function(app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  app.service("boards").publish((data, hook) => {
-    // Here you can add event publishers to channels set up in `channels.js`
-    // To publish only for a specific event use `app.publish(eventname, () => {})`
-
-    console.log('Publishing all events to all anonymous users. See `channels.js` and https://docs.feathersjs.com/api/channels.html for more information.'); // eslint-disable-line
-
-    // e.g. to publish all service events to all authenticated users use
-    return app.channel('anonymous');
+  app.service('boards').publish((data, hook) => {
+    console.log('EVENT: Board created'); // eslint-disable-line
+    return app.channel('authenticated');
   });
+  // eslint-disable-next-line no-unused-vars 
+  app.service('con_users').publish((data, hook) => {
+    console.log('EVENT: User logged in'); // eslint-disable-line
+    return app.channel('authenticated');
+  }); //TODO *** Somethin gis not working !!!
+
 
   // app.service("tasks").publish((data, hook) => {
   //   return app.channel('annonymous');

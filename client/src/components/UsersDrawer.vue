@@ -4,7 +4,7 @@
       v-model="drawer"
       permanent
       app
-      clipped
+      clipped-right
       class="indigo orange--text "
     >
       <v-list-item class="px-2">

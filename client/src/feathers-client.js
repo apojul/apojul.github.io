@@ -19,37 +19,6 @@ app.configure(
     storage: window.localStorage
   })
 );
-// hard coded authorisation
-
-// const login = async () => {
-//    try {
-//      // First try to log in with an existing JWT
-//      return await app.reAuthenticate();
-//    } catch (error) {
-//      // If that errors, log in with email/password
-//      // Here we would normally show a login page
-//      // to get the login information
-//      return await app.authenticate({
-//        strategy: 'local',
-//        full_name:"andres",
-//        email: 'andres@lilo.org',
-//        password: '2345'
-//      });
-//    }
-//  };
-
-//  const main = async () => {
-//    const auth = await login();
-
-//    console.log('User is authenticated', auth);
-
-// Log us out again
-// await app.logout();
-// };
-
-// main();
-
-// Created events for all services
 
 app.service("boards").on("created", board => {
   //"created" is the name of the channel this event is bradcasted on
@@ -77,7 +46,7 @@ app.service("users").on("created", user => {
 app.on("login", authResult => {
   const { user } = authResult;
   console.log("Login!", user.id);
-  store.commit("SET_SIGNIN_USER", user);
+  store.commit("SET_USER", user);
   // start background uploading process
   //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, lists and tasks) belonging to this user and upload it to state
 });
@@ -88,12 +57,19 @@ app.on("logout", authResult => {
 });
 
 // app.service("users").on("patched", user => {
-//    console.log("USERS EVENT patched", user)
+//    
 //    store.commit("SET_USER", user)
 // })
 // app.service("users").on("removed", user => {
 //    console.log("USERS EVENT removed", user)
 //    store.commit("DELETE_USER", user)
 // })
+
+app.service('con_users').on('created', userList => {
+  console.log('CON_USER_EVENT created', userList)
+  store.commit('SET_CON_USER_LIST', userList)
+})
+
+
 
 export default app;

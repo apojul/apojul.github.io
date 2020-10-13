@@ -6,10 +6,16 @@
     >
         <template v-slot:activator="{ on, attrs }">
         <v-btn 
-        text 
+        class="indigo orange--text"
+        dark
         v-bind="attrs"
         v-on="on"
         >Register
+        <v-icon
+          color="orange"
+        >
+          mdi-account-plus
+        </v-icon>
         </v-btn>
         </template>
         <v-card>
@@ -27,26 +33,26 @@
                 <v-text-field
                   label="What is you name ?"
                   required
-                  v-model="newUserName"
+                  v-model="newUser.full_name"
                 ></v-text-field>
-                 <p>{{newUserName}}</p>
+                 <p>{{newUser.full_name}}</p>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="What is your Email*"
                   required
-                  v-model="newUserEmail"
+                  v-model="newUser.email"
                 ></v-text-field>
-                <p>{{newUserEmail}}</p>
+                <p>{{newUser.email}}</p>
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   label="Choose a password*"
                   type="password"
                   required
-                  v-model="newUserPassword"
+                  v-model="newUser.password"
                 ></v-text-field>
-                 <p>{{newUserPassword}}</p>
+                 <p>{{newUser.password}}</p>
               </v-col>
             </v-row>
         <v-btn 
@@ -76,19 +82,19 @@ export default {
     data () {
         return {
             registerDialog: false,
-            newUserPassword: "",
-            newUserName: "",
-            newUserEmail: "",
+            newUser : {
+              password: "",
+              full_name: "",
+              email: ""}
         }
     },
     methods : {
         registerUser () {
+            this.$store.dispatch("REGISTER_USER", this.newUser)
             // TODO insert loader 
             // TODO create and dispatch CREATE_USER action
             this.registerDialog = false
-            return console.log('new user name : ', this.newUserName,
-                        'new user email : ', this.newUserEmail,
-                        'new user password : ', this.newUserPassword)
+            return console.log('new user  : ', this.newUser)
             
             
     }

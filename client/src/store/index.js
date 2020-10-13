@@ -4,15 +4,17 @@ import app from "@/feathers-client";
 Vue.use(Vuex);
 
 const state = {
-  //ici juste les info que sont pour tout le monde
-  // id d'utilisateur loggé
+  // These objects are the content of the application
   boards: undefined,
-  activeUser: undefined
-  /* TODO otherUsers {
-    get all users_id,
-    onLine: true/false => subscribe to an event that tells who has logedin/logout
-  }
-  */
+  tasks: undefined,
+  lists: undefined,
+  activeBoard: undefined,
+  activeList: undefined,
+  activeTask: undefined,
+  // These objects concern the user and users information
+  activeUser: undefined, //current user
+  otherUsers: [], //all the other users
+  otherUsersOnLine: undefined // other users who are currently connected
 };
 
 const getters = {
@@ -20,6 +22,24 @@ const getters = {
 };
 
 const mutations = {
+  /* TODO LIST 
+  CRUD: (fetch(.find), create(.create), delete(.delete) and modify(.patch))
+  1 board delete and board modify
+    - action DELETE_BOARD will make a socket call to db
+    - socket will emmit an event
+    - event listener in client will mutate state to reflect change in db 
+  2 enable all CRUD actions with lists
+    - Lists are fetched the moment a board/boards.id element is invoqued in the router
+    - only the lists belonging to a current board must be called
+    - when a list is created it must belong to a board
+  3 enable all CRUD actions with tasks
+    - Tasks are fetched the moment a board/boards.id element is invoqued in the router
+    - only tasks belonging to an existing list must be fetched
+    - fetched tasks belong in only one list 
+  
+    */
+  
+  // Boards manipulation
   SET_BOARDS: (state, boardList) => {
     state.boards = {};
     boardList.forEach(board => {
@@ -30,27 +50,40 @@ const mutations = {
     //state.boards[board.id]=board
     Vue.set(state.boards, board.id, board);
   },
-  SET_SIGNIN_USER: (state, user) => {
+  // Lists manipulation
+  SET_LISTS: (state, listList) => {
+    state.lists = {};
+    listList.forEach(list => {
+      state.lists[list.id] = list;
+    });
+  },
+  // User manipulation
+  SET_USER: (state, user) => {
     state.activeUser = user;
   },
   CLEAR_SESSION: state => {
-    // TODO to be called when user log out event is received
     state.activeUser = undefined;
-  }
+  },
+  SET_CON_USER_LIST: (state, conUsers) => {
+    state.otherUsersOnLine = conUsers.authenticatedUsers.map(user => user.id)
+  },
+  // TODO create a new user and login
+
 };
 const actions = {
+  // Board related actions
   async FETCH_BOARD_LIST({ commit }) {
     let boardList = await app.service("boards").find();
     commit("SET_BOARDS", boardList);
   },
   async CREATE_BOARD(_, payload) {
-    //question JC pourquoi faut il mettre un premier argument?
     console.log("payload: ", payload);
     let newBoard = await app.service("boards").create({
       ...payload
     });
     console.log("newBoard =", newBoard);
   },
+  // USER related actions
   async AUTHENTICATE_USER(_, payload) {
     try {
       return await app.reAuthenticate();
@@ -63,6 +96,12 @@ const actions = {
   },
   async LOG_OUT() {
     await app.logout();
+  }, 
+  async REGISTER_USER(_, payload) {
+    console.log("payload: ", payload);
+    await app.service("users").create({
+      ...payload
+    });
   }
 };
 
