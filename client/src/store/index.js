@@ -8,17 +8,28 @@ const state = {
   boards: undefined,
   tasks: undefined,
   lists: undefined,
+  // ?
   activeBoard: undefined,
   activeList: undefined,
   activeTask: undefined,
+  // Dictionaires de liason à utiliser avec un getter 
+  boardsList: undefined, // cest juste une liste d'id.
+  listList: undefined,
+  taskList: undefined, // a voir su c'est outil
+
   // These objects concern the user and users information
   activeUser: undefined, //current user
-  otherUsers: [], //all the other users
-  otherUsersOnLine: undefined // other users who are currently connected
+  otherUsers: undefined, //all the other users
+  otherUsersOnLine: undefined // other users who are currently online
 };
 
 const getters = {
-  // TODO one the user is loged in, the getters should determine which info is brought over from the db
+  // TODO read doc on what getter are supposed to do and what is their use
+  // userSet = pour un utilisatuer t'as toutes les boards
+  // boardSet = pour une board t'as toutes les listes
+  // listeSet = pour une liste t'at toutes les taches
+  // listsInBoards: undefined, {1:[liste d'id de listes]}
+  // tasksInLists: undefined,
 };
 
 const mutations = {
@@ -36,7 +47,7 @@ const mutations = {
     - Tasks are fetched the moment a board/boards.id element is invoqued in the router
     - only tasks belonging to an existing list must be fetched
     - fetched tasks belong in only one list 
-  
+  4 Users : patch user info
     */
   
   // Boards manipulation
@@ -47,7 +58,7 @@ const mutations = {
     });
   },
   SET_BOARD: (state, board) => {
-    //state.boards[board.id]=board
+    //is equal to state.boards[board.id]=board
     Vue.set(state.boards, board.id, board);
   },
   // Lists manipulation
@@ -67,8 +78,13 @@ const mutations = {
   SET_CON_USER_LIST: (state, conUsers) => {
     state.otherUsersOnLine = conUsers.authenticatedUsers.map(user => user.id)
   },
-  // TODO create a new user and login
-
+  SET_OTHER_USERS: (state, user) => {
+    state.otherUsers = {};
+    user.forEach(user => {
+      state.otherUsers[user.id] = user;  
+    }).filter(user => user.id !== "9") //s'enlever soi meme
+  console.log("filtered users ", state.otherUsers) 
+  }
 };
 const actions = {
   // Board related actions
@@ -102,7 +118,21 @@ const actions = {
     await app.service("users").create({
       ...payload
     });
+  },
+  async FETCH_OTHER_USERS ({commit}) {
+    let othetUsersList = await app.service("users").find();
+    commit("SET_OTHER_USERS", othetUsersList);
+  }, 
+  // patch(id, data, params) -> Promise 
+  // payload must contain
+  // id = user id
+  // data = {field: "new data"}
+  async PATCH_USER (_, payload) {
+    await app.service("users").patch({ 
+      ...payload
+    });
   }
+
 };
 
 export default new Vuex.Store({

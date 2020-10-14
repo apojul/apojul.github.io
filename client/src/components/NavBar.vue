@@ -6,6 +6,7 @@
       absolute 
       class="indigo"
       clipped-left
+      clipped-right
       extension-height="100%"
       >
       <v-toolbar-title class="text-uppercase lighten3 orange--text">
@@ -19,29 +20,34 @@
         <login />
       </div>
       <div v-else>
-        <userProfile />
+        <userProfile class="mx-3"/>
         <logout />
       </div>
     </v-app-bar>
-    <boardNav v-if="this.$store.state.activeUser" />
+      <div v-if="this.$store.state.activeUser" >
+      <boardNavDrawer />
+      <otherUsersDrawer />   
+      </div>
   </v-container>
 </template>
 
 <script>
 import register from "@/components/Register"
 import login from "@/components/LogIn"
-import boardNav from "@/components/BoardsNavDrawer";
+import boardNavDrawer from "@/components/BoardsNavDrawer";
 import userProfile from "@/components/UserProfile";
 import logout from "@/components/LogOut"
+import otherUsersDrawer from "@/components/OtherUsersDrawer"
 
 export default {
   name: "NavBar",
   components: {
-    boardNav,
+    boardNavDrawer,
     register,
     login,
     userProfile,
-    logout
+    logout,
+    otherUsersDrawer
   },
   data () {
     return {

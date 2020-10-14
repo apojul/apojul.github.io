@@ -20,6 +20,21 @@
           :key="index"
         >
           <v-list-item-title>{{ item }}</v-list-item-title>
+          <v-drawer>
+          <v-list-item-btn>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="indigo orange--text"
+                dark
+                v-bind="attrs"
+                v-on="on"
+                icon 
+              >
+                <v-icon color="grey lighten-1">mdi-lead-pencil</v-icon>
+              </v-btn>
+            </template>
+            
+            </v-list-item-btn>
         </v-list-item>
       </v-list>
     </v-menu>

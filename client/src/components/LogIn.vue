@@ -67,10 +67,10 @@
 
 <script>
 export default {
-     data () {
+    data () {
     return {
     logInDialog: false,
-    email: "",  //binding is not working, this.email, does not work either
+    email: "",  
     password: "",
     }
   },
@@ -81,13 +81,16 @@ export default {
     },
     
     authenticateUser() {
-      // this.logInDialog excecuted, consolo.log and dispatch not excecuted.
       console.log('email : ', this.email, 'password ,', this.password)
 
         this.$store.dispatch("AUTHENTICATE_USER", {
         email: this.email,
         password: this.password
-      })      
+      })  
+      return this.setOtherUsers()    
+    },
+    setOtherUsers() {
+        this.$store.dispatch("FETCH_OTHER_USERS")
     }
     
   }

@@ -34,13 +34,13 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <createBoard/>
+      <createBoardButton/>
     </v-navigation-drawer>
   </v-card>
 </template>
 
 <script>
-import createBoard from "./CreateBoard"
+import createBoardButton from "./CreateBoardButton"
 
 /*this element will display a list of boards, once a board is chosen it will appear in the main window.
 there will be two sub components :
@@ -50,7 +50,7 @@ Create Board : a dialog that will create a new board
 */
   export default {
     components: {
-      createBoard
+      createBoardButton
     },
     data () {
       return {
