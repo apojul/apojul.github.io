@@ -23,22 +23,22 @@ app.configure(
 app.service("boards").on("created", board => {
   //"created" is the name of the channel this event is bradcasted on
   console.log("BOARDS EVENT created", board);
-  store.commit("SET_BOARD", board);
+  store.commit("SET_NEW_BOARD", board);
 });
 
 app.service("lists").on("created", list => {
   console.log("LISTS EVENT created", list);
-  store.commit("SET_LIST", list); // TODO create SET_LIST mutation
+  store.commit("SET_NEW_LIST", list); 
 });
 
 app.service("tasks").on("created", task => {
   console.log("TASK EVENT created", task);
-  store.commit("SET_TASK", task); // TODO create SET_TASK mutation
+  store.commit("SET_NEW_TASK", task); 
 });
 
 app.service("users").on("created", user => {
   console.log("USER EVENT created", user);
-  store.commit("SET_USER", user); // TODO create SET_USER mutation
+  store.commit("SET_NEW_USER", user); 
 });
 
 // TODO
@@ -46,7 +46,7 @@ app.service("users").on("created", user => {
 app.on("login", authResult => {
   const { user } = authResult;
   console.log("Login!", user.id);
-  store.commit("SET_USER", user);
+  store.commit("SET_ACTIVE_USER", user);
   // start background uploading process
   //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, lists and tasks) belonging to this user and upload it to state
 });
