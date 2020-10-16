@@ -1,17 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import LoggedOut from "@/views/LoggedOut";
 import LogIn from "@/views/LogIn";
 import SignUp from "@/views/SignUp";
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: "/home",
-    name: "Home",
-    component: Home
-  },
   {
     path: "/loggedout",
     name: "LoggdOut",

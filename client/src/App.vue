@@ -13,7 +13,7 @@
 import TempNavBar from "@/components/TempNavBar"
 export default {
   mounted () {
-    this.$router.push({ path: '/loggedout' })
+    this.$router.push({ name: 'LoggdOut' })
   },
   name: "App",
 
