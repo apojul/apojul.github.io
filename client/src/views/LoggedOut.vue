@@ -1,7 +1,7 @@
 <template>
-  <div>
-  <p> this is logge out</p>
-  </div>
+  <v-card class="mx-auto" max-width="400">
+      <v-card-title>logged out</v-card-title>
+  </v-card>
 </template>
 
 <script>

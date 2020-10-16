@@ -6,6 +6,7 @@ import SignUp from "@/views/SignUp";
 Vue.use(VueRouter);
 
 const routes = [
+  // faire un redirect direct dans le router pour aller de / à /loggedout
   {
     path: "/loggedout",
     name: "LoggdOut",
@@ -17,7 +18,7 @@ const routes = [
     component: LogIn
   },
   {
-    path: "/SignUp",
+    path: "/signup",
     name: "SignUp",
     component: SignUp
   },

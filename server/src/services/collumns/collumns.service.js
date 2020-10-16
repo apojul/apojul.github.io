@@ -1,7 +1,7 @@
 // Initializes the `lists` service on path `/lists`
-const { Lists } = require('./lists.class');
-const createModel = require('../../models/lists.model');
-const hooks = require('./lists.hooks');
+const { Collumns } = require('./collumns.class');
+const createModel = require('../../models/collumns.model');
+const hooks = require('./collumns.hooks');
 
 module.exports = function (app) {
   const options = {
@@ -10,10 +10,10 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/lists', new Lists(options, app));
+  app.use('/collumns', new Collumns(options, app));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('lists');
+  const service = app.service('collumns');
 
   service.hooks(hooks);
 };

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-//import app from "@/feathers-client";
+import app from "@/feathers-client";
 
 
 Vue.use(Vuex);
@@ -13,11 +13,11 @@ export default new Vuex.Store({
   lists: undefined,
 
   activeBoard: undefined,
-  activeList: undefined,
+  activeCollumn: undefined,
   activeTask: undefined,
   // Dictionaires de liason à utiliser avec un getter 
   boardsList: undefined, // cest juste une liste d'id.
-  listList: undefined,
+  CollumnList: undefined,
 
   // These objects concern the user and users information
   activeUser: undefined, //current user
@@ -37,9 +37,9 @@ export default new Vuex.Store({
       Vue.set(state.boards, board.id, board);
     },
     // Lists manipulation
-    SET_LISTS: (state, listList) => {
+    SET_COLLUMNS: (state, collumnList) => {
       state.lists = {};
-      listList.forEach(list => {
+      collumnList.forEach(list => {
         state.lists[list.id] = list;
       });
     },
