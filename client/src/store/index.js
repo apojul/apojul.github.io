@@ -7,32 +7,43 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    // These objects are the content of the application
+    // These objects are the content of the application/objets metier/seuls ceux ci sont des diccionaires
+    // le reste sont des arrais d'ids. 
   boards: undefined,
-  collumns: undefined,
+  columns: undefined,
   tasks: undefined,
-  activeUser: undefined, //current user
-  Users: undefined, //all the other users
+  users: undefined, //all the other users
+  
+  
   OnLineUsers: undefined, // other users who are currently online
+  activeUser: undefined, //current user, ici c'est just une id
 
   // pour chaque objet en state il y a une liste d'ids 
-  boardsList: undefined, 
-  collumnsLists: undefined, 
-  tasksList: undefined,
-  usersLists: undefined,
+  // boardsList: undefined, 
+  // columnsList: undefined, 
+  // tasksList: undefined,
+  // usersList: undefined, ces listes sont des computed dasn les composants pertinents
+  // Dans le computed on ne peux pas metre d'arguments
+  // taskslist, elle n'a pas d'argument mais à l'interieur il y a une fonction qu'elle a des arguments
+  // à la place d'un valeur elle renvoie une fonction avec des arguments
+  // on l'appelle avec les arguments en parentheses 
   
 
   },
-  getters: {
-    collumnsInBoard (){
-      //TODO return => {board.id:[collumn.id ...], {board.id:[collumn.id...]...}
+  getters: {//si c'est juste pour l'utiliser une fois, il vaut mieux de le mettre en computed prop
+    activeUserInfo () {
+        // va chercher le user.id de activeUser chez users
     },
-    tascksInCollumns () {
-      //TODO return => {collumn.id:[task.id ...], {collumn.id:[task.id...]...}
+    columnsInBoard (){
+      //TODO return => {{board.id:[columns.id ...]}, {board.id:[columns.id...]...}
+    },
+    tascksIncolumns () {
+      //TODO return => {columns.id:[task.id ...], {columns.id:[task.id...]...}
     },
     usersOnOffLine () {
       //TODO return => [{online: [user.id...]},{offline: [user.id...]}]
-    }
+    },
+
 
   },
   mutations: {
@@ -44,10 +55,10 @@ export default new Vuex.Store({
         state.boards[board.id] = board;
       });
     },
-    SET_COLLUMNS: (state, collumnList) => {
-      state.collumns = {};
-      collumnList.forEach(collumn => {
-        state.collumns[collumn.id] = collumn;
+    SET_COLUMNS: (state, columnsList) => {
+      state.columns = {};
+      columnsList.forEach(columns => {
+        state.columns[columns.id] = columns;
       });
     },
     SET_TASKS: (state, tasksList) => {
@@ -73,8 +84,8 @@ export default new Vuex.Store({
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board);
     },
-    SET_NEW_COLLUMN: (state, collumn) => {
-      Vue.set(state.collumns, collumn.id, collumn);
+    SET_NEW_COLUMNS: (state, columns) => {
+      Vue.set(state.columns, columns.id, columns);
     },
     SET_NEW_TASK: (state, task) => {
       Vue.set(state.tasks, task.id, task);
@@ -97,7 +108,7 @@ export default new Vuex.Store({
     // Nom des variables : verve {fetch, create, delete, patch, etc} _object
     //                    or action {log_out}
     // Board related actions
-    // TODO fetch collumn, fetch task, 
+    // TODO fetch columns, fetch task, 
   async fetch_board_list({ commit }) {
     let boardList = await app.service("boards").find();
     commit("SET_BOARDS", boardList);
@@ -108,6 +119,20 @@ export default new Vuex.Store({
       ...payload
     });
     console.log("newBoard =", newBoard);
+  },
+  async post_board(_, board) {
+    console.log('payload', board)
+    await app.service('boards').create(board)
+  },
+  async putBoard({ commit }, id, board) {
+    console.log('payload', board)
+    const putBoard = await app.service('boards').put(id, board)
+    commit('PUT_BOARD', putBoard)
+  },
+  async fetch_column_list({ commit }) {
+    const columnList = await app.service('columns').find()
+    console.log('fetch_columns_list action dispatched', columnList);
+    commit('SET_COLUMNS', columnList)
   },
   // USER related actions
   async log_in(_, payload) {

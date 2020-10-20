@@ -14,7 +14,7 @@ module.exports = function (app) {
         table.string('title');
         table.string('description');
         table.integer('order');
-        table.integer('collumn_id').references('id').inTable('collumns').notNull().onDelete('CASCADE');
+        table.integer('column_id').references('id').inTable('columns').notNull().onDelete('CASCADE');
         table.integer('created_by').references('id').inTable('users').notNull().onDelete('CASCADE');
         table.timestamps(true, true);
         table.boolean('archived').defaultTo(false);

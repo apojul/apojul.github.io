@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <TempNavBar />
   <v-main>
       <router-view>
 
@@ -10,15 +9,13 @@
 </template>
 
 <script>
-import TempNavBar from "@/components/TempNavBar"
 export default {
   mounted () {
-    this.$router.push({ name: 'LoggdOut' })
+    this.$router.push({ name: 'LoggedOut' })
   },
   name: "App",
 
   components: {
-    TempNavBar
   },
 
 };

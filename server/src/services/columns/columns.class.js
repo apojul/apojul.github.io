@@ -1,10 +1,10 @@
 const { Service } = require('feathers-knex');
 
-exports.Collumns = class Lists extends Service {
+exports.Columns = class Columns extends Service {
   constructor(options) {
     super({
       ...options,
-      name: 'collumns'
+      name: 'columns'
     });
   }
 };

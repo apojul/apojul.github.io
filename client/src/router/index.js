@@ -3,13 +3,18 @@ import VueRouter from "vue-router";
 import LoggedOut from "@/views/LoggedOut";
 import LogIn from "@/views/LogIn";
 import SignUp from "@/views/SignUp";
+import User from '@/views/User'
+import Forgot from '@/views/ForgotPassWord'
+import BoardView from '@/views/BoardView'
+import ColumnView from '@/views/ColumnView'
+import TaskView from '@/views/TaskView'
+
 Vue.use(VueRouter);
 
 const routes = [
-  // faire un redirect direct dans le router pour aller de / à /loggedout
   {
     path: "/loggedout",
-    name: "LoggdOut",
+    name: "LoggedOut",
     component: LoggedOut
   },
   {
@@ -21,6 +26,33 @@ const routes = [
     path: "/signup",
     name: "SignUp",
     component: SignUp
+  },
+  {
+    path: '/user',
+    name: 'user_id',
+    component: User,
+    children: [
+      {
+        name: 'boardId',
+        path: ':id',
+        component: BoardView
+      },
+      {
+        name: 'columnId',
+        path: ':id',
+        component: ColumnView
+      },
+      {
+        name: 'taskId',
+        path: ':id',
+        component: TaskView
+      },
+    ]
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: Forgot
   },
   // {
   //   path: "/about",

@@ -26,9 +26,9 @@ app.service("boards").on("created", board => {
   store.commit("SET_NEW_BOARD", board);
 });
 
-app.service("lists").on("created", list => {
-  console.log("LISTS EVENT created", list);
-  store.commit("SET_NEW_LIST", list); 
+app.service("columns").on("created", column => {
+  console.log("COLUMNS EVENT created", column);
+  store.commit("SET_NEW_COLUMN", column); 
 });
 
 app.service("tasks").on("created", task => {
@@ -48,7 +48,7 @@ app.on("login", authResult => {
   console.log("Login!", user.id);
   store.commit("SET_ACTIVE_USER", user);
   // start background uploading process
-  //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, lists and tasks) belonging to this user and upload it to state
+  //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, columns and tasks) belonging to this user and upload it to state
 });
 app.on("logout", authResult => {
   const { user } = authResult;
@@ -67,7 +67,7 @@ app.on("logout", authResult => {
 
 app.service('con_users').on('created', userList => {
   console.log('CON_USER_EVENT created', userList)
-  store.commit('SET_CON_USER_LIST', userList)
+  store.commit('SET_ONLINE_USERS', userList)
 })
 
 
