@@ -39,8 +39,8 @@
           depressed
           dark
           color="light-blue darken-1"
-          @click="handleSignOut"
           :to="{ name: 'LoggedOut' }"
+          @click="handleSignOut"
         >
           <span>Sign Out</span>
           <v-icon right>
@@ -176,15 +176,16 @@
 
 <script>
 import BoardView from '@/views/BoardView'
-// import ColumnView from '@/views/ColumnView'
-// import TaskView from '@/views/TaskView'
 import app from '@/feathers-client'
 import AddBoard from '@/components/AddBoard'
+
+// TODO extraire nav bar
+// changer pascal pour authUser
 
 export default {
   components: {
     BoardView,
-    AddBoard,
+    AddBoard
     // TaskView,
     // ColumnView
   },

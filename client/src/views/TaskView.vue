@@ -7,12 +7,8 @@
 // it will be it's own view, it will also allow modifications to the chosen task with patch.
 
 export default {
-computed : {
-
-}
+  computed: {}
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -57,7 +57,7 @@
                       <router-link :to="{ name: 'Forgot' }">
                         Can't log in ? </router-link
                       >&#8226;
-                      <router-link :to="{ name:'SignUp'}"
+                      <router-link :to="{ name: 'SignUp' }"
                         >Sign up for an account</router-link
                       >
                     </p>
@@ -94,7 +94,7 @@ export default {
       this.$router.replace({
         name: 'user_id'
       })
-      console.log("log in outgoing user", this.email, this.password);
+      console.log('log in outgoing user', this.email, this.password)
     }
   }
 }

@@ -32,7 +32,7 @@ export default {
     getBoard() {
       if (this.$store.state.boards === undefined) {
         this.$store.dispatch('fetch_board_list')
-        console.log('fetch_board_list dispatched from BoardView.vue');
+        console.log('fetch_board_list dispatched from BoardView.vue')
         return []
       }
       if (this.$route.params.id) {

@@ -1,35 +1,35 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import LoggedOut from "@/views/LoggedOut";
-import LogIn from "@/views/LogIn";
-import SignUp from "@/views/SignUp";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import LoggedOut from '@/views/LoggedOut'
+import LogIn from '@/views/LogIn'
+import SignUp from '@/views/SignUp'
 import User from '@/views/User'
 import Forgot from '@/views/ForgotPassWord'
 import BoardView from '@/views/BoardView'
 import ColumnView from '@/views/ColumnView'
 import TaskView from '@/views/TaskView'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    redirect: "LoggedOut",
+    path: '/',
+    redirect: 'LoggedOut',
     component: LoggedOut
   },
   {
-    path: "/loggedout",
-    name: "LoggedOut",
+    path: '/loggedout',
+    name: 'LoggedOut',
     component: LoggedOut
   },
   {
-    path: "/login",
-    name: "LogIn",
+    path: '/login',
+    name: 'LogIn',
     component: LogIn
   },
   {
-    path: "/signup",
-    name: "SignUp",
+    path: '/signup',
+    name: 'SignUp',
     component: SignUp
   },
   {
@@ -51,14 +51,14 @@ const routes = [
         name: 'taskId',
         path: ':id',
         component: TaskView
-      },
+      }
     ]
   },
   {
     path: '/forgot',
     name: 'Forgot',
     component: Forgot
-  },
+  }
   // {
   //   path: "/about",
   //   name: "About",
@@ -68,12 +68,12 @@ const routes = [
   //   component: () =>
   //     import(/* webpackChunkName: "about" */ "../views/About.vue")
   // }
-];
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
-});
+})
 
-export default router;
+export default router
