@@ -39,8 +39,7 @@
           depressed
           dark
           color="light-blue darken-1"
-          :to="{ name: 'LoggedOut' }"
-          @click="handleSignOut"
+          @click="handleSignOut()"
         >
           <span>Sign Out</span>
           <v-icon right>
@@ -235,14 +234,9 @@ export default {
     await app.service('con_users').create({})
   },
   methods: {
-    handleSignIn() {
-      this.$router.replace({
-        name: 'LoggedOut'
-      })
-    },
     handleSignOut() {
       this.$store.dispatch('log_out')
-      this.show = false
+      console.log('btn sign out')
     },
     showDetail() {
       this.show = true

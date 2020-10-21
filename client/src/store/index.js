@@ -139,6 +139,7 @@ export default new Vuex.Store({
     },
     async log_out() {
       await app.logout()
+      console.log('logout in store')
     },
     async sign_up(_, payload) {
       console.log('payload: ', payload)
