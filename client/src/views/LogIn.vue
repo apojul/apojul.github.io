@@ -54,10 +54,10 @@
                   ><v-divider inset class="ma-6"></v-divider>
                   <div>
                     <p class="text-center text-capitalizecase mb-2">
-                      <router-link :to="{ name: 'SignUp' }">
+                      <router-link :to="{ name: 'Forgot' }">
                         Can't log in ? </router-link
                       >&#8226;
-                      <router-link :to="{ name: 'Forgot' }"
+                      <router-link :to="{ name:'SignUp'}"
                         >Sign up for an account</router-link
                       >
                     </p>
@@ -81,21 +81,20 @@
 export default {
   data() {
     return {
-      name: 'pascal',
-      email: 'pascalallau@gmail.com',
-      password: '2345'
+      email: '',
+      password: ''
     }
   },
   methods: {
     handleSignin() {
       this.$store.dispatch('log_in', {
-        full_name: this.name,
         email: this.email,
         password: this.password
       })
       this.$router.replace({
         name: 'user_id'
       })
+      console.log("log in outgoing user", this.email, this.password);
     }
   }
 }

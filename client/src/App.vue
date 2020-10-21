@@ -10,9 +10,7 @@
 
 <script>
 export default {
-  mounted () {
-    this.$router.push({ name: 'LoggedOut' })
-  },
+  
   name: "App",
 
   components: {

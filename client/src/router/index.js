@@ -13,6 +13,11 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/",
+    redirect: "LoggedOut",
+    component: LoggedOut
+  },
+  {
     path: "/loggedout",
     name: "LoggedOut",
     component: LoggedOut

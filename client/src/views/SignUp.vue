@@ -12,7 +12,7 @@
       <v-btn color="primary" @click="handleSignUp">Register</v-btn>
     </v-card-actions>
     <v-card-actions>
-      <v-btn :to="{ name: 'Home' }">Home</v-btn>
+      <v-btn :to="{ name: 'LoggedOut' }">Home</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -28,12 +28,12 @@ export default {
   },
   methods: {
     handleSignUp() {
-      this.$store.dispatch('postUser', {
+      this.$store.dispatch('post_user', {
         full_name: this.name,
         email: this.email,
         password: this.password
       })
-      this.$router.replace({ name: 'Home' })
+      this.$router.replace({ name: 'LogIn' })
     }
   }
 }

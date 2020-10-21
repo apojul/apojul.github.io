@@ -78,6 +78,7 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user;
+      console.log("activeUser", user);
     },
     // Add new objects to state
     SET_NEW_BOARD: (state, board) => {
@@ -99,8 +100,9 @@ export default new Vuex.Store({
 
     // Other
     
-    CLEAR_SESSION: state => {
+    CLEAR_SESSION: (state) => {
       state.activeUser = undefined;
+      console.log("session cleared");
     },
       
   },
@@ -131,17 +133,18 @@ export default new Vuex.Store({
   },
   // USER related actions
   async log_in(_, payload) {
-    try {
+    console.log("login action payload", payload);
+   /* try {
       return await app.reAuthenticate();
-    } catch (error) {
+    } catch (error) {*/
       return await app.authenticate({
         strategy: "local",
         ...payload
       });
-    }
+    /*}*/
   },
   async log_out() {
-    await app.logout();
+    await app.logout()
   }, 
   async sign_up(_, payload) {
     console.log("payload: ", payload);
@@ -153,6 +156,10 @@ export default new Vuex.Store({
     let usersList = await app.service("users").find();
     commit("SET_OTHER_USERS", usersList);
   }, 
+  async post_user(_, user) {
+    await app.service('users').create(user)
+    console.log("new user info recieved", user);
+  },
  
   },
   modules: {}

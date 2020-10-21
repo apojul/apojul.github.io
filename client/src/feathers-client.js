@@ -38,7 +38,7 @@ app.service("tasks").on("created", task => {
 
 app.service("users").on("created", user => {
   console.log("USER EVENT created", user);
-  store.commit("SET_NEW_USER", user); 
+  store.commit("SET_NEW_USER", user);
 });
 
 // TODO

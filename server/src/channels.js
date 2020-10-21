@@ -36,17 +36,34 @@ module.exports = function(app) {
     }
   });
 
+  // app.on('logout', (authResult, { connection }) => {
+
+  //   if(connection) {
+
+  //     app.channel('authenticated').leave(connection);
+
+  //     app.channel('anonymous').join(connection);
+  //   }
+  // });
+
   // eslint-disable-next-line no-unused-vars
   app.service('boards').publish((data, hook) => {
     console.log('EVENT: Board created'); // eslint-disable-line
+    return app.channel('authenticated');
+  });
+  // eslint-disable-next-line no-unused-vars
+  app.service('users').publish((data, hook) => {
+    console.log('EVENT: User created'); // eslint-disable-line
     return app.channel('authenticated');
   });
   // eslint-disable-next-line no-unused-vars 
   app.service('con_users').publish((data, hook) => {
     console.log('EVENT: User logged in'); // eslint-disable-line
     return app.channel('authenticated');
+  
   }); //TODO *** Somethin gis not working !!!
 
+  
 
   // app.service("tasks").publish((data, hook) => {
   //   return app.channel('annonymous');
