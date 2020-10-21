@@ -124,11 +124,6 @@ export default new Vuex.Store({
     console.log('payload', board)
     await app.service('boards').create(board)
   },
-  async putBoard({ commit }, id, board) {
-    console.log('payload', board)
-    const putBoard = await app.service('boards').put(id, board)
-    commit('PUT_BOARD', putBoard)
-  },
   async fetch_column_list({ commit }) {
     const columnList = await app.service('columns').find()
     console.log('fetch_columns_list action dispatched', columnList);

@@ -12,7 +12,7 @@
         dark
         color="light-blue darken-1"
         class="mx-2"
-        :to="{ name: 'LoggedOut' }"
+        :to="{ name: 'user_id' }"
       >
         <span />
         <v-icon>mdi-home-outline</v-icon>
@@ -20,7 +20,7 @@
       <v-spacer />
       <v-responsive max-width="260">
         <v-btn
-          v-if="!getAuthUser"
+          v-if="!getActiveUser"
           class="mx-1"
           depressed
           dark
@@ -40,6 +40,7 @@
           dark
           color="light-blue darken-1"
           @click="handleSignOut"
+          :to="{ name: 'LoggedOut' }"
         >
           <span>Sign Out</span>
           <v-icon right>
@@ -47,7 +48,7 @@
           </v-icon>
         </v-btn>
         <v-btn
-          v-show="!getAuthUser"
+          v-show="!getActiveUser"
           class="mx-1"
           depressed
           dark
@@ -211,8 +212,8 @@ export default {
       }
       return this.$store.state.columns
     },
-    getAuthUser() {
-      return this.$store.state.authUser
+    getActiveUser() {
+      return this.$store.state.activeUser
     },
     userList() {
       if (this.$store.state.users === undefined) {
