@@ -41,6 +41,13 @@ export default {
         return [['no board']]
       }
     },
+    columnList() {
+      if (this.$store.state.columns === undefined) {
+        this.$store.dispatch('fetch_column_list')
+        return []
+      }
+      return this.$store.state.columns
+    },
     filter() {
       return this.$store.state.userList.filter(user => user.id === 2)
     } /* ,

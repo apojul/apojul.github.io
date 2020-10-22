@@ -8,6 +8,7 @@ import Forgot from '@/views/ForgotPassWord'
 import BoardView from '@/views/BoardView'
 import ColumnView from '@/views/ColumnView'
 import TaskView from '@/views/TaskView'
+import Home from '@/views/Home'
 
 Vue.use(VueRouter)
 
@@ -31,12 +32,18 @@ const routes = [
     path: '/signup',
     name: 'SignUp',
     component: SignUp
+    
   },
   {
     path: '/user',
-    name: 'user_id',
-    component: User,
+    name: 'Home',
+    component: Home,
     children: [
+      {
+        path: '/user',
+        name: 'user_id',
+        component: User,
+      },
       {
         name: 'boardId',
         path: ':id',

@@ -62,10 +62,10 @@ export default new Vuex.Store({
         state.tasks[task.id] = task
       })
     },
-    SET_OTHER_USERS: (state, user) => {
-      state.otherUsers = {}
-      user.forEach(user => {
-        state.otherUsers[user.id] = user
+    SET_OTHER_USERS: (state, userList) => {
+      state.users = {}
+      userList.forEach(user => {
+        state.users[user.id] = user
       })
     },
     SET_ONLINE_USERS: (state, conUsers) => {
@@ -148,8 +148,8 @@ export default new Vuex.Store({
       })
     },
     async fetch_user_list({ commit }) {
-      let usersList = await app.service('users').find()
-      commit('SET_OTHER_USERS', usersList)
+      let userList = await app.service('users').find()
+      commit('SET_OTHER_USERS', userList)
     },
     async post_user(_, user) {
       await app.service('users').create(user)
