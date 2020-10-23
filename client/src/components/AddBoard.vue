@@ -65,11 +65,7 @@ export default {
   },
   computed: {
     creator() {
-      console.log(
-        'creator -> Object.keys(this.$store.state.authUser)',
-        Object.keys(this.$store.state.authUser)[0]
-      )
-      return Object.keys(this.$store.state.authUser)[0]
+      return this.$store.state.activeUser.id
     }
   },
   methods: {

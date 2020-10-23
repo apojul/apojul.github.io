@@ -1,9 +1,10 @@
 <template>
   <v-navigation-drawer
-      v-model="drawer"
+      :value="drawer"
       app
+      clipped
+    
       max-width="250"
-      :mini-variant.sync="mini"
       color="pink lighten-4"
     >
       <v-list nav class="overfow-y-auto" max-height="400">
@@ -11,12 +12,7 @@
           <v-list-item-avatar>
             <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
           </v-list-item-avatar>
-
           <v-list-item-title>{{activeUser.full_name}}</v-list-item-title>
-
-          <v-btn icon @click.stop="mini = !mini">
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
         </v-list-item>
         <v-divider />
         <v-list-group sub-group active-class="white--text text--accent-4">
@@ -59,11 +55,13 @@ export default {
     },
     data (){
       return {
-        mini: true,
-        drawer: true
+        //
       }
     },
     computed: {
+    drawer() {
+      return this.$store.state.boardDrawer
+    },
     boardList() {
       if (this.$store.state.boards === undefined) {
         this.$store.dispatch('fetch_board_list')

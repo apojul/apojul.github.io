@@ -14,7 +14,11 @@ export default new Vuex.Store({
     users: undefined, //all the other users
 
     OnLineUsers: undefined, // other users who are currently online
-    activeUser: undefined //current user, ici c'est just une id
+    activeUser: undefined, //current user, ici c'est just une id
+
+    // Communication between components
+    boardDrawer: false,
+    userDrawer: true
 
     // pour chaque objet en state il y a une liste d'ids
     // boardsList: undefined,
@@ -70,10 +74,10 @@ export default new Vuex.Store({
     },
     SET_ONLINE_USERS: (state, conUsers) => {
       state.OnLineUsers = conUsers.authenticatedUsers.map(user => user.id)
+      console.log('set_online_users mutation', conUsers);
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user
-      console.log('activeUser', user)
     },
     // Add new objects to state
     SET_NEW_BOARD: (state, board) => {
@@ -94,10 +98,14 @@ export default new Vuex.Store({
     // Delete existing objects
 
     // Other
-
+    SET_BOARD_DRAWER: (state) => {
+      state.boardDrawer = !state.boardDrawer
+    },
+    SET_USER_DRAWER: (state) => {
+      state.userDrawer = !state.userDrawer
+    },
     CLEAR_SESSION: state => {
       state.activeUser = undefined
-      console.log('session cleared')
     }
   },
   actions: {
@@ -122,12 +130,10 @@ export default new Vuex.Store({
     },
     async fetch_column_list({ commit }) {
       const columnList = await app.service('columns').find()
-      console.log('fetch_columns_list action dispatched', columnList)
       commit('SET_COLUMNS', columnList)
     },
     // USER related actions
     async log_in(_, payload) {
-      console.log('login action payload', payload)
       /* try {
       return await app.reAuthenticate();
     } catch (error) {*/

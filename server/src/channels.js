@@ -58,7 +58,7 @@ module.exports = function(app) {
   })
   // eslint-disable-next-line no-unused-vars 
   app.service('con_users').publish((data, hook) => {
-    console.log('EVENT: User logged in'); // eslint-disable-line
+    console.log('EVENT:  (con user) User logged in'); // eslint-disable-line
     return app.channel('authenticated')
   
   }) //TODO *** Somethin gis not working !!!

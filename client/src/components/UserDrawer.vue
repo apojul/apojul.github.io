@@ -1,5 +1,5 @@
 <template>
-      <v-navigation-drawer app clipped right color="pink lighten-4" width="120">
+      <v-navigation-drawer app clipped right color="pink lighten-4" width="120" :value='drawer'>
       <v-list>
         <v-layout column align-center>
           <v-list-item-title class="title white--text" align-center>
@@ -21,9 +21,12 @@
 <script>
 export default {
     name: 'UserDrawer',
+    async mounted () {
+        this.$store.dispatch('fetch_user_list')
+    },
     computed: {
     conUserList() {
-      if (this.$store.state.users === undefined) {
+      if (this.$store.state.OnLineUsers === undefined) {
         this.OnLineUsers
         return []
       }
@@ -36,7 +39,9 @@ export default {
       }
       return this.$store.state.users
     },
-
+    drawer() {
+      return this.$store.state.userDrawer
+    }
     }
 
 }

@@ -94,7 +94,6 @@ export default {
       this.$router.replace({
         name: 'user_id'
       })
-      console.log('log in outgoing user', this.email, this.password)
     }
   }
 }

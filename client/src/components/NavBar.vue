@@ -1,6 +1,11 @@
 <template>
-      <v-app-bar app clipped-right>
-      <v-app-bar-nav-icon @click="LeftDrawer = !LeftDrawer" />
+      <v-app-bar 
+      app 
+      clipped-right
+      clipped-left
+      
+      >
+      <v-app-bar-nav-icon @click="boardDrawerState" />
       <v-toolbar-title class="mx-8">
         Kanban Board
       </v-toolbar-title>
@@ -43,15 +48,18 @@
           </v-icon>
         </v-btn>
         <v-btn
+         color="pink lighten-4"
+         dark
+         class="mx-1"
           depressed
+          @click="userDrawerState"
         >
-          <span>Sign up</span>
-          <v-icon right>
-            mdi-account-plus
+          <v-icon >
+            mdi-account-multiple
           </v-icon>
         </v-btn>
       </v-responsive>
-    </v-app-bar>
+        </v-app-bar>
 </template>
 
 <script>
@@ -59,7 +67,7 @@ export default {
 name: 'NavBar',
 data() {
     return { 
-        LeftDrawer: true
+        //
         }
 },
 computed: {
@@ -68,9 +76,14 @@ computed: {
     }
 },
 methods: {
+    boardDrawerState() {
+      this.$store.commit("SET_BOARD_DRAWER")
+    },
+    userDrawerState() {
+      this.$store.commit('SET_USER_DRAWER')
+    },
     handleSignOut() {
       this.$store.dispatch('log_out')
-      console.log('btn sign out')
     }
   }
 }
