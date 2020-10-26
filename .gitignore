@@ -111,3 +111,5 @@ lib/
 data/
 
 rest.http
+
+.env

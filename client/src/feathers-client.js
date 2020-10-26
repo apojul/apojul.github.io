@@ -26,6 +26,11 @@ app.service('boards').on('created', board => {
   store.commit('SET_NEW_BOARD', board)
 })
 
+app.service('boards').on('removed', board => {
+  //"created" is the name of the channel this event is bradcasted on
+  console.log('BOARDS EVENT removed', board)
+  store.commit('SET_DEL_BOARD', board)
+})
 app.service('columns').on('created', column => {
   console.log('COLUMNS EVENT created', column)
   store.commit('SET_NEW_COLUMN', column)
@@ -54,6 +59,7 @@ app.on('logout', authResult => {
   const { user } = authResult
   console.log('Logout!', user.id)
   store.commit('CLEAR_SESSION')
+  app.service('con_users').create({})
 })
 
 // app.service("users").on("patched", user => {

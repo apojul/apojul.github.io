@@ -1,30 +1,31 @@
 :<template>
-  <v-card class="mx-auto" max-width="300" tile>
-    <v-list>
-      <v-subheader>BOARD {{ this.$route.params.id }} </v-subheader>
-      <v-list-item-group v-if="$route.params.id" color="primary">
-        <v-list-item>
-          <PatchBoard />
-        </v-list-item>
-        <v-list-item v-for="(item, property, i) in getBoard" :key="i">
-          <v-list-item-content>
-            <v-list-item-title>{{ property }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item }} </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-    <v-btn class="ma-2" color="orange darken-3" dark :to="{ name: 'user_id' }">
-      <v-icon dark left> mdi-arrow-left </v-icon>Back
-    </v-btn>
-  </v-card>
+  <v-app>
+    <v-container>
+      <v-row>
+        <v-col v-for="(item, property, i) in getColumnList" :key="i">
+          <v-card class="mx-auto" max-width="300" tile>
+            <v-card-title>{{ item.name }}</v-card-title>
+            <v-col> </v-col>
+            <v-btn
+              class="ma-2"
+              color="orange darken-3"
+              dark
+              :to="{ name: 'user_id' }"
+            >
+              <v-icon dark left> mdi-arrow-left </v-icon>Back
+            </v-btn>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
-import PatchBoard from '@/components/PatchBoard'
+//import PatchBoard from '@/components/PatchBoard'
 
 export default {
-  components: { PatchBoard },
+  //components: { PatchBoard },
   data() {
     return {}
   },
@@ -48,13 +49,15 @@ export default {
       }
       return this.$store.state.columns
     },
+    getColumnList() {
+      const boardId = this.$route.params.id
+      return Object.values(this.columnList).filter(
+        column => column.created_on === boardId
+      )
+    },
     filter() {
       return this.$store.state.userList.filter(user => user.id === 2)
-    } /* ,
-    users: () => {
-      this.$store.getters.userSet
-    },
-    boards: () => this.$store.state.boards */
+    }
   },
   methods: {}
 }

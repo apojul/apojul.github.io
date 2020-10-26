@@ -1,52 +1,51 @@
 <template>
-      <v-navigation-drawer app clipped right color="pink lighten-4" width="120" :value='drawer'>
-      <v-list>
-        <v-layout column align-center>
-          <v-list-item-title class="title white--text" align-center>
-            ON LINE
-          </v-list-item-title>
+  <v-navigation-drawer
+    app
+    clipped
+    right
+    color="pink lighten-4"
+    width="120"
+    :value="drawer"
+  >
+    <v-list v-if="$store.state.users">
+      <v-layout column align-center>
+        <v-list-item-title class="title white--text" align-center>
+          ON LINE
+        </v-list-item-title>
 
-          <v-list-item v-for="(item, i) in conUserList" :key="i">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $store.state.users[item]['full_name'] }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-layout>
-      </v-list>
-    </v-navigation-drawer>
+        <v-list-item v-for="(item, i) in conUserList" :key="i">
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ $store.state.users[item]['full_name'] }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-layout>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
+import app from '@/feathers-client'
+
 export default {
-    name: 'UserDrawer',
-    async mounted () {
-        this.$store.dispatch('fetch_user_list')
-    },
-    computed: {
+  name: 'UserDrawer',
+  computed: {
     conUserList() {
       if (this.$store.state.OnLineUsers === undefined) {
-        this.OnLineUsers
         return []
       }
       return this.$store.state.OnLineUsers
     },
-    userList() {
-      if (this.$store.state.users === undefined) {
-        this.$store.dispatch('fetch_user_list')
-        return []
-      }
-      return this.$store.state.users
-    },
     drawer() {
       return this.$store.state.userDrawer
     }
-    }
-
+  },
+  async mounted() {
+    await app.service('con_users').create({})
+    await this.$store.dispatch('fetch_user_list')
+  }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

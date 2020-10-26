@@ -10,12 +10,15 @@ const configuration = require('@feathersjs/configuration')
 const express = require('@feathersjs/express')
 const socketio = require('@feathersjs/socketio')
 
-
 const middleware = require('./middleware')
 const services = require('./services')
 const appHooks = require('./app.hooks')
 const channels = require('./channels')
+/* 
+const dotenv = require('dotenv')
 
+dotenv.config()
+ */
 const authentication = require('./authentication')
 
 const knex = require('./knex')
@@ -28,14 +31,14 @@ app.configure(configuration())
 app.use(helmet())
 app.use(cors())
 app.use(compress())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+//app.use(express.json())
+//app.use(express.urlencoded({ extended: true }))
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
 app.use('/', express.static(app.get('public')))
 
 // Set up Plugins and providers
-app.configure(express.rest())
+//app.configure(express.rest())
 app.configure(socketio())
 
 app.configure(knex)

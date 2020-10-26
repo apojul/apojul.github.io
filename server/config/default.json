@@ -9,7 +9,7 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "AuADxbEX+esXJSMQDL6AuXMcNeI=",
+    "secret": "8Z36ocsVQbNcihgSKd99rDNNTA8=",
     "authStrategies": [
       "jwt",
       "local"
@@ -29,6 +29,11 @@
     },
     "oauth": {
       "redirect": "/",
+      "auth0": {
+        "key": "<auth0 oauth key>",
+        "secret": "<auth0 oauth secret>",
+        "subdomain": "<auth0 subdomain>"
+      },
       "google": {
         "key": "<google oauth key>",
         "secret": "<google oauth secret>",
@@ -41,21 +46,26 @@
       "facebook": {
         "key": "<facebook oauth key>",
         "secret": "<facebook oauth secret>"
+      },
+      "twitter": {
+        "key": "<twitter oauth key>",
+        "secret": "<twitter oauth secret>"
+      },
+      "github": {
+        "key": "6f98831a53a660f8ddeb",
+        "secret": "b80363a14c9eff24e4a59d5c4f0e695a776c5387"
       }
     }
   },
   "postgres": {
     "client": "pg",
     "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
-    "migrations" : {
-      "directory" : "../database/migrations",
-      "tableName" : "knew_migrations"
+    "migrations": {
+      "directory": "../database/migrations",
+      "tableName": "knew_migrations"
     },
-
-      "seeds" : {
-        "directory" : "../database/seeds"
-      }
-
+    "seeds": {
+      "directory": "../database/seeds"
+    }
   }
-
 }

@@ -5,11 +5,11 @@ module.exports = function (app) {
       let authenticatedUsers = authenticatedChannel.connections.map(
         (connection) => connection.user
       )
-      let value_created = {authenticatedUsers}
-      console.log('service con user');
+      let value_created = {
+        authenticatedUsers,
+      }
       return Promise.resolve(value_created)
     }
-
   }
   app.use('con_users', new ConUsersService(app))
 }

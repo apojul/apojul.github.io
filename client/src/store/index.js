@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import app from '@/feathers-client'
+import router from '@/router'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,7 @@ export default new Vuex.Store({
     boards: undefined,
     columns: undefined,
     tasks: undefined,
-    users: undefined, //all the other users
+    users: undefined, //all the other user      localStorage.clear()
 
     OnLineUsers: undefined, // other users who are currently online
     activeUser: undefined, //current user, ici c'est just une id
@@ -73,16 +74,20 @@ export default new Vuex.Store({
       })
     },
     SET_ONLINE_USERS: (state, conUsers) => {
+      state.OnLineUsers = undefined
       state.OnLineUsers = conUsers.authenticatedUsers.map(user => user.id)
-      console.log('set_online_users mutation', conUsers);
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user
+      router.push({ path: `/${user.full_name}` })
     },
     // Add new objects to state
     SET_NEW_BOARD: (state, board) => {
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board)
+    },
+    SET_DEL_BOARD: (state, index) => {
+      Vue.delete(state.boards, index)
     },
     SET_NEW_COLUMNS: (state, columns) => {
       Vue.set(state.columns, columns.id, columns)
@@ -98,10 +103,10 @@ export default new Vuex.Store({
     // Delete existing objects
 
     // Other
-    SET_BOARD_DRAWER: (state) => {
+    SET_BOARD_DRAWER: state => {
       state.boardDrawer = !state.boardDrawer
     },
-    SET_USER_DRAWER: (state) => {
+    SET_USER_DRAWER: state => {
       state.userDrawer = !state.userDrawer
     },
     CLEAR_SESSION: state => {
@@ -118,15 +123,16 @@ export default new Vuex.Store({
       commit('SET_BOARDS', boardList)
     },
     async create_board(_, payload) {
-      console.log('payload: ', payload)
       let newBoard = await app.service('boards').create({
         ...payload
       })
       console.log('newBoard =', newBoard)
     },
     async post_board(_, board) {
-      console.log('payload', board)
       await app.service('boards').create(board)
+    },
+    async del_board(_, id) {
+      await app.service('boards').remove(id)
     },
     async fetch_column_list({ commit }) {
       const columnList = await app.service('columns').find()
@@ -134,21 +140,23 @@ export default new Vuex.Store({
     },
     // USER related actions
     async log_in(_, payload) {
-      /* try {
-      return await app.reAuthenticate();
-    } catch (error) {*/
-      return await app.authenticate({
-        strategy: 'local',
-        ...payload
-      })
-      /*}*/
+      try {
+        if (!payload) {
+          return await app.reAuthenticate()
+        } else {
+          return await app.authenticate({
+            strategy: 'local',
+            ...payload
+          })
+        }
+      } catch (error) {
+        router.push('LoggedOut')
+      }
     },
     async log_out() {
       await app.logout()
-      console.log('logout in store')
     },
     async sign_up(_, payload) {
-      console.log('payload: ', payload)
       await app.service('users').create({
         ...payload
       })

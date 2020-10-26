@@ -42,14 +42,28 @@
                   </v-card-actions>
                   <p class="text-center text--secondary">or</p>
                   <v-card-actions>
-                    <v-btn block class="text-lowercase" @click="handleSignin"
+                    <v-btn
+                      block
+                      class="text-lowercase"
+                      @click="handleSigninGoogle"
                       ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                     >
                   </v-card-actions>
                   <v-card-actions>
-                    <v-btn block class="text-lowercase" @click="handleSignin"
+                    <v-btn
+                      block
+                      class="text-lowercase"
+                      @click="handleSigninFacebook"
                       ><v-icon left>mdi-facebook</v-icon> Login with
                       Facebook</v-btn
+                    >
+                  </v-card-actions>
+                  <v-card-actions>
+                    <v-btn
+                      block
+                      class="text-lowercase"
+                      @click="handleSigninGithub"
+                      ><v-icon left>mdi-github</v-icon> Login with Github</v-btn
                     > </v-card-actions
                   ><v-divider inset class="ma-6"></v-divider>
                   <div>
@@ -86,7 +100,31 @@ export default {
     }
   },
   methods: {
-    handleSignin() {
+    async handleSignin() {
+      await this.$store.dispatch('log_in', {
+        email: this.email,
+        password: this.password
+      })
+    },
+    handleSigninGoogle() {
+      this.$store.dispatch('log_in', {
+        email: this.email,
+        password: this.password
+      })
+      this.$router.replace({
+        name: 'user_id'
+      })
+    },
+    handleSigninFacebook() {
+      this.$store.dispatch('log_in', {
+        email: this.email,
+        password: this.password
+      })
+      this.$router.replace({
+        name: 'user_id'
+      })
+    },
+    handleSigninGithub() {
       this.$store.dispatch('log_in', {
         email: this.email,
         password: this.password
