@@ -24,6 +24,11 @@
                   <v-card-text>
                     <v-form>
                       <v-text-field
+                        v-model="name"
+                        label="Name"
+                        placeholder="Enter nickname"
+                      ></v-text-field>
+                      <v-text-field
                         v-model="email"
                         label="Email"
                         placeholder="Enter email"
@@ -68,7 +73,7 @@ export default {
   methods: {
     async handleSignUp() {
       const user = {
-        full_name: this.name,
+        nickname: this.name,
         email: this.email,
         password: this.password
       }

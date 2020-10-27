@@ -44,16 +44,31 @@ module.exports = function (app) {
     }
   })
 
+  //    PUBLISH CRUD EVENTS FOR ALL SERVICES
+
   // eslint-disable-next-line no-unused-vars
   app.service('boards').publish((data, hook) => {
-    console.log('EVENT: Board created') // eslint-disable-line
+    console.log('EVENT: Board') // eslint-disable-line
     return app.channel('authenticated')
   })
   // eslint-disable-next-line no-unused-vars
   app.service('users').publish((data, hook) => {
-    console.log('EVENT: User created') // eslint-disable-line
+    console.log('EVENT: User') // eslint-disable-line
     return app.channel('authenticated')
   })
+
+  // eslint-disable-next-line no-unused-vars
+  app.service('columns').publish((data, hook) => {
+    console.log('EVENT: Column') // eslint-disable-line
+    return app.channel('authenticated')
+  })
+
+  // eslint-disable-next-line no-unused-vars
+  app.service('tasks').publish((data, hook) => {
+    console.log('EVENT: Task') // eslint-disable-line
+    return app.channel('authenticated')
+  })
+
   // eslint-disable-next-line no-unused-vars
   app.service('con_users').publish((data, hook) => {
     console.log('EVENT:  (con user) User logged in') // eslint-disable-line

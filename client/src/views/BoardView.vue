@@ -52,7 +52,7 @@ export default {
     getColumnList() {
       const boardId = this.$route.params.id
       return Object.values(this.columnList).filter(
-        column => column.created_on === boardId
+        column => column.board_id === boardId
       )
     },
     filter() {

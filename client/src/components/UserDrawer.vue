@@ -4,7 +4,7 @@
     clipped
     right
     color="pink lighten-4"
-    width="120"
+    width="200"
     :value="drawer"
   >
     <v-list v-if="$store.state.users">
@@ -15,8 +15,12 @@
 
         <v-list-item v-for="(item, i) in conUserList" :key="i">
           <v-list-item-content>
-            <v-list-item-title>
-              {{ $store.state.users[item]['full_name'] }}
+            <v-list-item-title
+              ><v-avatar color="orange"
+                ><v-img :src="url(item)"></v-img
+              ></v-avatar>
+
+              {{ $store.state.users[item]['nickname'] }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -30,6 +34,7 @@ import app from '@/feathers-client'
 
 export default {
   name: 'UserDrawer',
+
   computed: {
     conUserList() {
       if (this.$store.state.OnLineUsers === undefined) {
@@ -39,6 +44,11 @@ export default {
     },
     drawer() {
       return this.$store.state.userDrawer
+    },
+    url() {
+      return item => {
+        return this.$store.state.users[item]['avatar']
+      }
     }
   },
   async mounted() {
