@@ -1,9 +1,23 @@
 <template>
   <v-row jusstify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
+      <template #activator="{ on, attrs }">
+        <v-btn
+          fab
+          small
+          class="ma-2"
+          color="purple darken-3"
+          dark
+          text
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon dark left>mdi-update</v-icon>
+        </v-btn>
+      </template>
       <v-card>
         <v-card-title>
-          <h2 class="headline">Board {{ this.$route.params.id }}</h2>
+          <h2 class="headline">Board {{ id }}</h2>
         </v-card-title>
         <v-card-text>
           <v-form>
@@ -53,13 +67,15 @@
 </template>
 
 <script>
-import app from '@/feathers-client'
-
 export default {
-  props: {},
+  name: 'PatchBoard',
+  props: {
+    id: { type: Number, default: 1 }
+  },
   data() {
     return {
       dialog: false,
+
       name: '',
       description: '',
       background: '',
@@ -69,7 +85,7 @@ export default {
   },
   computed: {
     getBoard() {
-      return this.$store.state.boards[this.$route.params.id]
+      return this.$store.state.boards[this.id]
     }
   },
   methods: {
@@ -87,9 +103,7 @@ export default {
     handleInput(field, value) {
       const data = {}
       data[field] = value
-      app.service('boards').patch(this.$route.params.id, data)
-      console.log('field : ', field)
-      console.log('value : ', value)
+      this.$store.dispatch('patch_board', this.$route.params.id, data)
     }
   }
 }

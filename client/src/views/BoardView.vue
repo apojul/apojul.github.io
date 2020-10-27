@@ -22,10 +22,8 @@
 </template>
 
 <script>
-//import PatchBoard from '@/components/PatchBoard'
-
 export default {
-  //components: { PatchBoard },
+  components: {},
   data() {
     return {}
   },

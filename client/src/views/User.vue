@@ -19,10 +19,6 @@
               item['description']
             }}</v-card-subtitle>
             <v-card-actions>
-              <v-btn fab small class="ma-2" color="purple darken-3" dark>
-                <v-icon dark>mdi-delete</v-icon>
-              </v-btn>
-              <v-spacer></v-spacer>
               <v-btn
                 fab
                 small
@@ -31,8 +27,10 @@
                 dark
                 @click="delBoard"
               >
-                <v-icon dark left>mdi-update</v-icon>
+                <v-icon dark>mdi-delete</v-icon>
               </v-btn>
+              <v-spacer></v-spacer>
+              <PatchBoard :id="item.id" />
             </v-card-actions>
             <!-- <v-row no-gutters style="height: 150px;">
               <v-col
@@ -65,9 +63,12 @@
 // TODO Filter BoardList by UserId
 // TODO extraire nav bar
 // changer pascal pour authUse
+import PatchBoard from '@/components/PatchBoard'
 
 export default {
-  components: {},
+  components: {
+    PatchBoard
+  },
   data() {
     return {
       show: false

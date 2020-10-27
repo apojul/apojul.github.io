@@ -19,7 +19,9 @@ app.configure(
     storage: window.localStorage
   })
 )
+// CRUD FUNCTIONALITY/ ecouter l'arrivée des evenements pour declencher des mutations sur state
 
+// Boards :
 app.service('boards').on('created', board => {
   //"created" is the name of the channel this event is bradcasted on
   console.log('BOARDS EVENT created', board)
@@ -29,18 +31,24 @@ app.service('boards').on('created', board => {
 app.service('boards').on('removed', board => {
   //"created" is the name of the channel this event is bradcasted on
   console.log('BOARDS EVENT removed', board)
-  store.commit('SET_DEL_BOARD', board)
+  store.commit('REMOVE_BOARD', board) //TODO mutation
 })
+app.service('boards').on('patched', board => {
+  //"created" is the name of the channel this event is bradcasted on
+  console.log('BOARDS EVENT modified', board)
+  store.commit('PATCH_BOARD', board) //TODO mutation
+})
+// Columns :
 app.service('columns').on('created', column => {
   console.log('COLUMNS EVENT created', column)
   store.commit('SET_NEW_COLUMN', column)
 })
-
+// Tasks :
 app.service('tasks').on('created', task => {
   console.log('TASK EVENT created', task)
   store.commit('SET_NEW_TASK', task)
 })
-
+// Users :
 app.service('users').on('created', user => {
   console.log('USER EVENT created', user)
   store.commit('SET_NEW_USER', user)

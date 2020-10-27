@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // These objects are the content of the application/objets metier/seuls ceux ci sont des diccionaires
+    // these objects are the content of the application/objets metier/seuls ceux ci sont des diccionaires
     // le reste sont des arrais d'ids.
     boards: undefined,
     columns: undefined,
@@ -79,7 +79,7 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user
-      router.push({ path: `/${user.full_name}` })
+      router.push({ path: `/${user.nickname}` })
     },
     // Add new objects to state
     SET_NEW_BOARD: (state, board) => {
@@ -99,7 +99,9 @@ export default new Vuex.Store({
       Vue.set(state.users, user.id, user)
     },
     // Patch existing objects
-
+    PATCH_BOARD: (state, board) => {
+      state.boards[board.id] = board
+    },
     // Delete existing objects
 
     // Other
@@ -116,8 +118,8 @@ export default new Vuex.Store({
   actions: {
     // Nom des variables : verve {fetch, create, delete, patch, etc} _object
     //                    or action {log_out}
-    // Board related actions
-    // TODO fetch columns, fetch task,
+    // Boards :
+
     async fetch_board_list({ commit }) {
       let boardList = await app.service('boards').find()
       commit('SET_BOARDS', boardList)
@@ -134,11 +136,15 @@ export default new Vuex.Store({
     async del_board(_, id) {
       await app.service('boards').remove(id)
     },
+    async patch_board(_, payload) {
+      await app.service('boards').patch(payload.id, payload)
+    },
+    // Columns :
     async fetch_column_list({ commit }) {
       const columnList = await app.service('columns').find()
       commit('SET_COLUMNS', columnList)
     },
-    // USER related actions
+    // USER :
     async log_in(_, payload) {
       try {
         if (!payload) {
@@ -167,7 +173,6 @@ export default new Vuex.Store({
     },
     async post_user(_, user) {
       await app.service('users').create(user)
-      console.log('new user info recieved', user)
     }
   },
   modules: {}
