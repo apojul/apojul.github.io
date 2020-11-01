@@ -10,7 +10,7 @@
       dark
       color="light-blue darken-1"
       class="mx-2"
-      :to="{ name: 'Home' }"
+      :to="{ name: 'user_id' }"
     >
       <span />
       <v-icon>mdi-home-outline</v-icon>

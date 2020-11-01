@@ -6,7 +6,7 @@
           Create board
         </v-btn>
       </template>
-      <v-card>
+      <v-card @keypress.enter="addBoard">
         <v-card-title>
           <h2 class="headline">
             New board

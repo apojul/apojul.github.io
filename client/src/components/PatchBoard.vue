@@ -38,11 +38,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn 
+          color="blue darken-1" 
+          text 
+          @click="dialog = false" 
+          :to="{name: 'user_id'}">
             Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="patchBoard">
-            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -67,10 +68,26 @@ export default {
       return this.$store.state.boards[this.$route.params.id]
     }
 },
-methods :{
+methods: {
+     patchBoard(field, value) {
+      const patchBoard = {
+        [field]: value
+      } 
+      this.$store.dispatch('putBoard', patchBoard)
+      console.log(patchBoard)
+    }, 
+     updateBoard(field, value) {
+       this.$store.commit('UPDATE_BOARD', { field: value })
+     },
+     handleInput(field, value) {
+       const data = {}
+       data[field] = value
+       this.$store.dispatch('patch_board', {id: this.$route.params.id, data})
+       console.log('patch_board payload id :', this.$route.params.id, "data: ", data );
+     }
+  }
+}
 
-}
-}
 </script>
 
 <style>

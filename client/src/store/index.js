@@ -86,9 +86,6 @@ export default new Vuex.Store({
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board)
     },
-    SET_DEL_BOARD: (state, index) => {
-      Vue.delete(state.boards, index)
-    },
     SET_NEW_COLUMNS: (state, columns) => {
       Vue.set(state.columns, columns.id, columns)
     },
@@ -103,7 +100,9 @@ export default new Vuex.Store({
       state.boards[board.id] = board
     },
     // Delete existing objects
-
+    REMOVE_BOARD: (state, boardId) => {
+      Vue.delete(state.boards, state.boards[boardId])
+    },
     // Other
     SET_BOARD_DRAWER: state => {
       state.boardDrawer = !state.boardDrawer
@@ -137,7 +136,7 @@ export default new Vuex.Store({
       await app.service('boards').remove(id)
     },
     async patch_board(_, payload) {
-      await app.service('boards').patch(payload.id, payload)
+      await app.service('boards').patch(payload.id, payload.data)
     },
     // Columns :
     async fetch_column_list({ commit }) {
