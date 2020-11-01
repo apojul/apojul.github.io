@@ -9,7 +9,10 @@ import BoardView from '@/views/BoardView'
 import ColumnView from '@/views/ColumnView'
 import TaskView from '@/views/TaskView'
 import Home from '@/views/Home'
-import store from '@/store'
+import PatchBoard from '@/components/PatchBoard'
+
+
+//import store from '@/store'
 //import app from '@/feathers-client'
 
 Vue.use(VueRouter)
@@ -39,29 +42,35 @@ const routes = [
     //  meta: { requiresAuth: false }
   },
   {
-    path: '/user',
+    path: '/:userName',
     name: 'Home',
     component: Home,
-    meta: { requiresAuth: true },
+    //meta: { requiresAuth: true },
     children: [
       {
-        path: '/:id',
+        path: '/:userName',
         name: 'user_id',
         component: User
       },
       {
         name: 'boardId',
-        path: '/:id',
-        component: BoardView
+        path: '/:userName/:id',
+        component: BoardView,
+
+      },
+      {
+        path: '/:userName/:id',
+        name: 'PatchBoard',
+        component: PatchBoard
       },
       {
         name: 'columnId',
-        path: ':id',
+        path: '/:userName/:id',
         component: ColumnView
       },
       {
         name: 'taskId',
-        path: ':id',
+        path: '/:userName/:id',
         component: TaskView
       }
     ]
@@ -82,7 +91,12 @@ const routes = [
   //   // this generates a separate chunk (about.[hash].js) for this route
   //   // which is lazy-loaded when the route is visited.
   //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
+  //     import(/* webpackChunkName: "about" */ "../views/Ab router.beforeEach(async(to, from, next) => {
+ /* try {
+  const auth = await store.state.activeUser
+  if (!auth) {
+    console.log(this)
+    next({ namerouter.beforeEach((to, from, next) => {out.vue") */
   // }
 ]
 
@@ -92,14 +106,22 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach(async(to, from, next) => {
-// try {
-//   const auth = await store.state.activeUser
-//   if (!auth) {
-//     console.log(this)
-//     next({ name: 'LoggedOut' })8080{
-//     next()
-//   }
+ /* router.beforeEach(async(to, from, next) => {
+  if (to.matched.some(route => route.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.state.activeUser) {
+      next({
+        path: '/loggeout',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+}) */
 // })
 
 /* 
@@ -114,9 +136,22 @@ router.beforeEach((to, from, next) => {
   next()
 })
 try {
-        if (!payload) {
-          return await app.reAuthenticate()
-        } else {%2F
+        if (!paylorouter.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!store.state.activeUser) {
+      next({
+        path: '/loggeout',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})F
           return await app.authenticate({
             strategy: 'local',
             ...payload
@@ -135,7 +170,7 @@ try {
 //       next('/loggedout')
 //     })
 // })
-router.beforeEach((to, from, next) => {
+/* router.beforeEach((to, from, next) => {
   if (to.matched.some(route => route.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
@@ -150,6 +185,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // make sure to always call next()!
   }
-})
+}) */
 
 export default router

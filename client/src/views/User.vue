@@ -30,7 +30,16 @@
                 <v-icon dark>mdi-delete</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <PatchBoard :id="item.id" />
+               <v-btn
+                fab
+                small
+                class="ma-2"
+                color="purple darken-3"
+                darkt
+                :to=" { name:'PatchBoard', params: {id: item.id}} "
+                > 
+                  <v-icon dark left>mdi-update</v-icon>
+                </v-btn>
             </v-card-actions>
             <!-- <v-row no-gutters style="height: 150px;">
               <v-col
@@ -63,11 +72,9 @@
 // TODO Filter BoardList by UserId
 // TODO extraire nav bar
 // changer pascal pour authUse
-import PatchBoard from '@/components/PatchBoard'
 
 export default {
   components: {
-    PatchBoard
   },
   data() {
     return {

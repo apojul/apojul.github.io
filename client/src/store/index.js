@@ -79,7 +79,7 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user
-      router.push({ path: `/${user.nickname}` })
+      router.replace({ name: 'user_id', params: {userName : state.activeUser.nickname} })
     },
     // Add new objects to state
     SET_NEW_BOARD: (state, board) => {

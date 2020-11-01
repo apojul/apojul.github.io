@@ -1,7 +1,23 @@
 <template>
-        <v-card>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template #activator="{ on, attrs }">
+        <v-btn
+          fab
+          small
+          class="ma-2"
+          color="purple darken-3"
+          dark
+          text
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon dark left>mdi-update</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
         <v-card-title>
-          <h2 class="headline">Board {{ $route.params.id }}</h2>
+          <h2 class="headline">Board {{ id }}</h2>
         </v-card-title>
         <v-card-text>
           <v-form>
@@ -46,11 +62,16 @@
           </v-btn>
         </v-card-actions>
       </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
 export default {
   name: 'PatchBoard',
+  props: {
+    id: { type: Number, default: 1 }
+  },
   data() {
     return {
       dialog: false,
@@ -64,15 +85,26 @@ export default {
   },
   computed: {
     getBoard() {
-      return this.$store.state.boards[this.$route.params.id]
+      return this.$store.state.boards[this.id]
     }
-},
-methods :{
-
-}
+  },
+  methods: {
+    /* patchBoard(field, value) {
+      const patchBoard = {
+        [field]: value
+      } */
+      /* this.$store.dispatch('putBoard', patchBoard)
+      this.dialog = false
+      console.log(patchBoard)
+    }, */
+    // updateBoard(field, value) {
+    //   this.$store.commit('UPDATE_BOARD', { field: value })
+    // },
+    // handleInput(field, value) {
+    //   const data = {}
+    //   data[field] = value
+    //   this.$store.dispatch('patch_board', this.$route.params.id, data)
+    // }
+  }
 }
 </script>
-
-<style>
-
-</style>
