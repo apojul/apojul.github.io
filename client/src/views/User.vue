@@ -25,6 +25,7 @@
                 class="ma-2"
                 color="purple darken-3"
                 dark
+                :to="{ name: 'user_id' }"
                 @click="delBoard(item.id)"
               >
                 <v-icon dark>mdi-delete</v-icon>

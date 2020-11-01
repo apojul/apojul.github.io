@@ -81,7 +81,7 @@ export default new Vuex.Store({
       state.activeUser = user
       router.replace({ name: 'user_id', params: {userName : state.activeUser.nickname} })
     },
-    // Add new objects to state
+    // Add new objects or modify objects in state
     SET_NEW_BOARD: (state, board) => {
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board)
@@ -95,13 +95,9 @@ export default new Vuex.Store({
     SET_NEW_USER: (state, user) => {
       Vue.set(state.users, user.id, user)
     },
-    // Patch existing objects
-    PATCH_BOARD: (state, board) => {
-      state.boards[board.id] = board
-    },
     // Delete existing objects
-    REMOVE_BOARD: (state, boardId) => {
-      Vue.delete(state.boards, state.boards[boardId])
+    REMOVE_BOARD: (state, board) => {
+      Vue.delete(state.boards, board.id)
     },
     // Other
     SET_BOARD_DRAWER: state => {
