@@ -14,14 +14,13 @@
         <v-list-item-title>{{ activeUser.full_name }}</v-list-item-title>
       </v-list-item>
       <v-divider />
-      <v-list-group sub-group active-class="white--text text--accent-4">
+      <v-list-group sub-group active-class="purple--text text--accent-4">
         <template #activator>
           <v-list-item-title>Board List</v-list-item-title>
         </template>
         <v-list-item
           v-for="board in boardList"
           :key="board.id"
-          dark
           :to="{ name: 'boardId', params: { id: board.id } }"
         >
           <v-list-item-content>
@@ -32,14 +31,15 @@
       <v-list-group
         no-action
         sub-group
-        active-class="grey--text text--accent-4"
-      >
-        <v-list-item-content>
+        active-class="purple--text text--accent-4"
+        ><template #activator>
           <v-list-item-title>Actions</v-list-item-title>
+        </template>
+        <v-list-item-content>
+          <v-list-item>
+            <AddBoard />
+          </v-list-item>
         </v-list-item-content>
-        <v-list-item>
-          <AddBoard />
-        </v-list-item>
       </v-list-group>
     </v-list>
   </v-navigation-drawer>

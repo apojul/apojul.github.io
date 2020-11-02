@@ -3,18 +3,14 @@
     <router-view />
     <v-container class="grey lighten-5 mb-6">
       <v-row no-gutters style="height: 150px;">
-        <v-col
-          v-for="(item, property, index) in boardList"
-          :key="index"
-          cols="4"
-        >
+        <v-col v-for="(item, id) in boardsList" :key="id" cols="4">
           <v-card
             class="ma-2"
             color="purple lighten-4"
             height="200"
             :to="{ name: 'boardId', params: { id: item.id } }"
           >
-            <v-card-title>{{ item['name'] }}</v-card-title>
+            <v-card-title>{{ item.name }}</v-card-title>
             <v-card-subtitle class="text-wrap">{{
               item['description']
             }}</v-card-subtitle>
@@ -31,16 +27,16 @@
                 <v-icon dark>mdi-delete</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-               <v-btn
+              <v-btn
                 fab
                 small
                 class="ma-2"
                 color="purple darken-3"
-                darkt
-                :to=" { name:'PatchBoard', params: {id: item.id}} "
-                > 
-                  <v-icon dark left>mdi-update</v-icon>
-                </v-btn>
+                dark
+                :to="{ name: 'PatchBoard', params: { id: item.id } }"
+              >
+                <v-icon dark left>mdi-pencil</v-icon>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -50,22 +46,19 @@
 </template>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
-    boardList() {
+    boardsList() {
       if (this.$store.state.boards === undefined) {
         this.$store.dispatch('fetch_board_list')
         return []
       }
       return this.$store.state.boards
-    },
+    }
   },
   methods: {
     delBoard(id) {
