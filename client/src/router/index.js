@@ -11,9 +11,7 @@ import TaskView from '@/views/TaskView'
 import Home from '@/views/Home'
 import PatchBoard from '@/components/PatchBoard'
 
-
-//import store from '@/store'
-//import app from '@/feathers-client'
+import app from '@/feathers-client'
 
 Vue.use(VueRouter)
 
@@ -21,7 +19,7 @@ const routes = [
   {
     path: '/',
     redirect: '/loggedout'
-    //  meta: { requiresAuth: false }
+    //meta: { requiresAuth: false }
   },
   {
     path: '/loggedout',
@@ -33,19 +31,19 @@ const routes = [
     path: '/login',
     name: 'LogIn',
     component: LogIn
-    //  meta: { requiresAuth: false }
+    //meta: { requiresAuth: false }
   },
   {
     path: '/signup',
     name: 'SignUp',
     component: SignUp
-    //  meta: { requiresAuth: false }
+    // meta: { requiresAuth: false }
   },
   {
     path: '/:userName',
     name: 'Home',
     component: Home,
-    //meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/:userName',
@@ -55,8 +53,7 @@ const routes = [
       {
         name: 'boardId',
         path: '/:userName/:id',
-        component: BoardView,
-
+        component: BoardView
       },
       {
         path: '/:userName/:id',
@@ -79,6 +76,7 @@ const routes = [
     path: '/forgot',
     name: 'Forgot',
     component: Forgot
+    //meta: { requiresAuth: false }
   },
   {
     path: '*',
@@ -92,7 +90,7 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () =>
   //     import(/* webpackChunkName: "about" */ "../views/Ab router.beforeEach(async(to, from, next) => {
- /* try {
+  /* try {
   const auth = await store.state.activeUser
   if (!auth) {
     console.log(this)
@@ -106,22 +104,22 @@ const router = new VueRouter({
   routes
 })
 
- /* router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  console.log(' beforeeach from ', from.path, 'to ', to.path)
   if (to.matched.some(route => route.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!store.state.activeUser) {
-      next({
-        path: '/loggeout',
-        query: { redirect: to.fullPath }
-      })
-    } else {
+    try {
+      // necessary: in case of reload, or to check if token is still valid
+      await app.reAuthenticate()
       next()
+    } catch (err) {
+      next('/loggedout')
     }
   } else {
     next() // make sure to always call next()!
   }
-}) */
+})
 // })
 
 /* 

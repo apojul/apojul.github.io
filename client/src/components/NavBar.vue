@@ -78,7 +78,7 @@ export default {
     },
     handleSignOut() {
       this.$store.dispatch('log_out')
-      this.$router.push('/LoggedOut')
+      //     this.$router.push('/LoggedOut')
     }
   }
 }

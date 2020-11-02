@@ -79,7 +79,10 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_USER: (state, user) => {
       state.activeUser = user
-      router.replace({ name: 'user_id', params: {userName : state.activeUser.nickname} })
+      router.replace({
+        name: 'user_id',
+        params: { userName: state.activeUser.nickname }
+      })
     },
     // Add new objects or modify objects in state
     SET_NEW_BOARD: (state, board) => {
@@ -107,7 +110,10 @@ export default new Vuex.Store({
       state.userDrawer = !state.userDrawer
     },
     CLEAR_SESSION: state => {
-      state.activeUser = undefined
+      Object.keys(state).forEach(key => {
+        state[key] = undefined
+      })
+      //state.activeUser = undefined //il faudrait remtre tout le state en undefined
     }
   },
   actions: {
@@ -152,9 +158,10 @@ export default new Vuex.Store({
         }
       } catch (error) {
         router.push('LoggedOut')
-      }
+      } // aficher un message
     },
     async log_out() {
+      router.push('LoggedOut')
       await app.logout()
     },
     async sign_up(_, payload) {
