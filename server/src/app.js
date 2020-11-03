@@ -14,11 +14,11 @@ const middleware = require('./middleware')
 const services = require('./services')
 const appHooks = require('./app.hooks')
 const channels = require('./channels')
-/* 
+
 const dotenv = require('dotenv')
 
 dotenv.config()
- */
+
 const authentication = require('./authentication')
 
 const knex = require('./knex')

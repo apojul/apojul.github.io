@@ -9,7 +9,7 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "8Z36ocsVQbNcihgSKd99rDNNTA8=",
+    "secret": "oYTMN3w6AgR2cpNh/NWYbSd/LLs=",
     "authStrategies": [
       "jwt",
       "local"
@@ -28,32 +28,34 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "/",
+      "redirect": "http://localhost:8080/login",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
         "subdomain": "<auth0 subdomain>"
       },
       "google": {
-        "key": "<google oauth key>",
-        "secret": "<google oauth secret>",
+        "key": "GOOGLE_CLIENT_ID",
+        "secret": "GOOGLE_CLIENT_SECRET",
         "scope": [
+          "openid",
           "email",
-          "profile",
-          "openid"
-        ]
+          "profile"
+        ],
+        "nonce": true
       },
       "facebook": {
-        "key": "<facebook oauth key>",
-        "secret": "<facebook oauth secret>"
+        "key": "FACEBOOK_CLIENT_ID",
+        "secret": "FACEBOOK_CLIENT_SECRET",
+        "scope": ["email, public_profile"]
       },
       "twitter": {
         "key": "<twitter oauth key>",
         "secret": "<twitter oauth secret>"
       },
       "github": {
-        "key": "6f98831a53a660f8ddeb",
-        "secret": "b80363a14c9eff24e4a59d5c4f0e695a776c5387"
+        "key": "GITHUB_CLIENT_ID",
+        "secret": "GITHUB_CLIENT_SECRET"
       }
     }
   },

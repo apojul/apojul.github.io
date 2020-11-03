@@ -45,7 +45,7 @@
                     <v-btn
                       block
                       class="text-lowercase"
-                      @click="handleSigninGoogle"
+                      href="http://localhost:3030/oauth/google"
                       ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                     >
                   </v-card-actions>
@@ -53,7 +53,7 @@
                     <v-btn
                       block
                       class="text-lowercase"
-                      @click="handleSigninFacebook"
+                      href="http://localhost:3030/oauth/facebook"
                       ><v-icon left>mdi-facebook</v-icon> Login with
                       Facebook</v-btn
                     >
@@ -62,7 +62,7 @@
                     <v-btn
                       block
                       class="text-lowercase"
-                      @click="handleSigninGithub"
+                      href="http://localhost:3030/oauth/github"
                       ><v-icon left>mdi-github</v-icon> Login with Github</v-btn
                     > </v-card-actions
                   ><v-divider inset class="ma-6"></v-divider>
@@ -104,33 +104,6 @@ export default {
       await this.$store.dispatch('log_in', {
         email: this.email,
         password: this.password
-      })
-    },
-    handleSigninGoogle() {
-      this.$store.dispatch('log_in', {
-        email: this.email,
-        password: this.password
-      })
-      this.$router.replace({
-        name: 'user_id'
-      })
-    },
-    handleSigninFacebook() {
-      this.$store.dispatch('log_in', {
-        email: this.email,
-        password: this.password
-      })
-      this.$router.replace({
-        name: 'user_id'
-      })
-    },
-    handleSigninGithub() {
-      this.$store.dispatch('log_in', {
-        email: this.email,
-        password: this.password
-      })
-      this.$router.replace({
-        name: 'user_id'
       })
     }
   }

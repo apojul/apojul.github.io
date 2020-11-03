@@ -17,9 +17,9 @@ exports.Users = class Users extends Service {
       name: 'users',
     })
   }
-  create(data, params) {
+  /* create(data, params) {
     // This is the information we want from the user signup data
-    const { email, password, nickname } = data
+    const { email, password, nickname, googleId, facebookId } = data
     // Use the existing avatar image or return the Gravatar for the email
     const avatar = data.avatar || getGravatar(email)
     // The complete user
@@ -27,10 +27,12 @@ exports.Users = class Users extends Service {
       email,
       nickname,
       password,
+      googleId,
+      facebookId,
       avatar,
     }
 
     // Call the original `create` method with existing `params` and new data
     return super.create(userData, params)
-  }
+  } */
 }

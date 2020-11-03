@@ -11,7 +11,7 @@ import TaskView from '@/views/TaskView'
 import Home from '@/views/Home'
 import PatchBoard from '@/components/PatchBoard'
 
-import app from '@/feathers-client'
+//import app from '@/feathers-client'
 
 Vue.use(VueRouter)
 
@@ -77,11 +77,11 @@ const routes = [
     name: 'Forgot',
     component: Forgot
     //meta: { requiresAuth: false }
-  },
+  } /* ,
   {
     path: '*',
     redirect: '/loggedout'
-  }
+  } */
   // {
   //   path: "/about",
   //   name: "About",
@@ -103,7 +103,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+/* 
 router.beforeEach(async (to, from, next) => {
   console.log(' beforeeach from ', from.path, 'to ', to.path)
   if (to.matched.some(route => route.meta.requiresAuth)) {
@@ -119,7 +119,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next() // make sure to always call next()!
   }
-})
+}) */
 // })
 
 /* 

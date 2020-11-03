@@ -19,13 +19,13 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('users').insert([
         {
-          email: 'pascalallau@gmail.com',
+          email: 'p.allau@gmail.com',
           password: pwd,
           nickname: 'pascal',
           avatar: getGravatar(),
         },
         {
-          email: 'pascal.allau@laposte.net',
+          email: 'p.allau@laposte.net',
           password: pwd,
           nickname: 'apojul',
           avatar: getGravatar(),
