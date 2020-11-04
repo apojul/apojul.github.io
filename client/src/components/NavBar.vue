@@ -1,9 +1,7 @@
 <template>
-  <v-app-bar app clipped-right clipped-left>
-    <v-app-bar-nav-icon @click="boardDrawerState" />
-    <v-toolbar-title class="mx-8">
-      Kanban Board
-    </v-toolbar-title>
+  <v-app-bar app clipped-right clipped-left color="light-blue darken-2">
+    <v-app-bar-nav-icon dark @click="boardDrawerState" />
+    <v-toolbar-title class="mx-6 white--text">Kanban Board</v-toolbar-title>
     <v-btn
       small
       depressed
@@ -42,14 +40,14 @@
         </v-icon>
       </v-btn>
       <v-btn
-        color="pink lighten-4"
+        color="light-blue darken-1"
         dark
         class="mx-1"
         depressed
         @click="userDrawerState"
       >
         <v-icon>
-          mdi-account-multiple
+          mdi-account-multiple-outline
         </v-icon>
       </v-btn>
     </v-responsive>

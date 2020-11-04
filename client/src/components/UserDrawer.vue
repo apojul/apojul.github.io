@@ -3,13 +3,13 @@
     app
     clipped
     right
-    color="pink lighten-4"
+    color="blue lighten-5"
     width="200"
     :value="drawer"
   >
     <v-list v-if="$store.state.users">
       <v-layout column align-center>
-        <v-list-item-title class="title white--text" align-center>
+        <v-list-item-title class="title blue--text" align-center>
           ON LINE
         </v-list-item-title>
 

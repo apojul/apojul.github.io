@@ -4,7 +4,7 @@
     app
     clipped
     max-width="250"
-    color="pink lighten-4"
+    color="blue lighten-5"
   >
     <v-list nav class="overfow-y-auto" max-height="400">
       <v-list-item class="px-0">

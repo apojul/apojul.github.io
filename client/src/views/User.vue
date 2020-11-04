@@ -2,42 +2,48 @@
   <v-app>
     <v-container class="grey lighten-5 mb-6">
       <v-row no-gutters>
-        <v-col v-for="(item, id) in boardsList" :key="id" cols="4">
+        <v-col v-for="(item, id) in boardsList" :key="id" cols="3">
           <v-card
             class="ma-2"
-            color="purple lighten-4"
+            color="blue lighten-3"
             :to="{ name: 'boardId', params: { id: item.id } }"
           >
-            <v-card-title>{{ item.name }}</v-card-title>
+            <v-card-title
+              ><v-btn small depressed color="grey lighten-1">{{
+                item.name
+              }}</v-btn></v-card-title
+            >
             <v-card-subtitle class="text-wrap">{{
               item['description']
             }}</v-card-subtitle>
             <v-card-actions>
               <v-btn
                 fab
-                small
+                text
+                x-small
                 class="ma-2"
-                color="purple darken-3"
-                dark
                 :to="{ name: 'user_id' }"
                 @click="delBoard(item.id)"
               >
-                <v-icon dark>mdi-delete</v-icon>
+                <v-icon dark small>mdi-delete-outline</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 fab
-                small
+                text
+                x-small
                 class="ma-2"
-                color="purple darken-3"
-                dark
                 :to="{ name: 'PatchBoard', params: { id: item.id } }"
               >
-                <v-icon dark left>mdi-pencil</v-icon>
+                <v-icon dark left>mdi-pencil-outline</v-icon>
               </v-btn>
             </v-card-actions>
-          </v-card>
-        </v-col>
+          </v-card> </v-col
+        ><v-col
+          ><v-btn small depressed color="grey lighten-4" class="text-lowercase"
+            ><v-icon dark small>mdi-plus</v-icon>Create new board</v-btn
+          ></v-col
+        >
       </v-row>
     </v-container>
   </v-app>
