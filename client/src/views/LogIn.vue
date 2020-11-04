@@ -46,6 +46,7 @@
                       block
                       class="text-lowercase"
                       href="http://localhost:3030/oauth/google"
+                      @click="loading"
                       ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                     >
                   </v-card-actions>
@@ -54,6 +55,7 @@
                       block
                       class="text-lowercase"
                       href="http://localhost:3030/oauth/facebook"
+                      @click="loading"
                       ><v-icon left>mdi-facebook</v-icon> Login with
                       Facebook</v-btn
                     >
@@ -63,6 +65,7 @@
                       block
                       class="text-lowercase"
                       href="http://localhost:3030/oauth/github"
+                      @click="loading"
                       ><v-icon left>mdi-github</v-icon> Login with Github</v-btn
                     > </v-card-actions
                   ><v-divider inset class="ma-6"></v-divider>
@@ -92,7 +95,7 @@
 </template>
 
 <script>
-import app from '@/feathers-client'
+//import app from '@/feathers-client'
 
 export default {
   data() {
@@ -101,22 +104,27 @@ export default {
       password: ''
     }
   },
-  async mounted() {
-    if (this.$route.hash) {
-      const data = this.$route.hash.split('=')[1]
-      console.log(data)
-      await app.authenticate({
-        strategy: 'jwt',
-        accessToken: data
-      })
-    }
-  },
+  // async mounted() {
+  //   if (this.$route.hash) {
+  //     const data = this.$route.hash.split('=')[1]
+  //     console.log(data)
+  //     await app.authenticate({
+  //       strategy: 'jwt',
+  //       accessToken: data
+  //     })
+  //     return this.loading()
+  //   }
+  // },
   methods: {
     async handleSignin() {
       await this.$store.dispatch('log_in', {
         email: this.email,
         password: this.password
       })
+    },
+    loading() {
+      this.$store.commit('SET_LOADING')
+      console.log('loading : ', this.$state.loading);
     }
   }
 }

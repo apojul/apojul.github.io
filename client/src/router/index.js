@@ -40,6 +40,11 @@ const routes = [
     // meta: { requiresAuth: false }
   },
   {
+    path: '/oauth',
+    name: 'OAuth'
+    // meta: { requiresAuth: false }
+  },
+  {
     path: '/:userName',
     name: 'Home',
     component: Home,
@@ -103,7 +108,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-/* 
+/* CELUI CI C'EST LA BONNE *********
 router.beforeEach(async (to, from, next) => {
   console.log(' beforeeach from ', from.path, 'to ', to.path)
   if (to.matched.some(route => route.meta.requiresAuth)) {
@@ -119,70 +124,22 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next() // make sure to always call next()!
   }
-}) */
-// })
+}) 
 
-/* 
-router.beforeEach((to, from, next) => {
-  const publicPages = ['/loggedout', '/login', '/signup']
-  const authRequired = !publicPages.includes(to.path)
-  const loggedIn = localStorage.getItem('feathers-jwt')
+router.beforeEach(to, from, next) {
+  if (to.path === '/after_oauth') {
+    // goes here after signin or signup with Google etc. (oAuth)
+    // app.reAuthenticate() is MANDATORY - otherwise jwt is not in LocalStorage
 
-  if (authRequired && !loggedIn) {
-    next('/loggedout')
-  }
-  next()
-})
-try {
-        if (!paylorouter.beforeEach((to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!store.state.activeUser) {
-      next({
-        path: '/loggeout',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
+    // ??? app.reAuthenticate() causes /after_auth to be accessed a second time, with no access token
+    if (to.hash === '') return
+
+    try {
+       let { user } = await app.reAuthenticate()
+       console.log('after oauth user', user)
     }
-  } else {
-    next() // make sure to always call next()!
   }
-})F
-          return await app.authenticate({
-            strategy: 'local',
-            ...payload
-          })
-        }
-      } catch (error) {
-        router.push('LoggedOut')
-      }
-       */
-// router.beforeE next()p
-//     .reAuthenticate()
-//     .then(() => {
-//       next()
-//     })
-//     .catch(() => loggedout?redirect=%2Fuser{
-//       next('/loggedout')
-//     })
-// })
-/* router.beforeEach((to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!store.state.activeUser) {
-      next({
-        path: '/loggeout',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
-    }
-  } else {
-    next() // make sure to always call next()!
-  }
-}) */
+
+}*/
 
 export default router

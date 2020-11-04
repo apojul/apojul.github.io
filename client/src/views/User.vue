@@ -19,23 +19,22 @@
             <v-card-actions>
               <v-btn
                 fab
-                text
+                icon
                 x-small
                 class="ma-2"
                 :to="{ name: 'user_id' }"
                 @click="delBoard(item.id)"
               >
-                <v-icon dark small>mdi-delete-outline</v-icon>
+                <v-icon dark small>mdi-pencil-outline</v-icon>
               </v-btn>
-              <v-spacer></v-spacer>
               <v-btn
                 fab
-                text
+                icon
                 x-small
                 class="ma-2"
                 :to="{ name: 'PatchBoard', params: { id: item.id } }"
               >
-                <v-icon dark left>mdi-pencil-outline</v-icon>
+                <v-icon dark small left>mdi-pencil-outline</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card> </v-col

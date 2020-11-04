@@ -96,7 +96,8 @@ export default {
     },
     columnList() {
       if (this.$store.state.columns === undefined) {
-        this.$store.dispatch('fetch_column_list')
+        const columnList = this.$app.service('column').find()
+        this.store.commit('SET_COLUMNS', columnList)
         return []
       }
       return this.$store.state.columns
@@ -114,3 +115,4 @@ export default {
   methods: {}
 }
 </script>
+//TODO computed boardId to refactor this.$route.params.id

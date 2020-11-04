@@ -19,7 +19,8 @@ export default new Vuex.Store({
 
     // Communication between components
     boardDrawer: false,
-    userDrawer: true
+    userDrawer: true,
+    loading: false
 
     // pour chaque objet en state il y a une liste d'ids
     // boardsList: undefined,
@@ -113,10 +114,15 @@ export default new Vuex.Store({
       Object.keys(state).forEach(key => {
         state[key] = undefined
       })
-      //state.activeUser = undefined //il faudrait remtre tout le state en undefined
+    },
+    SET_LOADING: state => {
+      state.loading = !state.loading
     }
   },
   actions: {
+    // une action qui ne fait pas de commit deriere n'a pas forcement de sense, tant faire
+    // app.service directement dans la methode.
+    // TODO mutations crud
     // Nom des variables : verve {fetch, create, delete, patch, etc} _object
     //                    or action {log_out}
     // Boards :
@@ -161,7 +167,7 @@ export default new Vuex.Store({
       } // aficher un message
     },
     async log_out() {
-      router.push('LoggedOut')
+      router.push('/')
       await app.logout()
     },
     async sign_up(_, payload) {
