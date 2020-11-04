@@ -101,29 +101,21 @@ export default {
       password: ''
     }
   },
-  methods: {
-    async handleSignin() {
-      if (this.$route.hash) {
-        const data = this.$route.hash.split('=')[1]
-        console.log(data)
-        await app.authenticate({
-          strategy: 'jwt',
-          accessToken: data
-        })
-      } else {
-        await this.$store.dispatch('log_in', {
-          email: this.email,
-          password: this.password
-        })
-      }
-    },
-    async token() {
-      this.$router.push('http://localhost:3030/oauth/github')
+  async mounted() {
+    if (this.$route.hash) {
       const data = this.$route.hash.split('=')[1]
       console.log(data)
       await app.authenticate({
         strategy: 'jwt',
         accessToken: data
+      })
+    }
+  },
+  methods: {
+    async handleSignin() {
+      await this.$store.dispatch('log_in', {
+        email: this.email,
+        password: this.password
       })
     }
   }
