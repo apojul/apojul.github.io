@@ -60,7 +60,8 @@ class GoogleStrategy extends OAuthStrategy {
     return {
       ...baseData,
       avatar: profile.picture,
-      email: profile.email
+      email: profile.email,
+      nickname: profile.name
     }
   }
 }

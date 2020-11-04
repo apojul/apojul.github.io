@@ -92,6 +92,8 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
+
 export default {
   data() {
     return {
@@ -101,9 +103,27 @@ export default {
   },
   methods: {
     async handleSignin() {
-      await this.$store.dispatch('log_in', {
-        email: this.email,
-        password: this.password
+      if (this.$route.hash) {
+        const data = this.$route.hash.split('=')[1]
+        console.log(data)
+        await app.authenticate({
+          strategy: 'jwt',
+          accessToken: data
+        })
+      } else {
+        await this.$store.dispatch('log_in', {
+          email: this.email,
+          password: this.password
+        })
+      }
+    },
+    async token() {
+      this.$router.push('http://localhost:3030/oauth/github')
+      const data = this.$route.hash.split('=')[1]
+      console.log(data)
+      await app.authenticate({
+        strategy: 'jwt',
+        accessToken: data
       })
     }
   }
