@@ -11,7 +11,7 @@ import TaskView from '@/views/TaskView'
 import Home from '@/views/Home'
 import PatchBoard from '@/components/PatchBoard'
 
-//import app from '@/feathers-client'
+import app from '@/feathers-client'
 
 Vue.use(VueRouter)
 
@@ -19,30 +19,30 @@ const routes = [
   {
     path: '/',
     redirect: '/loggedout'
-    //meta: { requiresAuth: false }
   },
   {
     path: '/loggedout',
     name: 'LoggedOut',
     component: LoggedOut
-    //meta: { requiresAuth: false }
   },
   {
     path: '/login',
     name: 'LogIn',
     component: LogIn
-    //meta: { requiresAuth: false }
   },
   {
     path: '/signup',
     name: 'SignUp',
     component: SignUp
-    // meta: { requiresAuth: false }
   },
   {
     path: '/oauth',
     name: 'OAuth'
-    // meta: { requiresAuth: false }
+  },
+  {
+    path: '/forgot',
+    name: 'Forgot',
+    component: Forgot
   },
   {
     path: '/:userName',
@@ -78,15 +78,9 @@ const routes = [
     ]
   },
   {
-    path: '/forgot',
-    name: 'Forgot',
-    component: Forgot
-    //meta: { requiresAuth: false }
-  } /* ,
-  {
     path: '*',
     redirect: '/loggedout'
-  } */
+  }
   // {
   //   path: "/about",
   //   name: "About",
@@ -108,7 +102,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-/* CELUI CI C'EST LA BONNE *********
 router.beforeEach(async (to, from, next) => {
   console.log(' beforeeach from ', from.path, 'to ', to.path)
   if (to.matched.some(route => route.meta.requiresAuth)) {
@@ -121,25 +114,23 @@ router.beforeEach(async (to, from, next) => {
     } catch (err) {
       next('/loggedout')
     }
-  } else {
-    next() // make sure to always call next()!
-  }
-}) 
-
-router.beforeEach(to, from, next) {
-  if (to.path === '/after_oauth') {
+  } else if (to.path === '/oauth') {
     // goes here after signin or signup with Google etc. (oAuth)
     // app.reAuthenticate() is MANDATORY - otherwise jwt is not in LocalStorage
 
-    // ??? app.reAuthenticate() causes /after_auth to be accessed a second time, with no access token
+    // ??? app.reAuthenticate() causes /oauth to be accessed a second time, with no access token
     if (to.hash === '') return
 
     try {
-       let { user } = await app.reAuthenticate()
-       console.log('after oauth user', user)
+      let { user } = await app.reAuthenticate()
+      console.log('after oauth user', user)
+      next('/user_id')
+    } catch {
+      next('/loggedout')
     }
+  } else {
+    next() // make sure to always call next()!
   }
-
-}*/
+})
 
 export default router

@@ -76,10 +76,13 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
 export default {
   components: {},
   data() {
-    return {}
+    return {
+      boardId: this.$route.params.id
+    }
   },
   computed: {
     getBoard() {
@@ -88,24 +91,23 @@ export default {
         console.log('fetch_board_list dispatched from BoardView.vue')
         return []
       }
-      if (this.$route.params.id) {
-        return this.$store.state.boards[this.$route.params.id]
+      if (this.boardId) {
+        return this.$store.state.boards[this.boardId]
       } else {
         return [['no board']]
       }
     },
     columnList() {
       if (this.$store.state.columns === undefined) {
-        const columnList = this.$app.service('column').find()
+        const columnList = app.service('column').find()
         this.store.commit('SET_COLUMNS', columnList)
         return []
       }
       return this.$store.state.columns
     },
     getColumnList() {
-      const boardId = this.$route.params.id
       return Object.values(this.columnList).filter(
-        column => column.board_id === boardId
+        column => column.board_id === this.boardId
       )
     },
     filter() {
@@ -115,4 +117,3 @@ export default {
   methods: {}
 }
 </script>
-//TODO computed boardId to refactor this.$route.params.id

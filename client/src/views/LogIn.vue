@@ -104,17 +104,6 @@ export default {
       password: ''
     }
   },
-  // async mounted() {
-  //   if (this.$route.hash) {
-  //     const data = this.$route.hash.split('=')[1]
-  //     console.log(data)
-  //     await app.authenticate({
-  //       strategy: 'jwt',
-  //       accessToken: data
-  //     })
-  //     return this.loading()
-  //   }
-  // },
   methods: {
     async handleSignin() {
       await this.$store.dispatch('log_in', {
@@ -124,7 +113,7 @@ export default {
     },
     loading() {
       this.$store.commit('SET_LOADING')
-      console.log('loading : ', this.$state.loading);
+      console.log('loading : ', this.$store.state.loading);
     }
   }
 }
