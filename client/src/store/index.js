@@ -82,7 +82,7 @@ export default new Vuex.Store({
       state.activeUser = user
       router.replace({
         name: 'user_id',
-        params: { userName: state.activeUser.nickname }
+        params: { userName: user.nickname }
       })
     },
     // Add new objects or modify objects in state
