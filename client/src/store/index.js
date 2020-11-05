@@ -90,7 +90,7 @@ export default new Vuex.Store({
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board)
     },
-    SET_NEW_COLUMNS: (state, columns) => {
+    SET_NEW_COLUMN: (state, columns) => {
       Vue.set(state.columns, columns.id, columns)
     },
     SET_NEW_TASK: (state, task) => {
@@ -178,6 +178,7 @@ export default new Vuex.Store({
     // Tasks :
     async fetch_task_list({ commit }) {
       const taskList = await app.service('tasks').find()
+      console.log("task list", taskList);
       commit('SET_TASKS', taskList)
     },
     async create_task(_, task) {

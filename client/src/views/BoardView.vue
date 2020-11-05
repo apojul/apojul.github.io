@@ -1,20 +1,20 @@
 :<template>
   <v-app>
-    <v-app-bar absolute flat class="pb-4" color="purple ligthen-2">
+    <v-app-bar absolute flat class="pb-4" color="blue ligthen-2">
       <v-col cols="2">
         <v-text-field
           :value="getBoard['name']"
           solo
           flat
           dense
-          background-color="grey lighten-4"
+          background-color="blue lighten-4"
           class="ms-8 mt-6"
           @input="handleInput('name', $event)"
         >
         </v-text-field
       ></v-col>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn icon @click="createColumn">
         <v-icon>mdi-playlist-plus</v-icon>
       </v-btn>
     </v-app-bar>
@@ -29,7 +29,7 @@
           >
             <v-icon left small> mdi-arrow-left </v-icon>Back
           </v-btn>
-          <v-col v-for="(item, property, i) in getColumnList" :key="i">
+          <v-col v-for="(item, property, i) in filterColumnList" :key="i">
             <v-card flat class="mx-auto" color="grey lighten-4">
               <v-card-subtitle class="py-1">{{ item.name }}</v-card-subtitle
               ><v-card>
@@ -54,18 +54,19 @@
                     item.name
                   }}</v-card-title></v-card
                 >
-                <v-card-text class="mt-n2 mb-n4"> {{ item.name }} </v-card-text
+                <v-card-text class="mt-n2 mb-n4"> {{ item.id }} </v-card-text
                 ><v-icon small class="ml-4">mdi-menu</v-icon
                 ><v-icon small class="ml-4">mdi-attachment</v-icon>
                 <v-btn x-small text>2</v-btn>
               </v-card>
+              <DisplayTasks :columnId="item.id"/>
               <v-btn small depressed text color="grey lighten-1"
                 ><v-icon dark small>mdi-plus</v-icon>Add another task</v-btn
               >
             </v-card>
           </v-col>
           <v-col>
-            <v-btn small depressed color="grey lighten-4"
+            <v-btn small depressed color="grey lighten-4" @click="createColumn"
               ><v-icon dark small>mdi-plus</v-icon>Add another list</v-btn
             >
           </v-col>
@@ -76,12 +77,18 @@
 </template>
 
 <script>
-import app from '@/feathers-client'
+import DisplayTasks from '@/components/DisplayTasks.vue'
 export default {
-  components: {},
+  components: {
+    DisplayTasks
+  },
   data() {
     return {
-      boardId: this.$route.params.id
+      boardId: this.$route.params.id,
+      columnId: undefined,
+      column: {
+        name: "test_column",
+      }
     }
   },
   computed: {
@@ -97,23 +104,27 @@ export default {
         return [['no board']]
       }
     },
-    columnList() {
+    getColumnList() {
       if (this.$store.state.columns === undefined) {
-        const columnList = app.service('column').find()
-        this.store.commit('SET_COLUMNS', columnList)
+        this.$store.dispatch('fetch_column_list')
         return []
       }
       return this.$store.state.columns
     },
-    getColumnList() {
-      return Object.values(this.columnList).filter(
+    filterColumnList() {
+      return Object.values(this.getColumnList).filter(
         column => column.board_id === this.boardId
       )
     },
-    filter() {
-      return this.$store.state.userList.filter(user => user.id === 2)
-    }
+    // filter() {
+    //   return this.$store.state.userList.filter(user => user.id === 2)
+    // }
   },
-  methods: {}
+  methods: {
+    createColumn () {
+      let newColumn = {name: this.column.name, board_id: this.boardId}
+      this.$store.dispatch("create_column", newColumn)
+    }
+  }
 }
 </script>

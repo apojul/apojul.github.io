@@ -119,15 +119,20 @@ router.beforeEach(async (to, from, next) => {
     // app.reAuthenticate() is MANDATORY - otherwise jwt is not in LocalStorage
 
     // ??? app.reAuthenticate() causes /oauth to be accessed a second time, with no access token
-    if (to.hash === '') return
-
-    try {
+    if (to.hash !== '') {
+      try {
+      await app('logout')
       let { user } = await app.reAuthenticate()
       console.log('after oauth user', user)
       next('/user_id')
     } catch {
       next('/loggedout')
     }
+  } else {
+    next()
+  }
+
+    
   } else {
     next() // make sure to always call next()!
   }
