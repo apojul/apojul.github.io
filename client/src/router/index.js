@@ -124,7 +124,7 @@ router.beforeEach(async (to, from, next) => {
       await app.logout()
       let { user } = await app.reAuthenticate()
       console.log('after oauth user', user)
-      next('/user_id', {params: { userName: user.nickname }})
+      next({name:'user_id', params: { userName: user.nickname }})
     } catch {
       next('/loggedout')
     }
