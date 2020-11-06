@@ -32,7 +32,7 @@
           <v-col v-for="(item, property, i) in filterColumnList" :key="i">
             <v-card flat class="mx-auto" color="grey lighten-4">
               <v-card-subtitle class="py-1">{{ item.name }}
-              <DeleteColumn :columnId="item.id" clipped-right/>
+              <DeleteColumn :columnId="item.id" />
               <PatchColumn :columnId="item.id" :dialog="patchColumnDisplay" @click="showPatchColumn"/>
               </v-card-subtitle
               ><v-card>
@@ -63,9 +63,7 @@
                 <v-btn x-small text>2</v-btn>
               </v-card>
               <DisplayTasks :columnId="item.id"/>
-              <v-btn small depressed text color="grey lighten-1"
-                ><v-icon dark small>mdi-plus</v-icon>Add another task</v-btn
-              >
+              <AddTask :columnId="item.id" />
             </v-card>
           </v-col>
           <v-col>
@@ -83,11 +81,13 @@
 import DisplayTasks from '@/components/DisplayTasks.vue'
 import DeleteColumn from '@/components/DeleteColumn'
 import PatchColumn from '@/components/PatchColumn'
+import AddTask from '@/components/AddTask'
 export default {
   components: {
     DisplayTasks,
     DeleteColumn,
-    PatchColumn
+    PatchColumn,
+    AddTask
   },
   data() {
     return {
@@ -124,9 +124,6 @@ export default {
         column => column.board_id === this.boardId
       )
     },
-    // filter() {
-    //   return this.$store.state.userList.filter(user => user.id === 2)
-    // }
   },
   methods: {
     createColumn () {

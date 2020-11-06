@@ -19,15 +19,20 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ activeColumn['name'] }}</span>
+          <span class="headline">{{ activeTask[ 'name' ] }}</span>
         </v-card-title>
         
         <v-form>
         <v-card-text>
           <v-text-field
-            label="Name*"
-            :value="activeColumn['name']"
-            @input="sendChanges('name', $event)"
+            label="Title*"
+            :value="activeTask['title']"
+            @input="sendChanges('title', $event)"
+          ></v-text-field>
+          <v-text-field
+            label="Description*"
+            :value="activeTask['description']"
+            @input="sendChanges('description', $event)"
           ></v-text-field>
         </v-card-text>
         </v-form>
@@ -49,7 +54,7 @@
 
 <script>
 export default {
-name: 'PatchColumn',
+name: 'PatchTask',
 /*  props are read only
     the value of dialog is determined by the parent component
     columnId is used to compute activeColumn
@@ -58,10 +63,11 @@ name: 'PatchColumn',
 data () {
   return {
     openDialog: this.dialog
+
   }
 },
 props: {
-    columnId : {
+    taskId : {
         type: Number,
         required: true
     },
@@ -72,10 +78,10 @@ props: {
     }
 },
 computed: {
-    activeColumn () {
-        return Object.values(this.$store.state.columns).filter(
-        column => column.id === this.columnId)[0]
-        
+    activeTask () {
+        let task = Object.values(this.$store.state.tasks).filter(
+        task => task.id === this.taskId)[0]
+        return task
     }
 },
 methods: { // TODO changer @input="sendChanges('name', $event)"  et voir la doc de Vuetify pour comment c'est fait pour du vrai
@@ -83,12 +89,10 @@ methods: { // TODO changer @input="sendChanges('name', $event)"  et voir la doc 
 
      const data = {}
      data[key] = value
-     this.$store.dispatch('patch_column', { id: this.columnId, data })
+     this.$store.dispatch('patch_task', { id: this.taskId, data })
      console.log(
-       'column payload id :',
-       this.columnId,
-       'data: ',
-       data
+       'activeTask :',
+       this.activeTask,
      )
   }
 

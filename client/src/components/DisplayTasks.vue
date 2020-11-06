@@ -5,16 +5,25 @@
                 <v-card-title class="d-flex justify-center"> {{
                     task.title
                 }}</v-card-title>
+    
+    <v-card-actions>
+        <PatchTask :taskId="task.id" :dialog="patchTaskDisplay" @click="showPatchTask"/>
+    </v-card-actions>
     </v-card>
    </v-container>
 </template>
 
 <script>
+import PatchTask from '@/components/PatchTask'
+
 export default {
 name: 'DisplayTasks',
+components: {
+    PatchTask
+},
 data (){
     return {
- //      columnId: 2 
+       patchTaskDisplay: false 
     }  
 },
 props: {
@@ -34,8 +43,12 @@ computed: {
     filterTaskList() {
       let filteredTaskList = Object.values(this.getTaskList).filter(
         task => task.column_id === this.columnId)
-        console.log("filteredTaskList", filteredTaskList)
         return filteredTaskList   
+    }
+},
+methods: {
+    showPatchTask () {
+        this.patchTaskDisplay = !this.patchTaskDisplay
     }
 }
 }
