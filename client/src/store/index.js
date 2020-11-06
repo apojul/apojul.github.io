@@ -103,11 +103,11 @@ export default new Vuex.Store({
     REMOVE_BOARD: (state, board) => {
       Vue.delete(state.boards, board.id)
     },
-    REMOVE_COLUMN: (state, board) => {
-      Vue.delete(state.boards, board.id)
+    REMOVE_COLUMN: (state, column) => {
+      Vue.delete(state.columns, column.id)
     },
-    REMOVE_TASK: (state, board) => {
-      Vue.delete(state.boards, board.id)
+    REMOVE_TASK: (state, task) => {
+      Vue.delete(state.tasks, task.id)
     },
     // Other
     SET_BOARD_DRAWER: state => {

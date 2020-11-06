@@ -31,7 +31,10 @@
           </v-btn>
           <v-col v-for="(item, property, i) in filterColumnList" :key="i">
             <v-card flat class="mx-auto" color="grey lighten-4">
-              <v-card-subtitle class="py-1">{{ item.name }}</v-card-subtitle
+              <v-card-subtitle class="py-1">{{ item.name }}
+              <DeleteColumn :columnId="item.id" clipped-right/>
+              <PatchColumn :columnId="item.id" :dialog="patchColumnDisplay" @click="showPatchColumn"/>
+              </v-card-subtitle
               ><v-card>
                 <v-card
                   flat
@@ -78,9 +81,13 @@
 
 <script>
 import DisplayTasks from '@/components/DisplayTasks.vue'
+import DeleteColumn from '@/components/DeleteColumn'
+import PatchColumn from '@/components/PatchColumn'
 export default {
   components: {
-    DisplayTasks
+    DisplayTasks,
+    DeleteColumn,
+    PatchColumn
   },
   data() {
     return {
@@ -88,7 +95,8 @@ export default {
       columnId: undefined,
       column: {
         name: "test_column",
-      }
+      },
+      patchColumnDisplay: false
     }
   },
   computed: {
@@ -124,6 +132,9 @@ export default {
     createColumn () {
       let newColumn = {name: this.column.name, board_id: this.boardId}
       this.$store.dispatch("create_column", newColumn)
+    },
+    showPatchColumn () {
+      this.patchColumnDisplay = !this.patchColumnDisplay
     }
   }
 }
