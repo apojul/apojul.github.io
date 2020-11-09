@@ -39,7 +39,12 @@
             </v-card-actions>
           </v-card> </v-col
         ><v-col
-          ><v-btn small depressed color="grey lighten-4" class="text-lowercase"
+          ><v-btn
+            small
+            depressed
+            color="grey lighten-4"
+            class="text-lowercase"
+            @click="addBoard"
             ><v-icon dark small>mdi-plus</v-icon>Create new board</v-btn
           ></v-col
         >
@@ -66,6 +71,14 @@ export default {
   methods: {
     delBoard(id) {
       this.$store.dispatch('del_board', id)
+    },
+    addBoard() {
+      const newBoard = {
+        name: 'New Board',
+        description: '',
+        user_id: this.$store.state.activeUser.id
+      }
+      this.$store.dispatch('post_board', newBoard)
     }
   }
 }

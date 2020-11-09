@@ -13,7 +13,7 @@ module.exports = function (app) {
         table.increments('id')
         table.string('name')
         table.string('description')
-        table.integer('created_by ').references('id').inTable('users').notNull().onDelete('CASCADE')
+        table.integer('user_id ').references('id').inTable('users').notNull().onDelete('CASCADE')
         //        table.specificType('members', 'INT[]').references('id').inTable('users').notNull().onDelete('CASCADE');
         //        TODO this is an intermediary table        
         table.string('background')

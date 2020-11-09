@@ -121,18 +121,16 @@ router.beforeEach(async (to, from, next) => {
     // ??? app.reAuthenticate() causes /oauth to be accessed a second time, with no access token
     if (to.hash !== '') {
       try {
-      await app('logout')
-      let { user } = await app.reAuthenticate()
-      console.log('after oauth user', user)
-      next('/user_id')
-    } catch {
-      next('/loggedout')
+        await app.logout()
+        let { user } = await app.reAuthenticate()
+        console.log('after oauth user', user)
+        next({ name: 'user_id', params: { userName: user.nickname } })
+      } catch {
+        next('/loggedout')
+      }
+    } else {
+      next()
     }
-  } else {
-    next()
-  }
-
-    
   } else {
     next() // make sure to always call next()!
   }

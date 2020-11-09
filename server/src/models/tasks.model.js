@@ -15,7 +15,7 @@ module.exports = function (app) {
         table.string('description')
         table.integer('order')
         table.integer('column_id').references('id').inTable('columns').notNull().onDelete('CASCADE')
-        table.integer('created_by').references('id').inTable('users').notNull().onDelete('CASCADE')
+        table.integer('user_id').references('id').inTable('users').notNull().onDelete('CASCADE')
         table.timestamps(true, true)
         table.boolean('archived').defaultTo(false)
       })

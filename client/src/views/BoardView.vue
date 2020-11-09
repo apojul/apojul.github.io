@@ -31,10 +31,14 @@
           </v-btn>
           <v-col v-for="(item, property, i) in filterColumnList" :key="i">
             <v-card flat class="mx-auto" color="grey lighten-4">
-              <v-card-subtitle class="py-1">{{ item.name }}
-              <DeleteColumn :columnId="item.id" clipped-right/>
-              <PatchColumn :columnId="item.id" :dialog="patchColumnDisplay" @click="showPatchColumn"/>
-              </v-card-subtitle
+              <v-card-subtitle class="py-1"
+                >{{ item.name }}
+                <DeleteColumn :column-id="item.id" clipped-right />
+                <PatchColumn
+                  :column-id="item.id"
+                  :dialog="patchColumnDisplay"
+                  @click="showPatchColumn"
+                /> </v-card-subtitle
               ><v-card>
                 <v-card
                   flat
@@ -62,7 +66,7 @@
                 ><v-icon small class="ml-4">mdi-attachment</v-icon>
                 <v-btn x-small text>2</v-btn>
               </v-card>
-              <DisplayTasks :columnId="item.id"/>
+              <DisplayTasks :column-id="item.id" />
               <v-btn small depressed text color="grey lighten-1"
                 ><v-icon dark small>mdi-plus</v-icon>Add another task</v-btn
               >
@@ -94,7 +98,7 @@ export default {
       boardId: this.$route.params.id,
       columnId: undefined,
       column: {
-        name: "test_column",
+        name: 'test_column'
       },
       patchColumnDisplay: false
     }
@@ -123,17 +127,17 @@ export default {
       return Object.values(this.getColumnList).filter(
         column => column.board_id === this.boardId
       )
-    },
+    }
     // filter() {
     //   return this.$store.state.userList.filter(user => user.id === 2)
     // }
   },
   methods: {
-    createColumn () {
-      let newColumn = {name: this.column.name, board_id: this.boardId}
-      this.$store.dispatch("create_column", newColumn)
+    createColumn() {
+      let newColumn = { name: this.column.name, board_id: this.boardId }
+      this.$store.dispatch('create_column', newColumn)
     },
-    showPatchColumn () {
+    showPatchColumn() {
       this.patchColumnDisplay = !this.patchColumnDisplay
     }
   }
