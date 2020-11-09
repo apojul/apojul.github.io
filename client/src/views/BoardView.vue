@@ -87,11 +87,13 @@
 import DisplayTasks from '@/components/DisplayTasks.vue'
 import DeleteColumn from '@/components/DeleteColumn'
 import PatchColumn from '@/components/PatchColumn'
+import AddTask from '@/components/AddTask'
 export default {
   components: {
     DisplayTasks,
     DeleteColumn,
-    PatchColumn
+    PatchColumn,
+    AddTask
   },
   data() {
     return {
@@ -128,9 +130,6 @@ export default {
         column => column.board_id === this.boardId
       )
     }
-    // filter() {
-    //   return this.$store.state.userList.filter(user => user.id === 2)
-    // }
   },
   methods: {
     createColumn() {
