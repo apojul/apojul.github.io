@@ -67,15 +67,8 @@
                 <v-btn x-small text>2</v-btn>
               </v-card>
               <DisplayTasks :column-id="item.id" />
-              <v-btn small depressed text color="grey lighten-1"
-                ><v-icon dark small>mdi-plus</v-icon>Add another task</v-btn
-              >
+              <AddTask :column-id="item.id"/>             
             </v-card>
-          </v-col>
-          <v-col>
-            <v-btn small depressed color="grey lighten-4" @click="createColumn"
-              ><v-icon dark small>mdi-plus</v-icon>Add another list</v-btn
-            >
           </v-col>
         </v-row>
       </v-container>
@@ -88,6 +81,8 @@ import DisplayTasks from '@/components/DisplayTasks.vue'
 import DeleteColumn from '@/components/DeleteColumn'
 import PatchColumn from '@/components/PatchColumn'
 import AddTask from '@/components/AddTask'
+import app from '@/feathers-client'
+
 export default {
   components: {
     DisplayTasks,
@@ -132,12 +127,25 @@ export default {
     }
   },
   methods: {
-    createColumn() {
+    async createColumn() {
       let newColumn = { name: this.column.name, board_id: this.boardId }
-      this.$store.dispatch('create_column', newColumn)
+      await app.service('columns').create({
+        ...newColumn
+      })
     },
     showPatchColumn() {
       this.patchColumnDisplay = !this.patchColumnDisplay
+    },
+    async   handleInput(field, value) {
+      const data = {}
+      data[field] = value
+      app.service('boards').patch({id: this.$route.params.id}, data) 
+      console.log(
+        'patch_board payload id :',
+        this.$route.params.id,
+        'data: ',
+        data
+      )
     }
   }
 }

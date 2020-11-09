@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
 export default {
   data() {
     return {
@@ -76,7 +77,7 @@ export default {
         email: this.email,
         password: this.password
       }
-      await this.$store.dispatch('post_user', user)
+      await app.service('users').create(user)
       await this.$store.dispatch('log_in', {
         email: this.email,
         password: this.password

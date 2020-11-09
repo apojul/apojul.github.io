@@ -18,7 +18,7 @@ methods: {
         this.$store.dispatch('create_task', {
             column_id: this.columnId, 
             title: "New Task",
-            created_by: this.$store.state.activeUser.id
+            user_id: this.$store.state.activeUser.id
             })
     }
 }

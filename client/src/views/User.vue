@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
 export default {
   components: {},
   data() {
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     delBoard(id) {
-      this.$store.dispatch('del_board', id)
+     app.service('boards').remove(id)
     },
     addBoard() {
       const newBoard = {
@@ -78,7 +79,7 @@ export default {
         description: '',
         user_id: this.$store.state.activeUser.id
       }
-      this.$store.dispatch('post_board', newBoard)
+      app.service('boards', newBoard)
     }
   }
 }

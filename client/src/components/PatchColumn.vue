@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
 export default {
 name: 'PatchColumn',
 /*  props are read only
@@ -73,8 +74,8 @@ props: {
 },
 computed: {
     activeColumn () {
-        return Object.values(this.$store.state.columns).filter(
-        column => column.id === this.columnId)[0]
+        return Object.values(this.$store.state.columns).find(
+        column => column.id === this.columnId)
         
     }
 },
@@ -83,7 +84,7 @@ methods: { // TODO changer @input="sendChanges('name', $event)"  et voir la doc 
 
      const data = {}
      data[key] = value
-     this.$store.dispatch('patch_column', { id: this.columnId, data })
+     app.service('columns').patch( {id: this.columnId}, data )
      console.log(
        'column payload id :',
        this.columnId,

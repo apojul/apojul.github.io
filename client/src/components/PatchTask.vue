@@ -19,7 +19,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ activeTask[ 'name' ] }}</span>
+          <span class="headline">{{ activeTask[ 'title' ] }}</span>
         </v-card-title>
         
         <v-form>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import app from '@/feathers-client'
 export default {
 name: 'PatchTask',
 /*  props are read only
@@ -79,23 +80,20 @@ props: {
 },
 computed: {
     activeTask () {
-        let task = Object.values(this.$store.state.tasks).filter(
-        task => task.id === this.taskId)[0]
-        return task
+        return Object.values(this.$store.state.tasks).find(
+        task => task.id === this.taskId)
     }
 },
-methods: { // TODO changer @input="sendChanges('name', $event)"  et voir la doc de Vuetify pour comment c'est fait pour du vrai
+methods: { 
     sendChanges(key, value) {
-
      const data = {}
      data[key] = value
-     this.$store.dispatch('patch_task', { id: this.taskId, data })
+     app.service('tasks').patch({id: this.taskId}, data ) 
      console.log(
        'activeTask :',
        this.activeTask,
      )
   }
-
 }
 }
 </script>

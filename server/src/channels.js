@@ -48,24 +48,24 @@ module.exports = function (app) {
 
   // eslint-disable-next-line no-unused-vars
   app.service('boards').publish((data, hook) => {
-    console.log('EVENT: Board') // eslint-disable-line
+    console.log('EVENT: Board', hook.method) // eslint-disable-line
     return app.channel('authenticated')
   })
   // eslint-disable-next-line no-unused-vars
   app.service('users').publish((data, hook) => {
-    console.log('EVENT: User') // eslint-disable-line
+    console.log('EVENT: User', hook.method) // eslint-disable-line
     return app.channel('authenticated')
   })
 
   // eslint-disable-next-line no-unused-vars
   app.service('columns').publish((data, hook) => {
-    console.log('EVENT: Column') // eslint-disable-line
+    console.log('EVENT: Column', hook.method) // eslint-disable-line
     return app.channel('authenticated')
   })
 
   // eslint-disable-next-line no-unused-vars
   app.service('tasks').publish((data, hook) => {
-    console.log('EVENT: Task') // eslint-disable-line
+    console.log('EVENT: Task', hook.method) // eslint-disable-line
     return app.channel('authenticated')
   })
 
