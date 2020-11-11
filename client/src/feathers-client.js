@@ -56,9 +56,9 @@ app.service('tasks').on('created', task => {
   console.log('TASK EVENT created', task)
   store.commit('SET_NEW_TASK', task)
 })
-app.service('tasks').on('deleted', task => {
-  console.log('TASK EVENT deleted', task)
-  store.commit('DELETE_TASK', task)
+app.service('tasks').on('removed', task => {
+  console.log('TASK EVENT removed', task)
+  store.commit('REMOVE_TASK', task)
 })
 app.service('tasks').on('patched', task => {
   console.log('TASK EVENT patched', task)
@@ -91,6 +91,10 @@ app.on('login', authResult => {
   const { user } = authResult
   console.log('Login!', user.id)
   store.commit('SET_ACTIVE_USER', user)
+  store.dispatch('fetch_board_list')
+  store.dispatch('fetch_column_list')
+  store.dispatch('fetch_task_list')
+  store.dispatch('fetch_user_list')
   // start background uploading process
   //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, columns and tasks) belonging to this user and upload it to state
 })

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import app from '@/feathers-client';
 export default {
 name: 'AddTask',
 props: {
@@ -15,7 +16,7 @@ props: {
 },
 methods: {
     addTask(){
-        this.$store.dispatch('create_task', {
+        app.service('tasks').create({
             column_id: this.columnId, 
             title: "New Task",
             user_id: this.$store.state.activeUser.id

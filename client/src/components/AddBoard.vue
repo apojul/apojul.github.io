@@ -30,33 +30,21 @@
           <v-btn color="blue darken-1" text @click="dialog = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="addBoard">
+          <v-btn color="blue darken-1" text @click="addBoard()">
             Save
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
-
-  <!-- <div>
-		<h3>Create a new board</h3>
-		<form>
-		<v-text-field v-model="name" label="Name"></v-text-field>
-		<v-col cols="12" md="6">
-			<v-textarea v-model="description" label="description"></v-textarea>
-		</v-col>
-		<v-btn class="mr-4" @click="addBoard">
-			Add
-		</v-btn>
-		</form>
-	</div> -->
 </template>
 
 <script>
+import app from '@/feathers-client';
 export default {
   data() {
     return {
-      name: '',
+      name: 'New Board',
       description: '',
       created_by: this.creator,
       dialog: false,
@@ -75,7 +63,7 @@ export default {
         description: this.description,
         created_by: this.creator
       }
-      this.$store.dispatch('post_board', newBoard)
+      app.service('boards').create(newBoard)
       this.dialog = false
     }
   }

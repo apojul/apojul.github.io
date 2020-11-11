@@ -83,8 +83,8 @@ export default {
       app.service('boards').create(newBoard)
     },
     back () {
-      this.$router.replace({
-        name: 'user_id',
+      this.$router.push({
+        path: '/user_id',
         params: { userName: this.$store.state.activeUser.nickname }
       })
     }

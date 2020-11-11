@@ -135,66 +135,20 @@ export default new Vuex.Store({
     // Nom des variables : verve {fetch, create, delete, patch, etc} _object
     //                    or action {log_out}
     // Boards :
-    // TODO Modify components that used dispatch actions that have been deleted
     async fetch_board_list({ commit }) {
       let boardList = await app.service('boards').find()
       commit('SET_BOARDS', boardList)
-    },
-    async create_board(_, payload) {
-      let newBoard = await app.service('boards').create({
-        ...payload
-      })
-      console.log('newBoard =', newBoard)
-    },
-    async post_board(_, board) {
-      await app.service('boards').create(board)
-    },
-    async del_board(_, id) {
-      await app.service('boards').remove(id)
-    },
-    async patch_board(_, board) {
-      await app.service('boards').patch(board.id, board.data)
     },
     // Columns :
     async fetch_column_list({ commit }) {
       const columnList = await app.service('columns').find()
       commit('SET_COLUMNS', columnList)
     },
-    async create_column(_, column) {
-      let newColumn = await app.service('columns').create({
-        ...column
-      })
-      console.log('newColumn =', newColumn)
-    },
-    async post_column(_, column) {
-      await app.service('columns').create(column)
-    },
-    async del_column(_, id) {
-      await app.service('columns').remove(id)
-    },
-    async patch_column(_, column) {
-      await app.service('columns').patch(column.id, column.data)
-    },
     // Tasks :
     async fetch_task_list({ commit }) {
       const taskList = await app.service('tasks').find()
       console.log("task list", taskList);
       commit('SET_TASKS', taskList)
-    },
-    async create_task(_, task) {
-      let newTask = await app.service('tasks').create({
-        ...task
-      })
-      console.log('newTask =', newTask)
-    },
-    async post_task(_, task) {
-      await app.service('tasks').create(task)
-    },
-    async del_task(_, id) {
-      await app.service('tasks').remove(id)
-    },
-    async patch_task(_, task) {
-      await app.service('tasks').patch(task.id, task.data)
     },
     // USER :
     async log_in(_, payload) {
@@ -224,20 +178,11 @@ export default new Vuex.Store({
       let userList = await app.service('users').find()
       commit('SET_OTHER_USERS', userList)
     },
-    async post_user(_, user) {
-      await app.service('users').create(user)
-    },
     /* Pour delete user il faut desider ce qu'on veut faire 
     quand on enleve un utilisateur de l'appli :
     - soit on fait delete
     - soit on a un champ active qui passe a false
     */
-    async del_user(_, id) {
-      await app.service('users').remove(id)
-    },
-    async patch_user(_, user) {
-      await app.service('users').patch(user.id, user.data)
-    }
   },
   modules: {}
 })
