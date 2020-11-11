@@ -4,7 +4,7 @@
   icon
   x-small
   clipped-right
-  @click="deleteColumn"
+  @click="deleteItem"
   >
       <v-icon> mdi-delete-empty</v-icon>
   </v-btn>
@@ -13,16 +13,21 @@
 <script>
 import app from '@/feathers-client'
 export default {
-name: 'DeleteColumn',
+name: 'Delete',
 props: {
-    columnId : {
+    itemId : {
         type: Number,
+        required: true
+    },
+    service: {
+        type: String,
         required: true
     }
 },
 methods: {
-    deleteColumn(){
-        app.service('columns').remove(this.columnId)
+    deleteItem(){
+    console.log('service', this.service, 'itemId', this.itemId);
+        app.service(this.service).remove(this.itemId)
     }
 }
 }

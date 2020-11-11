@@ -2,7 +2,7 @@
   <v-app>
     <v-container class="grey lighten-5 mb-6">
       <v-row no-gutters>
-        <v-col v-for="(item, id) in boardsList" :key="id" cols="3">
+        <v-col v-for="(item, key) in boardsList" :key="key" cols="3">
           <v-card
             class="ma-2"
             color="blue lighten-3"
@@ -17,16 +17,12 @@
               item['description']
             }}</v-card-subtitle>
             <v-card-actions>
-              <v-btn
-                fab
-                icon
-                x-small
-                class="ma-2"
-                :to="{ name: 'user_id' }"
-                @click="delBoard(item.id)"
-              >
-                <v-icon dark small>mdi-pencil-outline</v-icon>
-              </v-btn>
+              <Delete 
+              :item-id='item.id' 
+              service='boards' 
+              @click="back()"               
+              /> 
+
               <v-btn
                 fab
                 icon
@@ -54,9 +50,14 @@
 </template>
 
 <script>
+import Delete from '@/components/Delete' 
+
+
 import app from '@/feathers-client'
 export default {
-  components: {},
+  components: {
+    Delete
+  },
   data() {
     return {}
   },
@@ -79,7 +80,13 @@ export default {
         description: '',
         user_id: this.$store.state.activeUser.id
       }
-      app.service('boards', newBoard)
+      app.service('boards').create(newBoard)
+    },
+    back () {
+      this.$router.replace({
+        name: 'user_id',
+        params: { userName: this.$store.state.activeUser.nickname }
+      })
     }
   }
 }

@@ -33,7 +33,7 @@
             <v-card flat class="mx-auto" color="grey lighten-4">
               <v-card-subtitle class="py-1"
                 >{{ item.name }}
-                <DeleteColumn :column-id="item.id" clipped-right />
+               <Delete service='columns' :item-id="item.id" clipped-right />
                 <PatchColumn
                   :column-id="item.id"
                   :dialog="patchColumnDisplay"
@@ -78,15 +78,17 @@
 
 <script>
 import DisplayTasks from '@/components/DisplayTasks.vue'
-import DeleteColumn from '@/components/DeleteColumn'
+import Delete from '@/components/Delete'
 import PatchColumn from '@/components/PatchColumn'
 import AddTask from '@/components/AddTask'
 import app from '@/feathers-client'
 
+
+
 export default {
   components: {
     DisplayTasks,
-    DeleteColumn,
+    Delete,
     PatchColumn,
     AddTask
   },

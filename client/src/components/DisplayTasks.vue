@@ -8,6 +8,8 @@
     
     <v-card-actions>
         <PatchTask :taskId="task.id" :dialog="patchTaskDisplay" @click="showPatchTask"/>
+        <Delete :item-id="task.id" service="tasks" />
+
     </v-card-actions>
     </v-card>
    </v-container>
@@ -15,11 +17,14 @@
 
 <script>
 import PatchTask from '@/components/PatchTask'
+import Delete from '@/components/Delete'
+
 
 export default {
 name: 'DisplayTasks',
 components: {
-    PatchTask
+    PatchTask,
+    Delete
 },
 data (){
     return {
