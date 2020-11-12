@@ -139,7 +139,7 @@ export default new Vuex.Store({
     //                    or action {log_out}
     // Boards :
     async fetch_board_list({ commit }) {
-      let boardList = await app.service('boards').find()
+      const boardList = await app.service('boards').find()
       commit('SET_BOARDS', boardList)
     },
     // Columns :
@@ -150,7 +150,6 @@ export default new Vuex.Store({
     // Tasks :
     async fetch_task_list({ commit }) {
       const taskList = await app.service('tasks').find()
-      console.log('task list', taskList)
       commit('SET_TASKS', taskList)
     },
     // USER :
@@ -169,7 +168,7 @@ export default new Vuex.Store({
       } // aficher un message
     },
     async log_out() {
-      router.push('/')
+      router.replace('/')
       await app.logout()
     },
     async sign_up(_, payload) {

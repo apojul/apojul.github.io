@@ -87,7 +87,6 @@ app.service('users').on('patched', user => {
 
 app.on('login', authResult => {
   const { user } = authResult
-  console.log('Login!', user.id)
   store.commit('SET_ACTIVE_USER', user)
   store.dispatch('fetch_board_list')
   store.dispatch('fetch_column_list')

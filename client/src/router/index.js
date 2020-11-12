@@ -88,12 +88,7 @@ const routes = [
   //   // this generates a separate chunk (about.[hash].js) for this route
   //   // which is lazy-loaded when the route is visited.
   //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/Ab router.beforeEach(async(to, from, next) => {
-  /* try {
-  const auth = await store.state.activeUser
-  if (!auth) {
-    console.log(this)
-    next({ namerouter.beforeEach((to, from, next) => {out.vue") */
+  //     import(/* webpackChunkName: "about" */ "../views/About.vue") */
   // }
 ]
 
@@ -123,7 +118,6 @@ router.beforeEach(async (to, from, next) => {
       try {
         await app.logout()
         let { user } = await app.reAuthenticate()
-        console.log('after oauth user', user)
         next({ name: 'user_id', params: { userName: user.nickname } })
       } catch {
         next('/loggedout')

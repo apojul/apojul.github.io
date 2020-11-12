@@ -66,9 +66,6 @@ export default {
     }
   },
   methods: {
-    delBoard(id) {
-      app.service('boards').remove(id)
-    },
     addBoard() {
       const newBoard = {
         name: 'New Board',

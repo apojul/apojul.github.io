@@ -73,7 +73,6 @@ export default {
       const data = {}
       data[key] = value
       app.service('tasks').patch({ id: this.taskId }, data)
-      console.log('activeTask :', this.activeTask)
     }
   }
 }

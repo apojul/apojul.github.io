@@ -69,7 +69,6 @@ export default {
       const data = {}
       data[key] = value
       app.service('columns').patch({ id: this.columnId }, data)
-      console.log('column payload id :', this.columnId, 'data: ', data)
     }
   }
 }

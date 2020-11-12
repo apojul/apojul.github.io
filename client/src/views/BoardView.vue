@@ -96,17 +96,6 @@ export default {
       data[field] = value
       app.service('boards').patch({ id: this.$route.params.id }, data)
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (vm.$store.state.boards[vm.$route.params.id]) {
-        next()
-      }
-      next({
-        name: 'user_id',
-        params: { userName: vm.$store.state.activeUser.nickname }
-      })
-    })
   }
 }
 </script>
