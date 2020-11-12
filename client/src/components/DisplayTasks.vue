@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <p>{{ columnId }}</p>
-    <v-card v-for="(task, property, i) in filterTaskList" :key="i">
+    <v-card v-for="(task, i) in filterTaskList" :key="i">
       <v-card-title class="d-flex justify-center">
         {{ task.title }}</v-card-title
       >

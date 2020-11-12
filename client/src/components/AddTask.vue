@@ -6,6 +6,7 @@
 
 <script>
 import app from '@/feathers-client'
+
 export default {
   name: 'AddTask',
   props: {

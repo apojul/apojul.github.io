@@ -51,7 +51,7 @@ export default {
       boardId: this.$route.params.id,
       columnId: undefined,
       column: {
-        name: 'test_column'
+        name: 'another list'
       },
       patchColumnDisplay: false
     }

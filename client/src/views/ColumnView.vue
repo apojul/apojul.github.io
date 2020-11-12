@@ -29,21 +29,21 @@
       ><v-icon small class="ml-4">mdi-attachment</v-icon>
       <v-btn x-small text>2</v-btn>
     </v-card>
-    <DisplayTasks :column-id="columnId" />
+    <Task :column-id="columnId" />
     <AddTask :column-id="columnId" />
   </v-card>
 </template>
 
 <script>
 import DeleteButton from '@/components/DeleteButton'
-import DisplayTasks from '@/components/DisplayTasks.vue'
+import Task from '@/views/TaskView'
 import AddTask from '@/components/AddTask'
 
 export default {
   name: 'Column',
   components: {
     DeleteButton,
-    DisplayTasks,
+    Task,
     AddTask
   },
   props: {
