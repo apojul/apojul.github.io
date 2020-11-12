@@ -26,7 +26,6 @@ props: {
 },
 methods: {
     deleteItem(){
-    console.log('service', this.service, 'itemId', this.itemId);
         app.service(this.service).remove(this.itemId)
     }
 }

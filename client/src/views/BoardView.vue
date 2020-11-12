@@ -29,7 +29,7 @@
           >
             <v-icon left small> mdi-arrow-left </v-icon>Back
           </v-btn>
-          <v-col v-for="(item, property, i) in filterColumnList" :key="i">
+          <v-col v-for="item in filterColumnList" :key="item.id">
             <v-card flat class="mx-auto" color="grey lighten-4">
               <v-card-subtitle class="py-1"
                 >{{ item.name }}

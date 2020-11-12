@@ -29,12 +29,10 @@ app.service('boards').on('created', board => {
 })
 
 app.service('boards').on('removed', board => {
-  //"created" is the name of the channel this event is bradcasted on
   console.log('BOARDS EVENT removed', board)
   store.commit('REMOVE_BOARD', board) //TODO mutation
 })
 app.service('boards').on('patched', board => {
-  //"created" is the name of the channel this event is bradcasted on
   console.log('BOARDS EVENT modified', board)
   store.commit('SET_NEW_BOARD', board) // Mutation is the same for setting or patching: Vue.set(...)
 })

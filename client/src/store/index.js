@@ -53,33 +53,32 @@ export default new Vuex.Store({
     SET_BOARDS: (state, boardList) => {
       state.boards = {}
       boardList.forEach(board => {
-        state.boards[board.id] = board
+        Vue.set(state.boards,board.id, board)
       })
     },
     SET_COLUMNS: (state, columnsList) => {
       state.columns = {}
       columnsList.forEach(columns => {
-        state.columns[columns.id] = columns
+        Vue.set(state.columns, columns.id, columns)
       })
     },
     SET_TASKS: (state, tasksList) => {
       state.tasks = {}
       tasksList.forEach(task => {
-        state.tasks[task.id] = task
+        Vue.set(state.tasks, task.id, task)
       })
     },
     SET_OTHER_USERS: (state, userList) => {
       state.users = {}
       userList.forEach(user => {
-        state.users[user.id] = user
+        Vue.set(state.users, user.id, user)
       })
     },
     SET_ONLINE_USERS: (state, conUsers) => {
-      state.OnLineUsers = undefined
-      state.OnLineUsers = conUsers.authenticatedUsers.map(user => user.id)
+      Vue.set(state, 'OnLineUsers', conUsers.authenticatedUsers.map(user => user.id))
     },
     SET_ACTIVE_USER: (state, user) => {
-      state.activeUser = user
+      Vue.set(state, 'activeUser', user)
       router.replace({
         name: 'user_id',
         params: { userName: user.nickname }
@@ -90,8 +89,8 @@ export default new Vuex.Store({
       //is equal to state.boards[board.id]=board
       Vue.set(state.boards, board.id, board)
     },
-    SET_NEW_COLUMN: (state, columns) => {
-      Vue.set(state.columns, columns.id, columns)
+    SET_NEW_COLUMN: (state, column) => {
+      Vue.set(state.columns, column.id, column)
     },
     SET_NEW_TASK: (state, task) => {
       Vue.set(state.tasks, task.id, task)
@@ -111,18 +110,18 @@ export default new Vuex.Store({
     },
     // Other
     SET_BOARD_DRAWER: state => {
-      state.boardDrawer = !state.boardDrawer
+      Vue.set(state, 'boardDrawer', !state.boardDrawer)
     },
     SET_USER_DRAWER: state => {
-      state.userDrawer = !state.userDrawer
+      Vue.set(state, 'userDrawer', state.userDrawer)
     },
     CLEAR_SESSION: state => {
       Object.keys(state).forEach(key => {
-        state[key] = undefined
+        Vue.set(state, key, undefined)
       })
     },
     SET_LOADING: state => {
-      state.loading = !state.loading
+      Vue.set(state, 'loading', state.loading)
     }
   },
   actions: {
