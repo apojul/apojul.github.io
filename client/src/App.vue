@@ -18,3 +18,15 @@ export default {
   }
 }
 </script>
+
+<style>
+.container {
+  border: 1px solid green;
+}
+.row {
+  border: 1px solid red;
+}
+.col {
+  border: 1px solid blue;
+}
+</style>

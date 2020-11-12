@@ -71,18 +71,18 @@ export default {
     }
   },
   methods: {
-   handleInput(field, value) {
+    handleInput(field, value) {
       const data = {}
       data[field] = value
-      app.service('boards').patch({id: this.$route.params.id}, data) 
+      app.service('boards').patch({ id: this.$route.params.id }, data)
       console.log(
         'patch_board payload id :',
         this.$route.params.id,
         'data: ',
         data
       )
+    }
   }
-}
 }
 </script>
 

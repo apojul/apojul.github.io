@@ -9,7 +9,7 @@
           dense
           background-color="blue lighten-4"
           class="ms-8 mt-6"
-          @input="handleInput('name', $event)"
+          @input="patchBoard('name', $event)"
         >
         </v-text-field
       ></v-col>
@@ -30,45 +30,7 @@
             <v-icon left small> mdi-arrow-left </v-icon>Back
           </v-btn>
           <v-col v-for="item in filterColumnList" :key="item.id">
-            <v-card flat class="mx-auto" color="grey lighten-4">
-              <v-card-subtitle class="py-1"
-                >{{ item.name }}
-               <Delete service='columns' :item-id="item.id" clipped-right />
-                <PatchColumn
-                  :column-id="item.id"
-                  :dialog="patchColumnDisplay"
-                  @click="showPatchColumn"
-                /> </v-card-subtitle
-              ><v-card>
-                <v-card
-                  flat
-                  dark
-                  height="100px"
-                  color="green lighten-1"
-                  class="px-auto"
-                  ><v-card-actions class="d-flex justify-end"
-                    ><v-btn
-                      depressed
-                      x-small
-                      fab
-                      tile
-                      color="green lighten-1"
-                      class="d-flex"
-                      ><v-icon>mdi-pencil-outline</v-icon></v-btn
-                    ></v-card-actions
-                  >
-                  <v-card-title class="d-flex justify-center mt-n7">{{
-                    item.name
-                  }}</v-card-title></v-card
-                >
-                <v-card-text class="mt-n2 mb-n4"> {{ item.id }} </v-card-text
-                ><v-icon small class="ml-4">mdi-menu</v-icon
-                ><v-icon small class="ml-4">mdi-attachment</v-icon>
-                <v-btn x-small text>2</v-btn>
-              </v-card>
-              <DisplayTasks :column-id="item.id" />
-              <AddTask :column-id="item.id"/>             
-            </v-card>
+            <Column :column-id="item.id" />
           </v-col>
         </v-row>
       </v-container>
@@ -77,20 +39,12 @@
 </template>
 
 <script>
-import DisplayTasks from '@/components/DisplayTasks.vue'
-import Delete from '@/components/Delete'
-import PatchColumn from '@/components/PatchColumn'
-import AddTask from '@/components/AddTask'
+import Column from '@/views/ColumnView'
 import app from '@/feathers-client'
-
-
 
 export default {
   components: {
-    DisplayTasks,
-    Delete,
-    PatchColumn,
-    AddTask
+    Column
   },
   data() {
     return {
@@ -106,7 +60,6 @@ export default {
     getBoard() {
       if (this.$store.state.boards === undefined) {
         this.$store.dispatch('fetch_board_list')
-        console.log('fetch_board_list dispatched from BoardView.vue')
         return []
       }
       if (this.boardId) {
@@ -138,17 +91,22 @@ export default {
     showPatchColumn() {
       this.patchColumnDisplay = !this.patchColumnDisplay
     },
-    async   handleInput(field, value) {
+    async patchBoard(field, value) {
       const data = {}
       data[field] = value
-      app.service('boards').patch({id: this.$route.params.id}, data) 
-      console.log(
-        'patch_board payload id :',
-        this.$route.params.id,
-        'data: ',
-        data
-      )
+      app.service('boards').patch({ id: this.$route.params.id }, data)
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (vm.$store.state.boards[vm.$route.params.id]) {
+        next()
+      }
+      next({
+        name: 'user_id',
+        params: { userName: vm.$store.state.activeUser.nickname }
+      })
+    })
   }
 }
 </script>

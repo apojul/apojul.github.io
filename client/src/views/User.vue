@@ -2,33 +2,29 @@
   <v-app>
     <v-container class="grey lighten-5 mb-6">
       <v-row no-gutters>
-        <v-col v-for="(item, key) in boardsList" :key="key" cols="3">
+        <v-col v-for="(board, key) in boardsList" :key="key" cols="3">
           <v-card
             class="ma-2"
             color="blue lighten-3"
-            :to="{ name: 'boardId', params: { id: item.id } }"
+            :to="{ name: 'boardId', params: { id: board.id } }"
           >
             <v-card-title
               ><v-btn small depressed color="grey lighten-1">{{
-                item.name
+                board.name
               }}</v-btn></v-card-title
             >
             <v-card-subtitle class="text-wrap">{{
-              item['description']
+              board['description']
             }}</v-card-subtitle>
             <v-card-actions>
-              <Delete 
-              :item-id='item.id' 
-              service='boards' 
-              @click="back()"               
-              /> 
+              <DeleteButton :item-id="board.id" service="boards" />
 
               <v-btn
                 fab
                 icon
                 x-small
                 class="ma-2"
-                :to="{ name: 'PatchBoard', params: { id: item.id } }"
+                :to="{ name: 'PatchBoard', params: { id: board.id } }"
               >
                 <v-icon dark small left>mdi-pencil-outline</v-icon>
               </v-btn>
@@ -50,13 +46,12 @@
 </template>
 
 <script>
-import Delete from '@/components/Delete' 
-
+import DeleteButton from '@/components/DeleteButton'
 
 import app from '@/feathers-client'
 export default {
   components: {
-    Delete
+    DeleteButton
   },
   data() {
     return {}
@@ -72,7 +67,7 @@ export default {
   },
   methods: {
     delBoard(id) {
-     app.service('boards').remove(id)
+      app.service('boards').remove(id)
     },
     addBoard() {
       const newBoard = {
@@ -81,12 +76,6 @@ export default {
         user_id: this.$store.state.activeUser.id
       }
       app.service('boards').create(newBoard)
-    },
-    back () {
-      this.$router.push({
-        path: '/user_id',
-        params: { userName: this.$store.state.activeUser.nickname }
-      })
     }
   }
 }

@@ -30,7 +30,7 @@ app.service('boards').on('created', board => {
 
 app.service('boards').on('removed', board => {
   console.log('BOARDS EVENT removed', board)
-  store.commit('REMOVE_BOARD', board) //TODO mutation
+  store.commit('REMOVE_BOARD', board)
 })
 app.service('boards').on('patched', board => {
   console.log('BOARDS EVENT modified', board)
@@ -93,8 +93,6 @@ app.on('login', authResult => {
   store.dispatch('fetch_column_list')
   store.dispatch('fetch_task_list')
   store.dispatch('fetch_user_list')
-  // start background uploading process
-  //uploadDICOMFiles(user)TODO : figure out a way to identify all the data (borads, columns and tasks) belonging to this user and upload it to state
 })
 app.on('logout', authResult => {
   const { user } = authResult

@@ -53,7 +53,7 @@ export default new Vuex.Store({
     SET_BOARDS: (state, boardList) => {
       state.boards = {}
       boardList.forEach(board => {
-        Vue.set(state.boards,board.id, board)
+        Vue.set(state.boards, board.id, board)
       })
     },
     SET_COLUMNS: (state, columnsList) => {
@@ -75,7 +75,11 @@ export default new Vuex.Store({
       })
     },
     SET_ONLINE_USERS: (state, conUsers) => {
-      Vue.set(state, 'OnLineUsers', conUsers.authenticatedUsers.map(user => user.id))
+      Vue.set(
+        state,
+        'OnLineUsers',
+        conUsers.authenticatedUsers.map(user => user.id)
+      )
     },
     SET_ACTIVE_USER: (state, user) => {
       Vue.set(state, 'activeUser', user)
@@ -146,7 +150,7 @@ export default new Vuex.Store({
     // Tasks :
     async fetch_task_list({ commit }) {
       const taskList = await app.service('tasks').find()
-      console.log("task list", taskList);
+      console.log('task list', taskList)
       commit('SET_TASKS', taskList)
     },
     // USER :
@@ -176,7 +180,7 @@ export default new Vuex.Store({
     async fetch_user_list({ commit }) {
       let userList = await app.service('users').find()
       commit('SET_OTHER_USERS', userList)
-    },
+    }
     /* Pour delete user il faut desider ce qu'on veut faire 
     quand on enleve un utilisateur de l'appli :
     - soit on fait delete

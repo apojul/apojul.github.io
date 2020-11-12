@@ -113,7 +113,7 @@ export default {
     },
     loading() {
       this.$store.commit('SET_LOADING')
-      console.log('loading : ', this.$store.state.loading);
+      console.log('loading : ', this.$store.state.loading)
     }
   }
 }

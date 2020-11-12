@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import app from '@/feathers-client';
+import app from '@/feathers-client'
 export default {
   data() {
     return {
