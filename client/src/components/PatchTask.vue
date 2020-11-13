@@ -1,39 +1,37 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="openDialog" width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn fab icon x-small color="primary" dark v-bind="attrs" v-on="on">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="headline">{{ activeTask['title'] }}</span>
-        </v-card-title>
+  <v-dialog v-model="openDialog" width="600px">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn fab icon x-small color="primary" dark v-bind="attrs" v-on="on">
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <span class="headline">{{ activeTask['title'] }}</span>
+      </v-card-title>
 
-        <v-form>
-          <v-card-text>
-            <v-text-field
-              label="Title*"
-              :value="activeTask['title']"
-              @input="sendChanges('title', $event)"
-            ></v-text-field>
-            <v-text-field
-              label="Description*"
-              :value="activeTask['description']"
-              @input="sendChanges('description', $event)"
-            ></v-text-field>
-          </v-card-text>
-        </v-form>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="openDialog = false">
-            Done
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+      <v-form>
+        <v-card-text>
+          <v-text-field
+            label="Title*"
+            :value="activeTask['title']"
+            @input="sendChanges('title', $event)"
+          ></v-text-field>
+          <v-text-field
+            label="Description*"
+            :value="activeTask['description']"
+            @input="sendChanges('description', $event)"
+          ></v-text-field>
+        </v-card-text>
+      </v-form>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="green darken-1" text @click="openDialog = false">
+          Done
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>

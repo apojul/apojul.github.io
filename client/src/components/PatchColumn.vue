@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="openDialog" width="600px">
+    <v-dialog v-model="openDialog" persistent width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn fab icon x-small color="primary" dark v-bind="attrs" v-on="on">
-          <v-icon>mdi-magnify</v-icon>
+          <v-icon>mdi-pencil</v-icon>
         </v-btn>
       </template>
       <v-card>

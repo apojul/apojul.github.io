@@ -99,8 +99,8 @@ export default new Vuex.Store({
     SET_NEW_TASK: (state, task) => {
       Vue.set(state.tasks, task.id, task)
     },
-    SET_NEW_USER: (state, user) => {
-      Vue.set(state.users, user.id, user)
+    PATCH_ACTIVE_USER: (state, user) => {
+      Vue.set(state, 'activeUser', user)
     },
     // Delete existing objects
     REMOVE_BOARD: (state, board) => {

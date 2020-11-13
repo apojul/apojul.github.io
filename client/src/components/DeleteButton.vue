@@ -1,6 +1,7 @@
 <template>
-  <v-btn fab icon x-small clipped-right @click.stop="deleteItem">
+  <v-btn fab icon x-small @click.stop="deleteItem">
     <v-icon> mdi-delete-empty</v-icon>
+    <slot></slot>
   </v-btn>
 </template>
 
@@ -21,12 +22,6 @@ export default {
   methods: {
     deleteItem() {
       app.service(this.service).remove(this.itemId)
-      if (this.service === 'boards') {
-        this.$router.replace({
-          name: 'user_id',
-          params: { userName: this.$store.state.activeUser.nickname }
-        })
-      }
     }
   }
 }

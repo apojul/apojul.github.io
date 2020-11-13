@@ -48,13 +48,50 @@
       >
         <v-icon>
           mdi-account-multiple-outline
-        </v-icon>
-      </v-btn>
+        </v-icon> </v-btn
+      ><v-menu :close-on-content-click="false">
+        <template v-slot:activator="{ on }"
+          ><v-btn icon v-on="on"
+            ><v-icon color="white">mdi-dots-vertical</v-icon></v-btn
+          ></template
+        ><v-list no-wrapclass="flex-column"
+          ><v-list-item class="align-baseline"
+            >Name :
+            <v-text-field
+              flat
+              solo
+              dense
+              :value="activeUser['nickname']"
+              @input="handleProfile('nickname', $event, 'users')"
+            ></v-text-field></v-list-item
+          ><v-list-item class="align-baseline"
+            >email :
+            <v-text-field
+              flat
+              solo
+              dense
+              :value="activeUser['email']"
+              @input="handleProfile('email', $event, 'users')"
+            ></v-text-field
+          ></v-list-item>
+          <v-list-item class="align-baseline"
+            >Avatar :
+            <v-textarea
+              flat
+              solo
+              dense
+              :value="activeUser['avatar']"
+              @input="handleProfile('avatar', $event, 'users')"
+            ></v-textarea></v-list-item
+        ></v-list>
+      </v-menu>
     </v-responsive>
   </v-app-bar>
 </template>
 
 <script>
+import app from '@/feathers-client'
+
 export default {
   name: 'NavBar',
   data() {
@@ -68,6 +105,11 @@ export default {
     }
   },
   methods: {
+    handleProfile(field, value, service) {
+      const data = {}
+      data[field] = value
+      app.service(service).patch(this.activeUser.id, data)
+    },
     boardDrawerState() {
       this.$store.commit('SET_BOARD_DRAWER')
     },

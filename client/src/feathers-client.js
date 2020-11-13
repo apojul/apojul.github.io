@@ -82,7 +82,7 @@ app.service('users').on('deleted', user => {
 })
 app.service('users').on('patched', user => {
   console.log('USER EVENT patched', user)
-  store.commit('SET_NEW_USER', user)
+  store.commit('PATCH_ACTIVE_USER', user)
 })
 
 app.on('login', authResult => {

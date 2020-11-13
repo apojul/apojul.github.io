@@ -9,9 +9,23 @@
   >
     <v-list v-if="$store.state.users">
       <v-layout column align-center>
-        <v-list-item-title class="title blue--text" align-center>
-          ON LINE
-        </v-list-item-title>
+        <v-list-item-title class="title blue--text"> ON LINE </v-list-item-title
+        ><v-menu>
+          <template v-slot:activator="{ on }"
+            ><v-btn icon v-on="on"
+              ><v-icon color="blue">mdi-dots-vertical</v-icon></v-btn
+            ></template
+          ><v-list class="flex-column"
+            ><v-list-item
+              v-for="(value, property) in activeUser"
+              :key="property.id"
+              class="align-baseline"
+              >{{ property }} :
+              <v-text-field solo dense :value="value"></v-text-field
+              ><v-icon small>mdi-pencil</v-icon></v-list-item
+            ></v-list
+          >
+        </v-menu>
 
         <v-list-item v-for="(item, i) in conUserList" :key="i">
           <v-list-item-content>
@@ -36,6 +50,9 @@ export default {
   name: 'UserDrawer',
 
   computed: {
+    activeUser() {
+      return this.$store.state.activeUser
+    },
     conUserList() {
       if (this.$store.state.OnLineUsers === undefined) {
         return []

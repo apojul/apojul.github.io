@@ -1,32 +1,34 @@
 <template>
   <v-container>
-    <p>{{ columnId }}</p>
-    <v-card v-for="task in filterTaskList" :key="task.id">
-      <v-card-title class="d-flex justify-center"
+    <v-row v-for="task in filterTaskList" :key="task.id" class="d-flex"
+      ><v-card max-height="120px"
         ><v-text-field
           :value="task.title"
           solo
           flat
           dense
+          align="center"
           @input="patchTask('title', $event)"
         >
         </v-text-field>
-      </v-card-title>
-
-      <v-card-actions>
-        <PatchTask
-          :task-id="task.id"
-          :dialog="patchTaskDisplay"
-          @click="showPatchTask"
-        />
-        <DeleteButton :item-id="task.id" service="tasks" />
-      </v-card-actions>
-    </v-card>
+        <v-card-actions
+          ><v-row
+            ><v-col
+              ><PatchTask
+                class="justify-start"
+                :task-id="task.id"
+                :dialog="patchTaskDisplay"
+                @click="showPatchTask"/></v-col
+            ><v-spacer></v-spacer
+            ><v-col> <DeleteButton :item-id="task.id" service="tasks"/></v-col
+          ></v-row>
+        </v-card-actions> </v-card
+    ></v-row>
   </v-container>
 </template>
 
 <script>
-import app from '@/feathers-client'
+//import app from '@/feathers-client'
 import PatchTask from '@/components/PatchTask'
 import DeleteButton from '@/components/DeleteButton'
 
@@ -64,10 +66,9 @@ export default {
   },
   methods: {
     patchTask(key, value) {
-      console.log('PatchTask', key, value)
       const data = {}
-      data[key] = value
-      app.service('tasks').patch(this, data)
+      data[key] = value /* 
+      app.service('tasks').patch({id:}, data) */
     },
     showPatchTask() {
       this.patchTaskDisplay = !this.patchTaskDisplay

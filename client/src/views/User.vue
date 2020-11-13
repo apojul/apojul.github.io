@@ -6,7 +6,7 @@
           <v-card
             class="ma-2"
             color="blue lighten-3"
-            :to="{ name: 'boardId', params: { id: board.id } }"
+            @click="goToBoard(board.id)"
           >
             <v-card-title
               ><v-btn small depressed color="grey lighten-1">{{
@@ -17,17 +17,26 @@
               board['description']
             }}</v-card-subtitle>
             <v-card-actions>
-              <DeleteButton :item-id="board.id" service="boards" />
-
-              <v-btn
-                fab
-                icon
-                x-small
-                class="ma-2"
-                :to="{ name: 'PatchBoard', params: { id: board.id } }"
+              <v-row
+                ><v-col cols="3">
+                  <DeleteButton
+                    :item-id="board.id"
+                    service="boards"
+                    @click="deleteChange"
+                  /> </v-col
+                ><v-spacer></v-spacer
+                ><v-col cols="3">
+                  <v-btn
+                    fab
+                    icon
+                    x-small
+                    class="ma-2"
+                    :to="{ name: 'PatchBoard', params: { id: board.id } }"
+                  >
+                    <v-icon dark small>mdi-pencil-outline</v-icon>
+                  </v-btn></v-col
+                ></v-row
               >
-                <v-icon dark small left>mdi-pencil-outline</v-icon>
-              </v-btn>
             </v-card-actions>
           </v-card> </v-col
         ><v-col
@@ -54,7 +63,9 @@ export default {
     DeleteButton
   },
   data() {
-    return {}
+    return {
+      deleteTrue: true
+    }
   },
   computed: {
     boardsList() {
@@ -73,6 +84,15 @@ export default {
         user_id: this.$store.state.activeUser.id
       }
       app.service('boards').create(newBoard)
+    },
+    deleteChange() {
+      this.deleteTrue = false
+    },
+    goToBoard(id) {
+      if (this.deleteTrue) {
+        this.$router.push({ name: 'boardId', params: { id: id } })
+      }
+      this.deleteTrue = true
     }
   }
 }
