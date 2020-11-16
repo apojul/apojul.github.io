@@ -65,6 +65,7 @@ export default {
     patchTask: debounce(function(key, value) {
       const data = {}
       data[key] = value
+      console.log('ext')
       app.service('tasks').patch({ id: this.taskId }, data)
     }, 800),
     showPatchTask() {

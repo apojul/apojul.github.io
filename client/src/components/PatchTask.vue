@@ -35,7 +35,9 @@
 </template>
 
 <script>
+import { debounce } from 'debounce'
 import app from '@/feathers-client'
+
 export default {
   name: 'PatchTask',
   props: {
@@ -49,11 +51,6 @@ export default {
       default: false
     }
   },
-  /*  props are read only
-    the value of dialog is determined by the parent component
-    columnId is used to compute activeColumn
-    
-*/
   data() {
     return {
       openDialog: this.dialog
@@ -67,11 +64,12 @@ export default {
     }
   },
   methods: {
-    sendChanges(key, value) {
+    sendChanges: debounce(function(key, value) {
       const data = {}
       data[key] = value
+      console.log('int')
       app.service('tasks').patch({ id: this.taskId }, data)
-    }
+    }, 800)
   }
 }
 </script>
