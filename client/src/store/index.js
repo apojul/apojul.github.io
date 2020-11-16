@@ -15,7 +15,7 @@ export default new Vuex.Store({
     users: undefined, //all the other user      localStorage.clear()
 
     OnLineUsers: undefined, // other users who are currently online
-    activeUser: undefined, //current user, TODO ici c'est just une id
+    activeUserId: undefined, //current user, TODO ici c'est just une id
 
     // Communication between components
     boardDrawer: false,
@@ -33,6 +33,12 @@ export default new Vuex.Store({
     // on l'appelle avec les arguments en parentheses
   },
   getters: {
+    activeUser: state => {
+      if (state.users === undefined) {
+        return {}
+      }
+      return state.users[state.activeUserId]
+    },
     //si c'est juste pour l'utiliser une fois, il vaut mieux de le mettre en computed prop
     activeUserInfo() {
       // va chercher le user.id de activeUser chez users
@@ -82,11 +88,7 @@ export default new Vuex.Store({
       )
     },
     SET_ACTIVE_USER: (state, user) => {
-      Vue.set(state, 'activeUser', user)
-      router.replace({
-        name: 'user_id',
-        params: { userName: user.nickname }
-      })
+      Vue.set(state, 'activeUserId', user.id)
     },
     // Add new objects or modify objects in state
     SET_NEW_BOARD: (state, board) => {
@@ -99,8 +101,8 @@ export default new Vuex.Store({
     SET_NEW_TASK: (state, task) => {
       Vue.set(state.tasks, task.id, task)
     },
-    PATCH_ACTIVE_USER: (state, user) => {
-      Vue.set(state, 'activeUser', user)
+    SET_NEW_USER: (state, user) => {
+      Vue.set(state.users, user.id, user)
     },
     // Delete existing objects
     REMOVE_BOARD: (state, board) => {
@@ -117,7 +119,7 @@ export default new Vuex.Store({
       Vue.set(state, 'boardDrawer', !state.boardDrawer)
     },
     SET_USER_DRAWER: state => {
-      Vue.set(state, 'userDrawer', state.userDrawer)
+      Vue.set(state, 'userDrawer', !state.userDrawer)
     },
     CLEAR_SESSION: state => {
       Object.keys(state).forEach(key => {
@@ -158,12 +160,14 @@ export default new Vuex.Store({
         if (!payload) {
           return await app.reAuthenticate()
         } else {
+          console.log(payload)
           return await app.authenticate({
             strategy: 'local',
             ...payload
           })
         }
       } catch (error) {
+        console.log(error)
         router.push('LoggedOut')
       } // aficher un message
     },

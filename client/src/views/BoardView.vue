@@ -1,46 +1,52 @@
 :<template>
-  <v-app>
-    <div class="">
-      <v-app-bar flat color="blue ligthen-2">
-        <v-row height="50px">
-          <v-col cols="3">
-            <v-text-field
-              :value="getBoard['name']"
-              solo
-              flat
-              dense
-              background-color="blue lighten-4"
-              class="ms-8 mt-6"
-              @input="patchBoard('name', $event)"
-            >
-            </v-text-field></v-col
-        ></v-row>
-        <v-spacer></v-spacer>
-        <v-btn icon @click="createColumn">
-          <v-icon>mdi-playlist-plus</v-icon>
-        </v-btn>
-      </v-app-bar>
-    </div>
+  <v-container fluid fill-height pa-0>
+    <v-app
+      ><v-img
+        src="http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg"
+        alt="pretty image"
+      >
+        <v-app-bar flat color="transparent">
+          <v-row>
+            <v-col cols="2">
+              <v-text-field
+                :value="getBoard['name']"
+                solo
+                flat
+                dense
+                background-color="blue lighten-4"
+                class="mt-6"
+                @input="patchBoard('name', $event)"
+              >
+              </v-text-field></v-col
+            ><v-col justify-space-between></v-col
+            ><v-col cols="2" class="pt-9">
+              <v-btn dark icon @click="createColumn">
+                <v-icon>mdi-playlist-plus</v-icon>
+              </v-btn></v-col
+            ></v-row
+          >
+        </v-app-bar>
 
-    <v-container>
-      <v-row class="d-flex flex-nowrap py-3 overflow-auto"
-        ><v-btn
-          x-small
-          class="ma-2"
-          color="pink lighten-5"
-          :to="{ name: 'user_id' }"
-        >
-          <v-icon left small> mdi-arrow-left </v-icon>Back
-        </v-btn>
-        <v-col v-for="column in filterColumnList" :key="column.id" cols="3">
-          <Column :column-id="column.id" />
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
+        <v-container fluid pa-0>
+          <v-row class="d-flex flex-nowrap py-3 overflow-auto"
+            ><v-btn
+              x-small
+              class="ma-2"
+              color="blue lighten-5"
+              :to="{ name: 'user_id' }"
+            >
+              <v-icon left small> mdi-arrow-left </v-icon>Back
+            </v-btn>
+            <v-col v-for="column in filterColumnList" :key="column.id" cols="2">
+              <Column :column-id="column.id" />
+            </v-col> </v-row
+        ></v-container>
+      </v-img> </v-app
+  ></v-container>
 </template>
 
 <script>
+import { debounce } from 'debounce'
 import Column from '@/views/ColumnView'
 import app from '@/feathers-client'
 
@@ -100,11 +106,11 @@ export default {
     showPatchColumn() {
       this.patchColumnDisplay = !this.patchColumnDisplay
     },
-    async patchBoard(field, value) {
+    patchBoard: debounce(async function(field, value) {
       const data = {}
       data[field] = value
       app.service('boards').patch({ id: this.$route.params.id }, data)
-    }
+    }, 800)
   }
 }
 </script>

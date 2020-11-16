@@ -1,6 +1,6 @@
 <template>
   <v-btn fab icon x-small @click.stop="deleteItem">
-    <v-icon> mdi-delete-empty</v-icon>
+    <v-icon color="primary">mdi-delete-empty</v-icon>
     <slot></slot>
   </v-btn>
 </template>

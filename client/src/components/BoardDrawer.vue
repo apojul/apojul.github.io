@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import AddBoard from '@/components/AddBoard'
 
 export default {
@@ -69,12 +70,7 @@ export default {
       }
       return this.$store.state.boards
     },
-    activeUser() {
-      if (this.$store.state.activeUser === undefined) {
-        return {}
-      }
-      return this.$store.state.activeUser
-    }
+    ...mapGetters(['activeUser'])
   }
 }
 </script>

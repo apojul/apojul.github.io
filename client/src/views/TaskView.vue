@@ -1,34 +1,37 @@
 <template>
-  <v-container>
-    <v-row v-for="task in filterTaskList" :key="task.id" class="d-flex"
-      ><v-card max-height="120px"
-        ><v-text-field
-          :value="task.title"
-          solo
-          flat
-          dense
-          align="center"
-          @input="patchTask('title', $event)"
-        >
-        </v-text-field>
-        <v-card-actions
-          ><v-row
-            ><v-col
-              ><PatchTask
-                class="justify-start"
-                :task-id="task.id"
-                :dialog="patchTaskDisplay"
-                @click="showPatchTask"/></v-col
-            ><v-spacer></v-spacer
-            ><v-col> <DeleteButton :item-id="task.id" service="tasks"/></v-col
-          ></v-row>
-        </v-card-actions> </v-card
-    ></v-row>
+  <v-container
+    ><v-card>
+      <v-row class="d-flex"
+        ><v-card-text
+          ><v-text-field
+            :value="thisTask.title"
+            solo
+            flat
+            dense
+            align="center"
+            @input="patchTask('title', $event)"
+          >
+          </v-text-field>
+          <v-card-actions
+            ><v-row
+              ><v-col cols="3"
+                ><PatchTask
+                  class="justify-start"
+                  :task-id="thisTask.id"
+                  :dialog="patchTaskDisplay"
+                  @click="showPatchTask"/></v-col
+              ><v-spacer></v-spacer
+              ><v-col cols="3">
+                <DeleteButton :item-id="thisTask.id" service="tasks"/></v-col
+            ></v-row>
+          </v-card-actions> </v-card-text></v-row
+    ></v-card>
   </v-container>
 </template>
 
 <script>
-//import app from '@/feathers-client'
+import { debounce } from 'debounce'
+import app from '@/feathers-client'
 import PatchTask from '@/components/PatchTask'
 import DeleteButton from '@/components/DeleteButton'
 
@@ -42,6 +45,10 @@ export default {
     columnId: {
       type: Number,
       required: true
+    },
+    taskId: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -50,26 +57,16 @@ export default {
     }
   },
   computed: {
-    getTaskList() {
-      /* if (this.$store.state.tasks === undefined) {
-        this.$store.dispatch('fetch_task_list')
-        return []
-      } */
-      return this.$store.state.tasks
-    },
-    filterTaskList() {
-      let filteredTaskList = Object.values(this.getTaskList).filter(
-        task => task.column_id === this.columnId
-      )
-      return filteredTaskList
+    thisTask() {
+      return this.$store.state.tasks[this.taskId]
     }
   },
   methods: {
-    patchTask(key, value) {
+    patchTask: debounce(function(key, value) {
       const data = {}
-      data[key] = value /* 
-      app.service('tasks').patch({id:}, data) */
-    },
+      data[key] = value
+      app.service('tasks').patch({ id: this.taskId }, data)
+    }, 800),
     showPatchTask() {
       this.patchTaskDisplay = !this.patchTaskDisplay
     }

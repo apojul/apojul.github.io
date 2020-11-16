@@ -11,6 +11,7 @@
 import NavBar from '@/components/NavBar'
 import BoardDrawer from '@/components/BoardDrawer'
 import UserDrawer from '@/components/UserDrawer'
+
 export default {
   name: 'Home',
   components: {

@@ -20,7 +20,7 @@ export default {
       app.service('tasks').create({
         column_id: this.columnId,
         title: 'New Task',
-        user_id: this.$store.state.activeUser.id
+        user_id: this.$store.state.activeUserId
       })
     }
   }

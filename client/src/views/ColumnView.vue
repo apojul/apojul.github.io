@@ -48,15 +48,17 @@
           <v-card-text class="mt-n2 mb-n4"> {{ columnId }} </v-card-text
           ><v-icon small class="ml-4">mdi-menu</v-icon
           ><v-icon small class="ml-4">mdi-attachment</v-icon>
-          <v-btn x-small text>2</v-btn>
+          <v-btn x-small text>2</v-btn> </v-card
+        ><v-card v-for="task in filterTaskList" :key="task.id">
+          <Task :column-id="columnId" :task-id="task.id" />
         </v-card>
-        <Task :column-id="columnId" />
-        <AddTask :column-id="columnId" />
+        <v-card><AddTask :column-id="columnId"/></v-card>
       </v-card> </v-col
   ></v-row>
 </template>
 
 <script>
+import { debounce } from 'debounce'
 import DeleteButton from '@/components/DeleteButton'
 import Task from '@/views/TaskView'
 import AddTask from '@/components/AddTask'
@@ -78,20 +80,30 @@ export default {
   computed: {
     thisColumn() {
       return this.$store.state.columns[this.columnId]
+    },
+    getTaskList() {
+      if (this.$store.state.tasks === undefined) {
+        this.$store.dispatch('fetch_task_list')
+        return []
+      }
+      return this.$store.state.tasks
+    },
+    filterTaskList() {
+      let filteredTaskList = Object.values(this.getTaskList).filter(
+        task => task.column_id === this.columnId
+      )
+
+      return filteredTaskList
     }
   },
   methods: {
-    changeColumnName(key, value) {
+    changeColumnName: debounce(function(key, value) {
       let data = {}
       data[key] = value
       app.service('columns').patch({ id: this.columnId }, data)
-    }
+    }, 800)
   }
 }
 </script>
 
-<style>
-.deleteButton {
-  background-color: rgb(192, 3, 3);
-}
-</style>
+<style></style>

@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     creator() {
-      return this.$store.state.activeUser.id
+      return this.$store.state.activeUserId
     }
   },
   methods: {
