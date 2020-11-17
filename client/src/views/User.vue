@@ -30,7 +30,6 @@
                     <DeleteButton
                       :item-id="board.id"
                       service="boards"
-                      @click="deleteChange"
                     /> </v-col
                   ><v-spacer></v-spacer
                   ><v-col cols="3"
@@ -72,7 +71,6 @@ export default {
   },
   data() {
     return {
-      deleteTrue: true,
       patchBoardDisplay: false
     }
   },
@@ -98,10 +96,7 @@ export default {
       this.deleteTrue = false
     },
     goToBoard(id) {
-      if (this.deleteTrue) {
-        this.$router.push({ name: 'boardId', params: { id: id } })
-      }
-      this.deleteTrue = true
+      this.$router.push({ name: 'boardId', params: { id: id } })
     },
     patchBoard: debounce(function(key, value) {
       const data = {}
