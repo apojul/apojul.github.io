@@ -22,6 +22,11 @@
             :value="activeTask['description']"
             @input="sendChanges('description', $event)"
           ></v-text-field>
+          <v-text-field
+            label="Index"
+            :value="activeTask['index']"
+            @input="sendChanges('index', $event)"
+          ></v-text-field>
         </v-card-text>
       </v-form>
       <v-card-actions>

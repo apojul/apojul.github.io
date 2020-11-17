@@ -19,7 +19,7 @@
               >
               </v-text-field></v-col
             ><v-col justify-space-between></v-col
-            ><v-col cols="2" class="pt-9">
+            ><v-col cols="6" class="pt-9">
               <v-btn dark icon @click="createColumn">
                 <v-icon>mdi-playlist-plus</v-icon>
               </v-btn></v-col
@@ -37,8 +37,14 @@
             >
               <v-icon left small> mdi-arrow-left </v-icon>Back
             </v-btn>
-            <v-col v-for="column in filterColumnList" :key="column.id" cols="2">
-              <Column :column-id="column.id" />
+            <v-col
+              v-for="column in filterColumnList"
+              :key="column.index"
+              cols="2"
+              :class="{ primary: droppingColumn === column }"
+              @dragover="setDroppingColumn($event, column)"
+            >
+              <Column :column-id="column.id" :new-column="droppingColumn" />
             </v-col> </v-row
         ></v-container>
       </v-img> </v-app
@@ -56,6 +62,7 @@ export default {
   },
   data() {
     return {
+      droppingColumn: undefined,
       boardId: this.$route.params.id,
       columnId: undefined,
       newColumn: {
@@ -90,13 +97,6 @@ export default {
     }
   },
   methods: {
-    /* beforeRouteEnter(to, from, next) {
-      next(vm => {
-        if (!vm.$store.state.boards[vm.boardId]) {
-          next(false)
-        }
-      })
-    }, */
     async createColumn() {
       let newColumn = { name: this.newColumn.name, board_id: this.boardId }
       await app.service('columns').create({
@@ -110,7 +110,13 @@ export default {
       const data = {}
       data[field] = value
       app.service('boards').patch({ id: this.$route.params.id }, data)
-    }, 800)
+    }, 800),
+    setDroppingColumn(event, column) {
+      if (column) {
+        this.droppingColumn = column
+        event.preventDefault()
+      }
+    }
   }
 }
 </script>

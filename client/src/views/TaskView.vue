@@ -1,32 +1,30 @@
 <template>
   <v-container
-    ><v-card>
-      <v-row class="d-flex"
-        ><v-card-text
-          ><v-text-field
-            :value="thisTask.title"
-            solo
-            flat
-            dense
-            align="center"
-            @input="patchTask('title', $event)"
-          >
-          </v-text-field>
-          <v-card-actions
-            ><v-row
-              ><v-col cols="3"
-                ><PatchTask
-                  class="justify-start"
-                  :task-id="thisTask.id"
-                  :dialog="patchTaskDisplay"
-                  @click="showPatchTask"/></v-col
-              ><v-spacer></v-spacer
-              ><v-col cols="3">
-                <DeleteButton :item-id="thisTask.id" service="tasks"/></v-col
-            ></v-row>
-          </v-card-actions> </v-card-text></v-row
-    ></v-card>
-  </v-container>
+    ><v-card class="d-flex"
+      ><v-card-text
+        ><v-text-field
+          :value="thisTask.title"
+          solo
+          flat
+          dense
+          align="center"
+          @input="patchTask('title', $event)"
+        >
+        </v-text-field>
+        <v-card-actions
+          ><v-row
+            ><v-col cols="3"
+              ><PatchTask
+                class="justify-start"
+                :task-id="thisTask.id"
+                :dialog="patchTaskDisplay"
+                @click="showPatchTask"/></v-col
+            ><v-spacer></v-spacer
+            ><v-col cols="3">
+              <DeleteButton :item-id="thisTask.id" service="tasks"/></v-col
+          ></v-row>
+        </v-card-actions> </v-card-text></v-card
+  ></v-container>
 </template>
 
 <script>
