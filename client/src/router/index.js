@@ -117,8 +117,8 @@ router.beforeEach(async (to, from, next) => {
     if (to.hash !== '') {
       try {
         await app.logout()
-        let { user } = await app.reAuthenticate()
-        next({ name: 'user_id', params: { userName: user.nickname } })
+        /* let { user } =  */ await app.reAuthenticate()
+        next(/* { name: 'user_id', params: { userName: user.nickname } } */)
       } catch {
         next('/loggedout')
       }

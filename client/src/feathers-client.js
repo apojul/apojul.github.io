@@ -10,6 +10,7 @@ const socket = io('http://localhost:3030', {
 import feathers from '@feathersjs/client'
 
 import store from './store'
+import router from './router'
 
 const app = feathers()
 
@@ -88,6 +89,7 @@ app.service('users').on('patched', user => {
 app.on('login', authResult => {
   const { user } = authResult
   store.commit('SET_ACTIVE_USER', user)
+  router.push({ name: 'user_id', params: { userName: user.nickname } })
   store.dispatch('fetch_board_list')
   store.dispatch('fetch_column_list')
   store.dispatch('fetch_task_list')
