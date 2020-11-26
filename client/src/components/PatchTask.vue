@@ -23,9 +23,9 @@
             @input="sendChanges('description', $event)"
           ></v-text-field>
           <v-text-field
-            label="Index"
-            :value="activeTask['index']"
-            @input="sendChanges('index', $event)"
+            label="Rank"
+            :value="activeTask['rank']"
+            @input="sendChanges('rank', $event)"
           ></v-text-field>
         </v-card-text>
       </v-form>

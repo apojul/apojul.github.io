@@ -47,17 +47,17 @@ export default new Vuex.Store({
       // les deux fonctions font la même chose mais avec une syntaxe differente
       return id => {
         let Column = Object.values(state.columns).filter(
-          column => (column.board_id === id)
+          column => column.board_id === id
         )
-        console.log('columnsInBoardArray', Column)
+        console.log('getters columnsInBoardArray', Column)
         return Column
       }
     },
     tasksIncolumnsArray: state => id => {
       let Tasks = Object.values(state.tasks).filter(
-        task => (task.column_id === id)
+        task => task.column_id === id
       )
-      console.log('testTasks', Tasks)
+      console.log('TasksByColumn', Tasks)
       return Tasks
     },
     usersOnOffLine() {
@@ -65,6 +65,21 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    UPDATE_DISPLAY_COLUMNS: (
+      state,
+      getters,
+      { boardId, fromColumnIndex, toColumnIndex }
+    ) => {
+      const columnList = getters.columnsInBoardArray(boardId)
+      console.log('columnList', columnList)
+      const columnToMove = columnList.splice(fromColumnIndex, 1)[0]
+      console.log('columnToMove', columnToMove)
+      columnList.splice(toColumnIndex, 0, columnToMove)
+    },
+    PATCH_DISPLAY_COLUMNS: state => {
+      return state.columns
+    },
+
     // Nom des funtions VERVE{SET UPDATE DELETE}_OBJECT
     // Populate State (lecture)
     SET_BOARDS: (state, boardList) => {

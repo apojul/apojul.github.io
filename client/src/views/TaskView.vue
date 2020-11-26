@@ -1,14 +1,18 @@
 <template>
   <v-container
-    ><v-card class="d-flex"
+    ><v-card
+      v-for="(task, taskIndex) in tasksIncolumnsArray(columnId)"
+      :key="taskIndex"
+      class="d-flex"
       ><v-card-text
-        ><v-text-field
-          :value="thisTask.title"
+        >id: {{ task.id
+        }}<v-text-field
+          :value="task.title"
           solo
           flat
           dense
           align="center"
-          @input="patchTask('title', $event)"
+          @input="patchTask(task.id, 'title', $event)"
         >
         </v-text-field>
         <v-card-actions
@@ -16,12 +20,12 @@
             ><v-col cols="3"
               ><PatchTask
                 class="justify-start"
-                :task-id="thisTask.id"
+                :task-id="task.id"
                 :dialog="patchTaskDisplay"
                 @click="showPatchTask"/></v-col
             ><v-spacer></v-spacer
             ><v-col cols="3">
-              <DeleteButton :item-id="thisTask.id" service="tasks"/></v-col
+              <DeleteButton :item-id="task.id" service="tasks"/></v-col
           ></v-row>
         </v-card-actions> </v-card-text></v-card
   ></v-container>
@@ -32,6 +36,7 @@ import { debounce } from 'debounce'
 import app from '@/feathers-client'
 import PatchTask from '@/components/PatchTask'
 import DeleteButton from '@/components/DeleteButton'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Task',
@@ -43,10 +48,6 @@ export default {
     columnId: {
       type: Number,
       required: true
-    },
-    taskId: {
-      type: Number,
-      required: true
     }
   },
   data() {
@@ -55,16 +56,14 @@ export default {
     }
   },
   computed: {
-    thisTask() {
-      return this.$store.state.tasks[this.taskId]
-    }
+    ...mapGetters(['columnsInBoardArray', 'tasksIncolumnsArray'])
   },
   methods: {
-    patchTask: debounce(function(key, value) {
+    patchTask: debounce(function(id, key, value) {
       const data = {}
       data[key] = value
       console.log('ext')
-      app.service('tasks').patch({ id: this.taskId }, data)
+      app.service('tasks').patch({ id: id }, data)
     }, 800),
     showPatchTask() {
       this.patchTaskDisplay = !this.patchTaskDisplay

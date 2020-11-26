@@ -1,6 +1,6 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
 
-const initRankValue = require('../../hooks/Init-rank-value')
+const initRankValue = require('../../hooks/init-rank-value')
 
 module.exports = {
   before: {

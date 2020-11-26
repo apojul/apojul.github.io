@@ -37,18 +37,7 @@
             >
               <v-icon left small> mdi-arrow-left </v-icon>Back
             </v-btn>
-            <v-col
-              v-for="(column, columnIndex) in columnsInBoardArray(boardId)"
-              :key=columnIndex
-              cols="2"
-              draggable="true"
-              @dragstart="pickColumn($event, columnIndex)"
-              @dragenter.prevent='enterColumn($event)'
-              @dragleave.prevent='leaveColumn($event)' 
-              @drop="dropColumn($event, columnIndex)"
-            >
-              <Column :column-id="column.id" :new-column="droppingColumn" />
-            </v-col> </v-row
+            <Column /></v-row
         ></v-container>
       </v-img> </v-app
   ></v-container>
@@ -58,7 +47,7 @@
 import { debounce } from 'debounce'
 import Column from '@/views/ColumnView'
 import app from '@/feathers-client'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -77,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ... mapGetters (['columnsInBoardArray']),
+    ...mapGetters(['columnsInBoardArray']),
     getBoard() {
       if (this.$store.state.boards === undefined) {
         this.$store.dispatch('fetch_board_list')
@@ -88,18 +77,6 @@ export default {
       } else {
         return [['no board']]
       }
-    },
-    getColumnList() {
-      if (this.$store.state.columns === undefined) {
-        this.$store.dispatch('fetch_column_list')
-        return []
-      }
-      return this.$store.state.columns
-    },
-    filterColumnList() {
-      return Object.values(this.getColumnList).filter(
-        column => column.board_id === this.boardId
-      )
     }
   },
   methods: {
@@ -117,13 +94,14 @@ export default {
       data[field] = value
       app.service('boards').patch({ id: this.$route.params.id }, data)
     }, 800),
-    pickColumn (event, fromColumnIndex) {
-        event.dataTransfer.effectAllowed = 'move'
-        event.dataTransfer.dropEffect = 'move'
+    pickColumn(event, fromColumnIndex, id) {
+      console.log('fromColumnIndexB', fromColumnIndex, id)
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.dropEffect = 'move'
 
-        // transparence de l'image
+      // transparence de l'image
 
-        event.dataTransfer.setData('from-column-index', fromColumnIndex)
+      event.dataTransfer.setData('from-column-index', fromColumnIndex)
     },
     enterColumn(event) {
       event.currentTarget.style.opacity = '0'
@@ -132,16 +110,16 @@ export default {
       event.currentTarget.style.opacity = '1'
     },
     dropColumn(event, toColumnIndex) {
-       let fromColumnIndex = event.dataTransfer.getData('from-column-index')
-       console.log('toColumnIndex', toColumnIndex);
-       console.log('fromColumnIndex', fromColumnIndex);
-       console.log('columnsArray before splice', this.columnsArray);
-       
-       this.columnsArray.splice(fromColumnIndex, 0, toColumnIndex)
-       console.log('columnsArray after splice', this.columnsArray)
-       
-       //this.columnsArray.map(column => {console.log('faux.app.service', column.id, 'rank', this.indexOf(column))}) 
+      console.log('drop')
+      let fromColumnIndex = event.dataTransfer.getData('from-column-index')
+      console.log('toColumnIndex', toColumnIndex)
+      console.log('fromColumnIndex', fromColumnIndex)
+      console.log('columnsArray before splice', this.columnsArray)
 
+      this.columnsArray.splice(fromColumnIndex, 0, toColumnIndex)
+      console.log('columnsArray after splice', this.columnsArray)
+
+      //this.columnsArray.map(column => {console.log('faux.app.service', column.id, 'rank', this.indexOf(column))})
     }
   }
 }
