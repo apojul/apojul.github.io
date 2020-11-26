@@ -47,9 +47,7 @@
       <v-card
         v-for="task in filterTaskList"
         :key="task.index"
-        draggable
-        @dragstart="startDraggingTask(task)"
-        @dragend="dropTask(newColumn)"
+        
       >
         <Task :column-id="columnId" :task-id="task.id" />
       </v-card>
@@ -112,18 +110,6 @@ export default {
       data[key] = value
       app.service('columns').patch({ id: this.columnId }, data)
     }, 800),
-    startDraggingTask(task) {
-      if (task) {
-        this.draggingTask = task
-      }
-    },
-    dropTask(column) {
-      if (column) {
-        this.draggingTask.column_id = column.id
-      }
-      this.droppingColumn = undefined
-      this.draggingTask = undefined
-    }
   }
 }
 </script>

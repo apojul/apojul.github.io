@@ -13,7 +13,7 @@ module.exports = function (app) {
         table.increments('id')
         table.string('title')
         table.string('description')
-        table.integer('index')
+        table.integer('rank')
         table.integer('column_id').references('id').inTable('columns').notNull().onDelete('CASCADE')
         table.integer('user_id').references('id').inTable('users').notNull().onDelete('CASCADE')
         table.timestamps(true, true)

@@ -13,7 +13,7 @@ module.exports = function (app) {
         .createTable(tableName, (table) => {
           table.increments('id')
           table.string('name')
-          table.integer('index')
+          table.integer('rank')
           table
             .integer('board_id')
             .references('id')

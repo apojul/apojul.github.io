@@ -5,15 +5,15 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex('columns').insert([
-        { name: 'Doing', index: 2, board_id: 1 },
-        { name: 'To Do', index: 1, board_id: 1 },
-        { name: 'Done', index: 3, board_id: 1 },
-        { name: 'A faire', index: 2, board_id: 2 },
-        { name: 'En cours', index: 1, board_id: 2 },
-        { name: 'Fait', index: 3, board_id: 2 },
-        { name: 'Backlog', index: 2, board_id: 3 },
-        { name: 'To Learn', index: 1, board_id: 3 },
-        { name: 'Learned', index: 3, board_id: 3 },
+        { name: 'Doing',  board_id: 1 },
+        { name: 'To Do', board_id: 1 },
+        { name: 'Done', board_id: 1 },
+        { name: 'A faire', board_id: 2 },
+        { name: 'En cours', board_id: 2 },
+        { name: 'Fait', board_id: 2 },
+        { name: 'Backlog', board_id: 3 },
+        { name: 'To Learn', board_id: 3 },
+        { name: 'Learned', board_id: 3 },
       ])
     })
 }

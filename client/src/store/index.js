@@ -43,11 +43,22 @@ export default new Vuex.Store({
     activeUserInfo() {
       // va chercher le user.id de activeUser chez users
     },
-    columnsInBoard() {
-      //TODO return => {{board.id:[columns.id ...]}, {board.id:[columns.id...]...}
+    columnsInBoardArray(state) {
+      // les deux fonctions font la même chose mais avec une syntaxe differente
+      return id => {
+        let Column = Object.values(state.columns).filter(
+          column => (column.board_id === id)
+        )
+        console.log('columnsInBoardArray', Column)
+        return Column
+      }
     },
-    tascksIncolumns() {
-      //TODO return => {columns.id:[task.id ...], {columns.id:[task.id...]...}
+    tasksIncolumnsArray: state => id => {
+      let Tasks = Object.values(state.tasks).filter(
+        task => (task.column_id === id)
+      )
+      console.log('testTasks', Tasks)
+      return Tasks
     },
     usersOnOffLine() {
       //TODO return => [{online: [user.id...]},{offline: [user.id...]}]
