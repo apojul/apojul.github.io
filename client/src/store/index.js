@@ -57,7 +57,6 @@ export default new Vuex.Store({
       let Tasks = Object.values(state.tasks).filter(
         task => task.column_id === id
       )
-      console.log('TasksByColumn', Tasks)
       return Tasks
     },
     usersOnOffLine() {
@@ -70,7 +69,7 @@ export default new Vuex.Store({
       getters,
       { boardId, fromColumnIndex, toColumnIndex }
     ) => {
-      const columnList = getters.columnsInBoardArray(boardId)
+      const columnList = getters['columnsInBoardArray'](boardId)
       console.log('columnList', columnList)
       const columnToMove = columnList.splice(fromColumnIndex, 1)[0]
       console.log('columnToMove', columnToMove)

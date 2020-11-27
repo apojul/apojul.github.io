@@ -5,7 +5,7 @@
       :key="taskIndex"
       class="d-flex"
       ><v-card-text
-        >id: {{ task.id
+        >id: {{ task.id }} --- rank: {{ task.rank
         }}<v-text-field
           :value="task.title"
           solo

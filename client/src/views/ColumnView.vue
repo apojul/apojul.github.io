@@ -6,7 +6,6 @@
       cols="2"
       draggable
       @dragover.prevent="over_handler($event)"
-      @dragleave.prevent="leaveColumn($event)"
       @dragstart.self="pickColumn($event, column.rank, column.id)"
       @dragend="dropColumn($event, column.rank)"
     >
@@ -20,7 +19,6 @@
                 dense
                 class="ms-8 mt-6"
                 :value="column.name"
-                :description="column.description"
                 @input="changeColumnName('name', $event)"
               >
               </v-text-field>
@@ -51,7 +49,8 @@
               ></v-card-actions
             >
             <v-card-title class="d-flex justify-center mt-n7"
-              >id: {{ column.id }} --- {{ column.name }}</v-card-title
+              >id: {{ column.id }} --- {{ column.name }} --- rank:
+              {{ column.rank }}</v-card-title
             ></v-card
           >
           <v-card-text class="mt-n2 mb-n4"></v-card-text
@@ -84,24 +83,30 @@ export default {
   props: {},
   data() {
     return {
-      boardId: this.$route.params.id,
-      draggingTask: undefined,
-      droppingColumn: undefined
+      fromColumnId: null,
+      fromColumnRank: null,
+      toColumnRank: null,
+      boardId: this.$route.params.id
     }
   },
   computed: {
     ...mapGetters(['columnsInBoardArray', 'tasksIncolumnsArray']),
     displayedColumns: {
       get() {
-        return this.columnsInBoardArray
+        return this.columnsInBoardArray(this.boardId)
       },
-      set({ value }) {
-        return this.UPDATE_DISPLAY_COLUMNS({ value })
+      set(value) {
+        console.log('value', value)
+        return this.UPDATE_DISPLAY_COLUMNS(value)
       }
     }
   },
   methods: {
     ...mapMutations(['UPDATE_DISPLAY_COLUMNS']),
+    changeSetter() {
+      this.displayedColumns =
+        (this.boardId, this.fromColumnRank, this.toColumnRank)
+    },
     changeColumnName: debounce(function(key, value) {
       let data = {}
       data[key] = value
@@ -118,30 +123,32 @@ export default {
       console.log(event)
     },
     enterColumn(event) {
-      event.currentTarget.style.opacity = '0.5'
+      event.currentTarget.style.opacity = '0.3'
     },
     leaveColumn(event) {
       event.currentTarget.style.opacity = ''
     },
     over_handler(event) {
-      event.currentTarget.style.opacity = '0.5'
+      event.currentTarget.style.opacity = '0.3'
     },
     dropColumn(event, toColumnRank) {
       console.log(event)
       let abc = event.dataTransfer.getData('abc')
       console.log('abc', abc)
       event.currentTarget.style.opacity = ''
-      let fromColumnRank = event.dataTransfer.getData('from-column-index')
-      let fromColumnId = event.dataTransfer.getData('from-column-id')
-      console.log('drop fromColumnId', fromColumnId)
-      console.log('drop fromColumnRank', fromColumnRank)
+      this.fromColumnRank = event.dataTransfer.getData('from-column-index')
+      this.fromColumnId = event.dataTransfer.getData('from-column-id')
+      console.log('drop fromColumnId', this.fromColumnId)
+      console.log('drop fromColumnRank', this.fromColumnRank)
       console.log('drop toColumnRank', toColumnRank)
       console.log(
         'drop columnsArray before splice',
         this.columnsInBoardArray(this.$route.params.id)
       )
-      const Id = this.$route.params.id
-      this.UPDATE_DISPLAY_COLUMNS({ Id, fromColumnRank, toColumnRank })
+      /* this.displayedColumns =
+        (this.boardId, this.fromColumnRank, this.toColumnRank) */
+      //const Id = this.$route.params.id
+      //this.UPDATE_DISPLAY_COLUMNS({ Id, fromColumnRank, toColumnRank })
       /* let arrayFinal = this.columnsInBoardArray(this.boardId)
       const columnToMove = this.columnsInBoardArray(this.boardId).splice(
         0,
