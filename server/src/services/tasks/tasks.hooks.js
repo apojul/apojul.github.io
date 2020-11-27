@@ -1,7 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
 
-const initRankValue = require('../../hooks/init-rank-value')
-
 module.exports = {
   before: {
     all: [ authenticate('jwt') ],
@@ -17,7 +15,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [initRankValue('tasks')],
+    create: [],
     update: [],
     patch: [],
     remove: []

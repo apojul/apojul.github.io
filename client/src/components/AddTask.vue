@@ -10,6 +10,11 @@ import app from '@/feathers-client'
 export default {
   name: 'AddTask',
   props: {
+    displayedTasks: {
+      type: Function,
+      required: true,
+      default: () => {}
+    },
     columnId: {
       type: Number,
       required: true
@@ -17,10 +22,12 @@ export default {
   },
   methods: {
     addTask() {
+      const rankInit = this.displayedTasks(this.columnId).length
       app.service('tasks').create({
-        column_id: this.columnId,
         title: 'New Task',
-        user_id: this.$store.state.activeUserId
+        column_id: this.columnId,
+        user_id: this.$store.state.activeUserId,
+        rank: rankInit
       })
     }
   }

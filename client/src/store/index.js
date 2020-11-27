@@ -46,17 +46,18 @@ export default new Vuex.Store({
     columnsInBoardArray(state) {
       // les deux fonctions font la même chose mais avec une syntaxe differente
       return id => {
-        let Column = Object.values(state.columns).filter(
-          column => column.board_id === id
-        )
+        let Column = Object.values(state.columns)
+          .filter(column => column.board_id === id)
+          .sort((a, b) => a.rank - b.rank)
+
         console.log('getters columnsInBoardArray', Column)
         return Column
       }
     },
-    tasksIncolumnsArray: state => id => {
-      let Tasks = Object.values(state.tasks).filter(
-        task => task.column_id === id
-      )
+    tasksInColumnArray: state => id => {
+      let Tasks = Object.values(state.tasks)
+        .filter(task => task.column_id === id)
+        .sort((a, b) => a.rank - b.rank)
       return Tasks
     },
     usersOnOffLine() {

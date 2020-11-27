@@ -1,13 +1,16 @@
 <template>
-  <v-row
-    ><v-col
+  <v-row>
+    <v-btn dark icon @click="createColumn">
+      <v-icon>mdi-playlist-plus</v-icon>
+    </v-btn>
+    <v-col
       v-for="column in columnsInBoardArray(boardId)"
       :key="column.rank"
       cols="2"
       draggable
-      @dragover.prevent="over_handler($event)"
-      @dragstart.self="pickColumn($event, column.rank, column.id)"
-      @dragend="dropColumn($event, column.rank)"
+      @dragstart.stop="pickColumn($event, column.rank)"
+      @dragover.stop.prevent
+      @drop.stop="dropColumn($event, column.rank)"
     >
       <v-card flat class="mx-auto" color="grey lighten-4">
         <v-card-subtitle class="py-1"
@@ -60,9 +63,12 @@
         <v-card>
           <Task :column-id="column.id" />
         </v-card>
-        <v-card><AddTask :column-id="column.id"/></v-card>
-      </v-card> </v-col
-  ></v-row>
+        <v-card
+          ><AddTask :column-id="column.id" :displayed-tasks="displayedTasks"
+        /></v-card>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -83,25 +89,39 @@ export default {
   props: {},
   data() {
     return {
-      fromColumnId: null,
-      fromColumnRank: null,
-      toColumnRank: null,
-      boardId: this.$route.params.id
+      boardId: this.$route.params.id,
+      fromColumnRank: Number,
+      toColumnRank: Number
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksIncolumnsArray']),
-    displayedColumns: {
-      get() {
-        return this.columnsInBoardArray(this.boardId)
-      },
-      set(value) {
-        console.log('value', value)
-        return this.UPDATE_DISPLAY_COLUMNS(value)
-      }
-    }
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray'])
+  },
+  mounted() {
+    this.displayedColumns(this.boardId)
   },
   methods: {
+    async createColumn() {
+      let rankInit = this.displayedColumns(this.boardId).length
+      let newColumn = {
+        name: 'new Column',
+        board_id: this.boardId,
+        rank: rankInit
+      }
+      await app.service('columns').create({
+        ...newColumn
+      })
+    },
+    displayedTasks: function(id) {
+      let arrayCopy = JSON.parse(JSON.stringify(this.tasksInColumnArray(id)))
+      console.log('TaskArrayCopy', arrayCopy)
+      return arrayCopy
+    },
+    displayedColumns: function(id) {
+      let arrayCopy = JSON.parse(JSON.stringify(this.columnsInBoardArray(id)))
+      console.log('ColumnArrayCopy', arrayCopy)
+      return arrayCopy
+    },
     ...mapMutations(['UPDATE_DISPLAY_COLUMNS']),
     changeSetter() {
       this.displayedColumns =
@@ -112,15 +132,13 @@ export default {
       data[key] = value
       app.service('columns').patch({ id: this.column.id }, data)
     }, 800),
-    pickColumn(event, fromColumnRank, fromColumnId) {
+    pickColumn(event, dragColumnRank) {
+      // Effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
-      event.dataTransfer.setData('text', 'abc')
-      event.dataTransfer.setData('from-column-index', fromColumnRank)
-      console.log('drag fromColumnRank', fromColumnRank)
-      event.dataTransfer.setData('from-column-id', fromColumnId)
-      console.log('drag fromColumnId', fromColumnId)
-      console.log(event)
+      // data
+      //event.dataTransfer.setData('from-column-rank', fromColumnRank)
+      this.fromColumnRank = dragColumnRank
     },
     enterColumn(event) {
       event.currentTarget.style.opacity = '0.3'
@@ -131,36 +149,26 @@ export default {
     over_handler(event) {
       event.currentTarget.style.opacity = '0.3'
     },
-    dropColumn(event, toColumnRank) {
-      console.log(event)
-      let abc = event.dataTransfer.getData('abc')
-      console.log('abc', abc)
+    dropColumn(event, dropColumnRank) {
+      // Index vs Rank
+      // Index : seulement quand on travail sur columnArray pour chager la place des columns.
+      // Rank: propieté dans columns qui doit refleter Index.
       event.currentTarget.style.opacity = ''
-      this.fromColumnRank = event.dataTransfer.getData('from-column-index')
-      this.fromColumnId = event.dataTransfer.getData('from-column-id')
-      console.log('drop fromColumnId', this.fromColumnId)
-      console.log('drop fromColumnRank', this.fromColumnRank)
-      console.log('drop toColumnRank', toColumnRank)
-      console.log(
-        'drop columnsArray before splice',
-        this.columnsInBoardArray(this.$route.params.id)
-      )
-      /* this.displayedColumns =
-        (this.boardId, this.fromColumnRank, this.toColumnRank) */
-      //const Id = this.$route.params.id
-      //this.UPDATE_DISPLAY_COLUMNS({ Id, fromColumnRank, toColumnRank })
-      /* let arrayFinal = this.columnsInBoardArray(this.boardId)
-      const columnToMove = this.columnsInBoardArray(this.boardId).splice(
-        0,
-        1
-      )[0]
-      console.log('columnToMove ', columnToMove.id)
-      console.log('arrayFinal', arrayFinal)
-      arrayFinal.splice(1, 0, columnToMove)
-      console.log('columnMoved)', arrayFinal.splice(1, 0, columnToMove)) */
-      //console.log('columnsArray after splice', this.columnsArray)
-
-      //this.columnsArray.map(column => {console.log('faux.app.service', column.id, 'rank', this.indexOf(column))})
+      // recuperer data
+      //let fromColumnRank = event.dataTransfer.getData('from-column-rank')
+      this.toColumnRank = dropColumnRank
+      console.log('toColumnRank', this.toColumnRank)
+      console.log('fromColumnRank', this.fromColumnRank)
+      let columnArray = this.displayedColumns(this.boardId)
+      // recuperer fromColumnIndex, et l'enlever du l'array
+      let fromColumn = columnArray.splice(this.fromColumnRank, 1)[0]
+      // recuperer l'index tocolumn, et mettre fromColumn
+      columnArray.splice(this.toColumnRank, 0, fromColumn)
+      // mapper le col id avec rank = index
+      let idList = columnArray.map(column => column.id)
+      for (let i = 0; i < idList.length; i++) {
+        app.service('columns').patch(idList[i], { rank: i })
+      }
     }
   }
 }

@@ -19,12 +19,8 @@
               >
               </v-text-field></v-col
             ><v-col justify-space-between></v-col
-            ><v-col cols="6" class="pt-9">
-              <v-btn dark icon @click="createColumn">
-                <v-icon>mdi-playlist-plus</v-icon>
-              </v-btn></v-col
-            ></v-row
-          >
+            ><v-col cols="6" class="pt-9"> </v-col
+          ></v-row>
         </v-app-bar>
 
         <v-container fluid pa-0>
@@ -37,7 +33,7 @@
             >
               <v-icon left small> mdi-arrow-left </v-icon>Back
             </v-btn>
-            <Column /></v-row
+            <Column /> </v-row
         ></v-container>
       </v-img> </v-app
   ></v-container>
@@ -80,12 +76,6 @@ export default {
     }
   },
   methods: {
-    async createColumn() {
-      let newColumn = { name: this.newColumn.name, board_id: this.boardId }
-      await app.service('columns').create({
-        ...newColumn
-      })
-    },
     showPatchColumn() {
       this.patchColumnDisplay = !this.patchColumnDisplay
     },
