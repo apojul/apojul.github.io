@@ -7,7 +7,7 @@
       draggable
       @dragstart.stop="pickTask($event, index, tasksInColumnArray(columnId))"
       @dragenter.stop.prevent
-      @drop.stop="
+      @drop.prevent="
         dropTask($event, tasksInColumnArray(columnId), index, columnId)
       "
       ><v-card-text
