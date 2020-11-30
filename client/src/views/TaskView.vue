@@ -86,6 +86,7 @@ export default {
       this.patchTaskDisplay = !this.patchTaskDisplay
     },
     pickTask(event, dragTaskIndex, dragTaskList) {
+      console.log(document.getElementById('board').offsetHeight)
       // effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
@@ -110,21 +111,23 @@ export default {
         'dropTaskList',
         dropTaskList.map(task => task.id)
       )
+      let spliceTask = (fromList, fromIndex, toIndex, toList) => {
+        let list = toList === undefined ? fromList : toList
+        //      let testIndex = toList.length === 0 ? (toIndex = 0) : toIndex
+        list.splice(toIndex++, 0, fromList.splice(fromIndex, 1)[0])
+      }
       if (fromTask.column_id === toColumnId) {
         fromTask.column_id = toColumnId
         // move item in tasks list
-        dragTaskList.splice(
-          dropTaskIndex++,
-          0,
-          dragTaskList.splice(fromTaskIndex, 1)[0]
-        )
+        spliceTask(dragTaskList, fromTaskIndex, dropTaskIndex)
       } else {
         // move item in tasks list
-        dropTaskList.splice(
-          dropTaskIndex++,
-          0,
-          dragTaskList.splice(fromTaskIndex, 1)[0]
-        )
+        let toIndex =
+          dropTaskIndex === dropTaskList.length - 1
+            ? (dropTaskIndex = dropTaskList.length)
+            : dropTaskIndex
+        spliceTask(dragTaskList, fromTaskIndex, toIndex, dropTaskList)
+
         for (let i = 0; i < dropTaskList.length; i++) {
           app.service('tasks').patch(dropTaskList[i].id, {
             rank: i

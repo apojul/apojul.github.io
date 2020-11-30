@@ -3,7 +3,7 @@
     <NavBar />
     <BoardDrawer />
     <UserDrawer />
-    <router-view></router-view>
+    <router-view id="home-view"></router-view>
   </v-app>
 </template>
 

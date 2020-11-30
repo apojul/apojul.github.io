@@ -4,6 +4,7 @@
       ><v-img
         src="http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg"
         alt="pretty image"
+        height="(document.getElementById('view').offsetHeight)/2 px"
       >
         <v-app-bar flat color="transparent">
           <v-row>
@@ -24,7 +25,7 @@
         </v-app-bar>
 
         <v-container fluid pa-0>
-          <v-row class="d-flex flex-nowrap py-3 overflow-auto"
+          <v-row id="board" class="d-flex flex-nowrap py-3 overflow-auto"
             ><v-btn
               x-small
               class="ma-2"

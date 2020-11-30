@@ -1,8 +1,9 @@
 <template>
-  <v-app>
+  <v-app id="view">
     <v-img
       src="http://localhost:8080/img/natural-wonders-1400924-1600x1200.jpg"
       alt="pretty image"
+      height="auto"
       ><v-container fluid pa-0>
         <v-row class="d-flex flex-nowrap py-3 overflow-auto">
           <v-col v-for="board in boardsList" :key="board.id" cols="2">

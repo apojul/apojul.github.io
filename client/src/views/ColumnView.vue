@@ -7,12 +7,17 @@
       v-for="column in columnsInBoardArray(boardId)"
       :key="column.rank"
       cols="2"
-      draggable
-      @dragstart.self="pickColumn($event, column.rank)"
-      @dragover.stop.prevent
-      @drop.stop="dropColumn($event, column.rank)"
     >
-      <v-card flat class="mx-auto" color="grey lighten-4">
+      <v-card
+        flat
+        class="mx-auto scroll-y"
+        color="grey lighten-4"
+        draggable
+        max-height="20%"
+        @dragstart.self="pickColumn($event, column.rank)"
+        @dragover.stop.prevent
+        @drop.stop="dropColumn($event, column.rank)"
+      >
         <v-card-subtitle class="py-1"
           ><v-row dense>
             <v-col cols="10">
@@ -40,17 +45,7 @@
             height="100px"
             color="green lighten-1"
             class="px-auto"
-            ><v-card-actions class="d-flex justify-end"
-              ><v-btn
-                depressed
-                x-small
-                fab
-                tile
-                color="green lighten-1"
-                class="d-flex"
-                ><v-icon>mdi-pencil-outline</v-icon></v-btn
-              ></v-card-actions
-            >
+          >
             <v-card-title class="d-flex justify-center mt-n7"
               >id: {{ column.id }} --- {{ column.name }} --- rank:
               {{ column.rank }}</v-card-title
@@ -63,7 +58,7 @@
         <v-card>
           <Task :column-id="column.id" />
         </v-card>
-        <v-card
+        <v-card id="add-task" @dragover.stop.prevent
           ><AddTask :column-id="column.id" :displayed-tasks="displayedTasks"
         /></v-card>
       </v-card>
