@@ -72,7 +72,10 @@ export default {
     sendChanges: debounce(function(key, value) {
       const data = {}
       data[key] = value
-      console.log('int')
+      if (data['rank']) {
+        data['rank'] = parseInt(data['rank'])
+        console.log('data', data)
+      }
       app.service('tasks').patch({ id: this.taskId }, data)
     }, 800)
   }

@@ -19,20 +19,23 @@ export default new Vuex.Store({
 
     // Communication between components
     boardDrawer: false,
-    userDrawer: true
+    userDrawer: true,
     // loading: false
-
+    fromTaskArray: undefined,
     // pour chaque objet en state il y a une liste d'ids
-    // boardsList: undefined,
-    // columnsList: undefined,
-    // tasksList: undefined,
-    // usersList: undefined, ces listes sont des computed dasn les composants pertinents
+    // boardList: undefined,
+    columnList: undefined,
+    taskList: undefined
+    // userList: undefined, ces listes sont des computed dasn les composants pertinents
     // Dans le computed on ne peux pas metre d'arguments
     // taskslist, elle n'a pas d'argument mais à l'interieur il y a une fonction qu'elle a des arguments
     // à la place d'un valeur elle renvoie une fonction avec des arguments
     // on l'appelle avec les arguments en parentheses
   },
   getters: {
+    taskSet: state => state.taskList.map(taskId => state.tasks[taskId]),
+    columnSet: state =>
+      state.columnList.map(columnId => state.columns[columnId]),
     activeUser: state => {
       if (state.users === undefined) {
         return {}
@@ -49,8 +52,6 @@ export default new Vuex.Store({
         let Column = Object.values(state.columns)
           .filter(column => column.board_id === id)
           .sort((a, b) => a.rank - b.rank)
-
-        console.log('getters columnsInBoardArray', Column)
         return Column
       }
     },
@@ -65,21 +66,38 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_FROM_TASK_ARRAY: (state, taskArray) => {
+      state.fromTaskArray = []
+      //state.fromTaskArray = taskArray
+      taskArray.forEach(task => {
+        Vue.set(
+          state.fromTaskArray,
+          taskArray.findIndex(task => task.id),
+          task
+        )
+      })
+    },
     UPDATE_DISPLAY_COLUMNS: (
       state,
       getters,
       { boardId, fromColumnIndex, toColumnIndex }
     ) => {
       const columnList = getters['columnsInBoardArray'](boardId)
-      console.log('columnList', columnList)
       const columnToMove = columnList.splice(fromColumnIndex, 1)[0]
-      console.log('columnToMove', columnToMove)
       columnList.splice(toColumnIndex, 0, columnToMove)
     },
-    PATCH_DISPLAY_COLUMNS: state => {
-      return state.columns
+    SET_TASK_LIST: (state, taskList) => {
+      state.taskList = []
+      taskList.map(task => {
+        Vue.set(state.taskList, task.id - 1, task.id)
+      })
     },
-
+    SET_COLUMN_LIST: (state, columnList) => {
+      state.columnList = []
+      columnList.map(column => {
+        Vue.set(state.columnList, column.id - 1, column.id)
+      })
+    },
     // Nom des funtions VERVE{SET UPDATE DELETE}_OBJECT
     // Populate State (lecture)
     SET_BOARDS: (state, boardList) => {
@@ -174,11 +192,14 @@ export default new Vuex.Store({
     async fetch_column_list({ commit }) {
       const columnList = await app.service('columns').find()
       commit('SET_COLUMNS', columnList)
+      commit('SET_COLUMN_LIST', columnList)
     },
     // Tasks :
     async fetch_task_list({ commit }) {
       const taskList = await app.service('tasks').find()
       commit('SET_TASKS', taskList)
+      commit('SET_TASK_LIST', taskList)
+      commit('SET_FROM_TASK_ARRAY', taskList)
     },
     // USER :
     async log_in(_, payload) {
@@ -186,7 +207,6 @@ export default new Vuex.Store({
         if (!payload) {
           return await app.reAuthenticate()
         } else {
-          console.log(payload)
           return await app.authenticate({
             strategy: 'local',
             ...payload

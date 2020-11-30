@@ -8,7 +8,7 @@
       :key="column.rank"
       cols="2"
       draggable
-      @dragstart.stop="pickColumn($event, column.rank)"
+      @dragstart.self="pickColumn($event, column.rank)"
       @dragover.stop.prevent
       @drop.stop="dropColumn($event, column.rank)"
     >
@@ -114,19 +114,13 @@ export default {
     },
     displayedTasks: function(id) {
       let arrayCopy = JSON.parse(JSON.stringify(this.tasksInColumnArray(id)))
-      console.log('TaskArrayCopy', arrayCopy)
       return arrayCopy
     },
     displayedColumns: function(id) {
       let arrayCopy = JSON.parse(JSON.stringify(this.columnsInBoardArray(id)))
-      console.log('ColumnArrayCopy', arrayCopy)
       return arrayCopy
     },
     ...mapMutations(['UPDATE_DISPLAY_COLUMNS']),
-    changeSetter() {
-      this.displayedColumns =
-        (this.boardId, this.fromColumnRank, this.toColumnRank)
-    },
     changeColumnName: debounce(function(key, value) {
       let data = {}
       data[key] = value
@@ -157,8 +151,6 @@ export default {
       // recuperer data
       //let fromColumnRank = event.dataTransfer.getData('from-column-rank')
       this.toColumnRank = dropColumnRank
-      console.log('toColumnRank', this.toColumnRank)
-      console.log('fromColumnRank', this.fromColumnRank)
       let columnArray = this.displayedColumns(this.boardId)
       // recuperer fromColumnIndex, et l'enlever du l'array
       let fromColumn = columnArray.splice(this.fromColumnRank, 1)[0]

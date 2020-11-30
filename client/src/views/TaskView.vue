@@ -1,13 +1,15 @@
 <template>
   <v-container
     ><v-card
-      v-for="task in tasksInColumnArray(columnId)"
-      :key="task.rank"
+      v-for="(task, index) in tasksInColumnArray(columnId)"
+      :key="index"
       class="d-flex"
       draggable
-      @drop.stop="dropTask($event, task.rank, columnId)"
-      @dragstart.stop="pickTask($event, task.rank)"
+      @dragstart.stop="pickTask($event, index, tasksInColumnArray(columnId))"
       @dragenter.stop.prevent
+      @drop.stop="
+        dropTask($event, tasksInColumnArray(columnId), index, columnId)
+      "
       ><v-card-text
         >id: {{ task.id }} --- rank: {{ task.rank
         }}<v-text-field
@@ -26,7 +28,6 @@
                 class="justify-start"
                 :task-id="task.id"
                 :dialog="patchTaskDisplay"
-                :displayed-tasks="displayedTasks"
                 @click="showPatchTask"/></v-col
             ><v-spacer></v-spacer
             ><v-col cols="3">
@@ -59,25 +60,22 @@ export default {
   data() {
     return {
       patchTaskDisplay: false,
-      fromTaskRank: Number,
       fromColumnId: Number,
-      toTaskRank: Number,
       toColumnId: Number,
-      fromTask: Object,
-      fromTaskArray: {}
+      fromTaskIndex: Number,
+      dragTaskList: [],
+      dropTaskList: []
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray'])
-  },
-  mounted() {
-    this.displayedTasks(this.columnId)
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
+    taskArray() {
+      return id => {
+        return this.tasksInColumnArray(id)
+      }
+    }
   },
   methods: {
-    displayedTasks: function(id) {
-      let arrayCopy = JSON.parse(JSON.stringify(this.tasksInColumnArray(id)))
-      return arrayCopy
-    },
     patchTask: debounce(function(id, key, value) {
       const data = {}
       data[key] = value
@@ -87,65 +85,82 @@ export default {
     showPatchTask() {
       this.patchTaskDisplay = !this.patchTaskDisplay
     },
-    pickTask(event, dragTaskRank) {
+    pickTask(event, dragTaskIndex, dragTaskList) {
       // effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
-      // data
-      this.fromTaskRank = dragTaskRank
-      console.log('fromTaskRank', this.fromTaskRank)
 
-      this.fromTaskArray = this.displayedTasks(this.columnId)
-      this.fromTask = this.fromTaskArray.splice(this.fromTaskRank, 1)[0]
-      this.fromColumnId = this.fromTask.column_id
-      console.log('fromTask', this.fromTask)
-      let fromTaskArrayRankMap = this.fromTaskArray.map(task => [
-        task.id,
-        task.rank
-      ])
-      console.log('fromTaskArrayRankMap', fromTaskArrayRankMap)
-
-      console.log(event, dragTaskRank, this.fromTask.column_id)
+      event.dataTransfer.setData('from-task-index', dragTaskIndex)
+      event.dataTransfer.setData('from-task-list', JSON.stringify(dragTaskList))
     },
-    dropTask(event, dropTaskRank, toColumnId) {
-      this.toColumnId = toColumnId
-      let toTaskArray = this.displayedTasks(toColumnId)
-      console.log('drop A this.fromTask', this.fromTask)
-      if (this.fromColumnId === toColumnId) {
-        this.fromTaskArray.splice(dropTaskRank, 0, this.fromTask)
-        let fromTaskArrayRankMap = this.fromTaskArray.map(task => [
-          task.id,
-          task.rank
-        ])
-        console.log('drop fromTaskArrayRankMap', fromTaskArrayRankMap)
-      } else {
-        toTaskArray.splice(dropTaskRank, 0, this.fromTask)
-        let toTaskArrayRankMap = toTaskArray.map(task => [
-          task.id,
-          task.rank,
-          task.column_id
-        ])
-        console.log('drop fromTask', this.fromTask)
-        console.log('drop toTaskArrayRankMap', toTaskArrayRankMap)
-      }
-      // il faut savoir si on est on dans la meme colone ou pas
-      // // recuperer fromColumnIndex, et l'enlever du l'array
-      // let fromColumn = columnArray.splice(this.fromColumnRank, 1)[0]
-      // // recuperer l'index tocolumn, et mettre fromColumn
-      // columnArray.splice(this.toColumnRank, 0, fromColumn)
-      // // mapper le col id avec rank = index
-      // let idList = columnArray.map(column => column.id)
-      // for (let i = 0; i < idList.length; i++) {
-      //   app.service('columns').patch(idList[i], { rank: i })
-      // }
-      console.log(
-        'event',
-        event,
-        'dropTaskRank',
-        dropTaskRank,
-        'toColumnId',
-        toColumnId
+    dropTask(event, dropTaskList, dropTaskIndex, toColumnId) {
+      const fromTaskIndex = parseInt(
+        event.dataTransfer.getData('from-task-index')
       )
+      const dragTaskList = JSON.parse(
+        event.dataTransfer.getData('from-task-list')
+      )
+      const fromTask = dragTaskList[fromTaskIndex]
+      console.log('fromTaskArray', this.$store.state.fromTaskArray)
+      console.log(
+        'dragTaskList',
+        dragTaskList.map(task => task.id)
+      )
+      console.log(
+        'dropTaskList',
+        dropTaskList.map(task => task.id)
+      )
+      if (fromTask.column_id === toColumnId) {
+        fromTask.column_id = toColumnId
+        // move item in tasks list
+        dragTaskList.splice(
+          dropTaskIndex++,
+          0,
+          dragTaskList.splice(fromTaskIndex, 1)[0]
+        )
+      } else {
+        // move item in tasks list
+        dropTaskList.splice(
+          dropTaskIndex++,
+          0,
+          dragTaskList.splice(fromTaskIndex, 1)[0]
+        )
+        for (let i = 0; i < dropTaskList.length; i++) {
+          app.service('tasks').patch(dropTaskList[i].id, {
+            rank: i
+          })
+        }
+        app.service('tasks').patch(fromTask.id, { column_id: toColumnId })
+      }
+      console.log(
+        'dragTaskList',
+        dragTaskList.map(task => task.id)
+      )
+      console.log(
+        'dropTaskList',
+        dropTaskList.map(task => task.id)
+      )
+      // save new indexes and new column_id if need
+      for (let i = 0; i < dragTaskList.length; i++) {
+        app.service('tasks').patch(dragTaskList[i].id, { rank: i })
+      }
+    },
+    removeItem(item) {
+      this.dragTaskList.splice(this.dragTaskList.indexOf(item), 1)
+    },
+    removeItemAt(index) {
+      this.dragList.splice(index, 1)
+    },
+    moveItem(fromIndex, toIndex) {
+      if (toIndex === -1) {
+        this.removeItemAt(fromIndex)
+      } else {
+        this.dropTaskList.splice(
+          toIndex,
+          0,
+          this.dragTaskList.splice(fromIndex, 1)[0]
+        )
+      }
     }
   }
 }
