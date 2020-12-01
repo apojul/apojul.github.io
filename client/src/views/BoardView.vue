@@ -114,7 +114,7 @@ export default {
   background: url('http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg')
     no-repeat center center;
   background-size: cover;
-  background-color: red;
+  background-color: blue;
   transform: scale(1.1);
 }
 </style>

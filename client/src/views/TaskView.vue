@@ -34,19 +34,16 @@
       </v-card-actions>
     </v-card>
     <v-card
-      v-show="tasksInColumnArray(columnId).length === 0"
-      id="firstcondition"
+      v-show="taskArray(columnId).length === 0"
       @dragover.prevent
       @drop.stop="dropEmptyTask($event, columnId)"
     >
-      <AddTask :column-id="columnId" :displayed-tasks="displayedTasks">
+      <AddTask :column-id="columnId" :displayed-tasks="taskArray">
         Add or drop task
       </AddTask>
     </v-card>
-    <v-card
-      v-show="tasksInColumnArray(columnId).length != 0"
-      id="secondcondition"
-      ><AddTask :column-id="columnId" :displayed-tasks="displayedTasks" />
+    <v-card v-show="taskArray(columnId).length != 0"
+      ><AddTask :column-id="columnId" :displayed-tasks="taskArray" />
     </v-card>
   </div>
 </template>
@@ -84,18 +81,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
-    taskArray() {
-      return id => {
-        return this.tasksInColumnArray(id)
-      }
-    },
+    ...mapGetters([
+      'columnsInBoardArray',
+      'tasksInColumnArray'
+    ]) /* ,
     displayedTasks: function(id) {
-      let arrayCopy = JSON.parse(JSON.stringify(this.tasksInColumnArray(id)))
+      let arrayCopy = JSON.parse(JSON.stringify(this.tasksArray(id)))
       return arrayCopy
-    }
+    } */
   },
   methods: {
+    taskArray(id) {
+      return this.tasksInColumnArray(id)
+    },
     patchTask: debounce(function(id, key, value) {
       const data = {}
       data[key] = value
@@ -104,6 +102,23 @@ export default {
     }, 800),
     showPatchTask() {
       this.patchTaskDisplay = !this.patchTaskDisplay
+    },
+    dropEmptyTask(event, toColumnId) {
+      const fromTaskIndex = parseInt(
+        event.dataTransfer.getData('from-task-index')
+      )
+      const dragTaskList = JSON.parse(
+        event.dataTransfer.getData('from-task-list')
+      )
+      const fromTask = dragTaskList[fromTaskIndex]
+      const dropTaskList = this.taskArray(toColumnId)
+      dragTaskList.splice(fromTaskIndex, 1)[0]
+      fromTask.column_id = toColumnId
+      dropTaskList.push(fromTask)
+      app.service('tasks').patch(fromTask.id, {
+        rank: 0,
+        column_id: toColumnId
+      })
     },
     pickTask(event, dragTaskIndex, dragTaskList) {
       console.log(document.getElementById('board').offsetHeight)

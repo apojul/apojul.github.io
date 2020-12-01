@@ -4,13 +4,14 @@
       v-for="column in columnsInBoardArray(boardId)"
       :key="column.rank"
       cols="2"
+      class="column"
     >
       <v-card
         flat
-        class="mx-auto scroll-y"
+        class="column mx-auto"
         color="grey lighten-4"
         draggable
-        max-height="20%"
+        max-height="80%vh"
         @dragstart.self="pickColumn($event, column.rank)"
         @dragover.stop.prevent
         @drop.prevent.stop="dropColumn($event, column.rank)"
@@ -43,15 +44,15 @@
             color="green lighten-1"
             class="px-auto"
           >
-            <v-card-title class="d-flex justify-center mt-n7">{{
-              column.name
-            }}</v-card-title></v-card
+            <v-card-title class="d-flex justify-center mt-n7"
+              >{{ column.name }} -- id:{{ column.id }}</v-card-title
+            ></v-card
           >
           <v-card-text class="mt-n2 mb-n4"></v-card-text
           ><v-icon small class="ml-4">mdi-menu</v-icon
           ><v-icon small class="ml-4">mdi-attachment</v-icon>
         </v-card>
-        <v-card>
+        <v-card class="flex-col overflow-y">
           <Task :column-id="column.id" :drop-empty-task="dropEmptyTask" />
         </v-card>
       </v-card>
@@ -84,15 +85,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray(id)']),
-    tasksArray() {
-      // fait un appel au getter en tant que function, on peut y utiliser des args
-      return id => {
-        if (this.tasksInColumnArray(id).length === 0) {
-          return []
-        }
-        return this.tasksInColumnArray(id)
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
+    taskArray(id) {
+      if (this.tasksInColumnArray(id).length === 0) {
+        return []
       }
+      return this.tasksInColumnArray(id)
     }
   },
   mounted() {
@@ -108,7 +106,7 @@ export default {
         event.dataTransfer.getData('from-task-list')
       )
       const fromTask = dragTaskList[fromTaskIndex]
-      const dropTaskList = this.tasksArray(toColumnId)
+      const dropTaskList = this.taskArray(toColumnId)
       dragTaskList.splice(fromTaskIndex, 1)[0]
       fromTask.column_id = toColumnId
       dropTaskList.push(fromTask)
@@ -160,9 +158,7 @@ export default {
       }
       console.log(
         'fromTaskList',
-        fromTaskList.map(task => task.id)
-      )
-      console.log(
+        'taskArray',
         'toTaskList',
         toTaskList.map(task => task.id)
       )
@@ -244,6 +240,9 @@ export default {
 </script>
 
 <style>
+.column {
+  border: 5px solid blue;
+}
 .col {
   cursor: pointer;
 }
