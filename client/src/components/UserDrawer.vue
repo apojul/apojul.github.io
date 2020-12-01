@@ -7,7 +7,7 @@
     width="200"
     :value="drawer"
   >
-    <v-list v-if="$store.state.users">
+    <v-list v-if="users">
       <v-layout column align-center>
         <v-list-item-title class="title blue--text">
           ON LINE
@@ -25,7 +25,7 @@
                   flat
                   solo
                   dense
-                  :value="activeUser['nickname']"
+                  :value="user['nickname']"
                   @input="handleProfile('nickname', $event, 'users')"
                 ></v-text-field></v-list-item
               ><v-list-item class="align-baseline"
@@ -34,7 +34,7 @@
                   flat
                   solo
                   dense
-                  :value="activeUser['email']"
+                  :value="user['email']"
                   @input="handleProfile('email', $event, 'users')"
                 ></v-text-field
               ></v-list-item>
@@ -44,7 +44,7 @@
                   flat
                   solo
                   dense
-                  :value="activeUser['avatar']"
+                  :value="user['avatar']"
                   @input="handleProfile('avatar', $event, 'users')"
                 ></v-textarea></v-list-item
               ><v-list-item
@@ -63,7 +63,7 @@
                 ><v-img :src="url(item)"></v-img
               ></v-avatar>
 
-              {{ $store.state.users[item]['nickname'] }}
+              {{ users[item]['nickname'] }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
 
@@ -81,31 +81,42 @@ export default {
   name: 'UserDrawer',
   data() {
     return {
+      user: {},
       menu: false
     }
   },
   computed: {
-    ...mapGetters(['activeUser']),
-    conUserList() {
-      if (this.$store.state.OnLineUsers === undefined) {
-        return []
-      }
-      return this.$store.state.OnLineUsers
-    },
-    drawer() {
-      return this.$store.state.userDrawer
-    },
-    url() {
-      return item => {
-        return this.$store.state.users[item]['avatar']
+    ...mapGetters(['activeUser'])
+  },
+  watch: {
+    activeUser: {
+      handler() {
+        this.user = this.activeUser
       }
     }
   },
   async mounted() {
     await app.service('con_users').create({})
-    await this.$store.dispatch('fetch_user_list')
+    await this.getBoards()
   },
   methods: {
+    ...mapState(['users', 'OnLineUsers', 'userDrawer', 'activeUserId']),
+    ...mapActions({ getBoards: 'fetch_user_list' }),
+    activeUser() {
+      return this.activeUser
+    },
+    conUserList() {
+      if (!this.OnLineUsers) {
+        return []
+      }
+      return this.OnLineUsers
+    },
+    drawer() {
+      return this.userDrawer
+    },
+    url(item) {
+      return this.users[item]['avatar']
+    },
     handleProfile: debounce(function(field, value, service) {
       const data = {}
       data[field] = value
