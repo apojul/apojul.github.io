@@ -23,7 +23,7 @@ export default new Vuex.Store({
     // loading: false
     fromTaskArray: undefined,
     // pour chaque objet en state il y a une liste d'ids
-    // boardList: undefined,
+    boardList: undefined,
     columnList: undefined,
     taskList: undefined
     // userList: undefined, ces listes sont des computed dasn les composants pertinents
@@ -45,6 +45,12 @@ export default new Vuex.Store({
     //si c'est juste pour l'utiliser une fois, il vaut mieux de le mettre en computed prop
     activeUserInfo() {
       // va chercher le user.id de activeUser chez users
+    },
+    boardsOfUserArray: state => {
+      if (state.boards === undefined) {
+        return []
+      }
+      return Object.values(state.boards)
     },
     columnsInBoardArray(state) {
       // les deux fonctions font la même chose mais avec une syntaxe differente

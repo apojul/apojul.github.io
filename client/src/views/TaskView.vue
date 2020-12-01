@@ -113,7 +113,6 @@ export default {
       })
     },
     pickTask(event, dragTaskIndex, dragTaskList) {
-      console.log(document.getElementById('board').offsetHeight)
       // effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
@@ -130,8 +129,6 @@ export default {
         event.dataTransfer.getData('from-task-list')
       )
       const fromTask = fromTaskList[fromTaskIndex]
-      console.log('fromTaskList', fromTaskList)
-      console.log('toTaskList', toTaskList)
       // splice fromTask in place of toTask
       let spliceTask = (fromList, fromIndex, toIndex, toList) => {
         let list = toList === undefined ? fromList : toList
@@ -157,12 +154,6 @@ export default {
         // change column_id in task to match toColumn
         app.service('tasks').patch(fromTask.id, { column_id: toColumnId })
       }
-      console.log(
-        'fromTaskList',
-        'taskArray',
-        'toTaskList',
-        toTaskList.map(task => task.id)
-      )
       // save new indexes and new column_id if need
       for (let i = 0; i < fromTaskList.length; i++) {
         app.service('tasks').patch(fromTaskList[i].id, { rank: i })
@@ -171,7 +162,6 @@ export default {
     patchTask: debounce(function(id, key, value) {
       const data = {}
       data[key] = value
-      console.log('ext')
       app.service('tasks').patch({ id: id }, data)
     }, 800),
     showPatchTask() {

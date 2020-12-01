@@ -3,7 +3,7 @@
     <span class="bg"></span
     ><v-container fluid pa-0>
       <v-row class="d-flex flex-nowrap py-3 overflow-auto">
-        <v-col v-for="board in boardsList" :key="board.id" cols="2">
+        <v-col v-for="board in boardArray" :key="board.id" cols="2">
           <v-card class="ma-2" color="blue lighten-3">
             <v-card-title
               ><v-text-field
@@ -11,7 +11,7 @@
                 solo
                 flat
                 dense
-                @click="patchBoard('name', $event)"
+                @input="patchBoard(board.id, 'name', $event)"
               ></v-text-field
             ></v-card-title>
             <v-card-subtitle
@@ -57,6 +57,7 @@ import PatchBoard from '@/components/PatchBoard'
 
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -69,20 +70,19 @@ export default {
     }
   },
   computed: {
-    boardsList() {
-      if (this.$store.state.boards === undefined) {
-        this.$store.dispatch('fetch_board_list')
-        return []
-      }
-      return this.$store.state.boards
-    }
+    ...mapGetters({ boardArray: 'boardsOfUserArray' })
+  },
+  async mounted() {
+    if (this.boardsOfUserArray === undefined) await this.getBoards()
   },
   methods: {
+    ...mapState(['activeUserId']),
+    ...mapActions({ getBoards: 'fetch_board_list' }),
     addBoard() {
       const newBoard = {
         name: 'New Board',
         description: '',
-        user_id: this.$store.state.activeUserId
+        user_id: this.activeUserId
       }
       app.service('boards').create(newBoard)
     },
@@ -92,11 +92,10 @@ export default {
     goToBoard(id) {
       this.$router.push({ name: 'boardId', params: { id: id } })
     },
-    patchBoard: debounce(function(key, value) {
+    patchBoard: debounce(function(id, key, value) {
       const data = {}
       data[key] = value
-      console.log('ext')
-      app.service('boards').patch({ id: this.board.id }, data)
+      app.service('boards').patch(id, data)
     }, 800),
     showPatchBoard() {
       this.patchBoardDisplay = !this.patchBoardDisplay

@@ -4,7 +4,7 @@
       v-for="(column, index) in columnArray(boardId)"
       :key="index"
       cols="2"
-      class="column mx-auto"
+      class="column"
       draggable
       max-height="80%vh"
       @dragstart.self="pickColumn($event, columnArray(boardId), index)"
@@ -42,7 +42,7 @@
             class="px-auto"
           >
             <v-card-title class="d-flex justify-center mt-n7"
-              >{{ column.name }} -- id:{{ column.id }}</v-card-title
+              >{{ column.name }} - id:{{ column.id }}</v-card-title
             ></v-card
           >
           <v-card-text class="mt-n2 mb-n4"></v-card-text
@@ -91,7 +91,7 @@ export default {
     // drag and drop
     // pick events
     pickColumn(event, columnList, fromColumnIndex) {
-      console.log('pickColumn ~ columnList', columnList)
+      console.log(document.getElementById('board').offsetHeight)
       // Effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
@@ -106,13 +106,7 @@ export default {
       // recuperer data
       // recuperer fromColumnIndex, et l'enlever du l'array
       const fromColumnIndex = event.dataTransfer.getData('from-column-index')
-      console.log(
-        "event.dataTransfer.getData('column-list')",
-        event.dataTransfer.getData('column-list')
-      )
       const columnList = JSON.parse(event.dataTransfer.getData('column-list'))
-      console.log('columnList', columnList)
-
       let fromColumn = columnList.splice(fromColumnIndex, 1)[0]
       // recuperer l'index tocolumn, et mettre fromColumn
       columnList.splice(toColumnIndex, 0, fromColumn)
