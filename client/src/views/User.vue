@@ -1,11 +1,7 @@
 <template>
   <v-app id="view">
-    <span class="bg"></span>
-    <!-- <v-img
-      src="http://localhost:8080/img/natural-wonders-1400924-1600x1200.jpg"
-      alt="pretty image"
-      height="auto"
-      > --><v-container fluid pa-0>
+    <span class="bg"></span
+    ><v-container fluid pa-0>
       <v-row class="d-flex flex-nowrap py-3 overflow-auto">
         <v-col v-for="board in boardsList" :key="board.id" cols="2">
           <v-card class="ma-2" color="blue lighten-3">
@@ -51,9 +47,8 @@
           ></v-col
         >
       </v-row></v-container
-    ><!-- </v-img
-    > -->
-  </v-app>
+    ></v-app
+  >
 </template>
 
 <script>

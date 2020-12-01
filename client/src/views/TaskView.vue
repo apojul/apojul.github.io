@@ -3,15 +3,14 @@
     <v-card
       v-for="(task, index) in tasksInColumnArray(columnId)"
       :key="index"
-      class="d-flex ma-4 my-4"
+      class="d-flex ma-4"
       draggable
       @dragstart.stop="pickTask($event, index, tasksInColumnArray(columnId))"
       @dragover.stop.prevent
       @drop.prevent="
         dropTask($event, tasksInColumnArray(columnId), index, columnId)
       "
-      >id: {{ task.id }} rank: {{ task.rank
-      }}<v-text-field
+      ><v-text-field
         :value="task.title"
         solo
         flat
@@ -34,6 +33,21 @@
           ></v-row> -->
       </v-card-actions>
     </v-card>
+    <v-card
+      v-show="tasksInColumnArray(columnId).length === 0"
+      id="firstcondition"
+      @dragover.prevent
+      @drop.stop="dropEmptyTask($event, columnId)"
+    >
+      <AddTask :column-id="columnId" :displayed-tasks="displayedTasks">
+        Add or drop task
+      </AddTask>
+    </v-card>
+    <v-card
+      v-show="tasksInColumnArray(columnId).length != 0"
+      id="secondcondition"
+      ><AddTask :column-id="columnId" :displayed-tasks="displayedTasks" />
+    </v-card>
   </div>
 </template>
 
@@ -43,12 +57,14 @@ import app from '@/feathers-client'
 /* import PatchTask from '@/components/PatchTask'
 import DeleteButton from '@/components/DeleteButton' */
 import { mapGetters } from 'vuex'
+import AddTask from '@/components/AddTask'
 
 export default {
   name: 'Task',
   components: {
     /* PatchTask,
     DeleteButton */
+    AddTask
   },
   props: {
     columnId: {
@@ -73,6 +89,10 @@ export default {
       return id => {
         return this.tasksInColumnArray(id)
       }
+    },
+    displayedTasks: function(id) {
+      let arrayCopy = JSON.parse(JSON.stringify(this.tasksInColumnArray(id)))
+      return arrayCopy
     }
   },
   methods: {
@@ -102,7 +122,6 @@ export default {
         event.dataTransfer.getData('from-task-list')
       )
       const fromTask = dragTaskList[fromTaskIndex]
-      console.log('fromTaskArray', this.$store.state.fromTaskArray)
       console.log(
         'dragTaskList',
         dragTaskList.map(task => task.id)
@@ -135,36 +154,30 @@ export default {
         }
         app.service('tasks').patch(fromTask.id, { column_id: toColumnId })
       }
-      console.log(
-        'dragTaskList',
-        dragTaskList.map(task => task.id)
-      )
-      console.log(
-        'dropTaskList',
-        dropTaskList.map(task => task.id)
-      )
+
       // save new indexes and new column_id if need
       for (let i = 0; i < dragTaskList.length; i++) {
         app.service('tasks').patch(dragTaskList[i].id, { rank: i })
       }
-    },
-    removeItem(item) {
-      this.dragTaskList.splice(this.dragTaskList.indexOf(item), 1)
-    },
-    removeItemAt(index) {
-      this.dragList.splice(index, 1)
-    },
-    moveItem(fromIndex, toIndex) {
-      if (toIndex === -1) {
-        this.removeItemAt(fromIndex)
-      } else {
-        this.dropTaskList.splice(
-          toIndex,
-          0,
-          this.dragTaskList.splice(fromIndex, 1)[0]
-        )
-      }
     }
+    // ces methods appelés à l'interieur de dropTask
+    // removeItem(item) {
+    //   this.dragTaskList.splice(this.dragTaskList.indexOf(item), 1)
+    // },
+    // removeItemAt(index) {
+    //   this.dragList.splice(index, 1)
+    // },
+    // moveItem(fromIndex, toIndex) {
+    //   if (toIndex === -1) {
+    //     this.removeItemAt(fromIndex)
+    //   } else {
+    //     this.dropTaskList.splice(
+    //       toIndex,
+    //       0,
+    //       this.dragTaskList.splice(fromIndex, 1)[0]
+    //     )
+    //   }
+    // }
   }
 }
 </script>

@@ -1,6 +1,9 @@
 <template>
   <v-btn small depressed text color="grey lighten-1" @click="addTask"
-    ><v-icon dark small>mdi-plus</v-icon>Add another task
+    ><v-icon dark small>mdi-plus</v-icon>
+    <slot>
+      Add another task
+    </slot>
   </v-btn>
 </template>
 

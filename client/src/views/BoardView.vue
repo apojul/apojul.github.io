@@ -1,43 +1,31 @@
 :<template>
-  <v-container fluid fill-height pa-0>
-    <v-app
-      ><v-img
-        src="http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg"
-        alt="pretty image"
-        height="(document.getElementById('view').offsetHeight)/2 px"
+  <v-app
+    ><span class="bg"></span>
+    <v-app-bar flat color="transparent">
+      <v-col cols="2">
+        <v-text-field
+          :value="getBoard['name']"
+          solo
+          flat
+          dense
+          background-color="blue lighten-4"
+          class="mt-6"
+          @input="patchBoard('name', $event)"
+        >
+        </v-text-field
+      ></v-col>
+    </v-app-bar>
+    <v-row id="board" class="d-flex flex-row flex-nowrap overflow-auto"
+      ><v-btn
+        x-small
+        class="ma-2"
+        color="blue lighten-5"
+        :to="{ name: 'user_id' }"
       >
-        <v-app-bar flat color="transparent">
-          <v-row>
-            <v-col cols="2">
-              <v-text-field
-                :value="getBoard['name']"
-                solo
-                flat
-                dense
-                background-color="blue lighten-4"
-                class="mt-6"
-                @input="patchBoard('name', $event)"
-              >
-              </v-text-field></v-col
-            ><v-col justify-space-between></v-col
-            ><v-col cols="6" class="pt-9"> </v-col
-          ></v-row>
-        </v-app-bar>
-
-        <v-container fluid pa-0>
-          <v-row id="board" class="d-flex flex-nowrap py-3 overflow-auto"
-            ><v-btn
-              x-small
-              class="ma-2"
-              color="blue lighten-5"
-              :to="{ name: 'user_id' }"
-            >
-              <v-icon left small> mdi-arrow-left </v-icon>Back
-            </v-btn>
-            <Column /> </v-row
-        ></v-container>
-      </v-img> </v-app
-  ></v-container>
+        <v-icon left small> mdi-arrow-left </v-icon>Back
+      </v-btn>
+      <Column /> </v-row
+  ></v-app>
 </template>
 
 <script>
@@ -98,6 +86,7 @@ export default {
       event.currentTarget.style.opacity = '0'
     },
     leaveColumn(event) {
+      //localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg
       event.currentTarget.style.opacity = '1'
     },
     dropColumn(event, toColumnIndex) {
@@ -115,3 +104,17 @@ export default {
   }
 }
 </script>
+<style>
+.bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url('http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg')
+    no-repeat center center;
+  background-size: cover;
+  background-color: red;
+  transform: scale(1.1);
+}
+</style>
