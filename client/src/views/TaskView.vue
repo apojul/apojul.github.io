@@ -1,28 +1,27 @@
-<template>
-  <v-container
-    ><v-card
+<template
+  ><div>
+    <v-card
       v-for="(task, index) in tasksInColumnArray(columnId)"
       :key="index"
-      class="d-flex"
+      class="d-flex ma-4 my-4"
       draggable
       @dragstart.stop="pickTask($event, index, tasksInColumnArray(columnId))"
-      @dragenter.stop.prevent
+      @dragover.stop.prevent
       @drop.prevent="
         dropTask($event, tasksInColumnArray(columnId), index, columnId)
       "
-      ><v-card-text
-        >id: {{ task.id }} --- rank: {{ task.rank
-        }}<v-text-field
-          :value="task.title"
-          solo
-          flat
-          dense
-          align="center"
-          @input="patchTask(task.id, 'title', $event)"
-        >
-        </v-text-field>
-        <v-card-actions
-          ><v-row
+      >id: {{ task.id }} rank: {{ task.rank
+      }}<v-text-field
+        :value="task.title"
+        solo
+        flat
+        dense
+        align="center"
+        @input="patchTask(task.id, 'title', $event)"
+      >
+      </v-text-field>
+      <v-card-actions
+        ><!-- <v-row
             ><v-col cols="3"
               ><PatchTask
                 class="justify-start"
@@ -32,23 +31,24 @@
             ><v-spacer></v-spacer
             ><v-col cols="3">
               <DeleteButton :item-id="task.id" service="tasks"/></v-col
-          ></v-row>
-        </v-card-actions> </v-card-text></v-card
-  ></v-container>
+          ></v-row> -->
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
-import PatchTask from '@/components/PatchTask'
-import DeleteButton from '@/components/DeleteButton'
+/* import PatchTask from '@/components/PatchTask'
+import DeleteButton from '@/components/DeleteButton' */
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Task',
   components: {
-    PatchTask,
-    DeleteButton
+    /* PatchTask,
+    DeleteButton */
   },
   props: {
     columnId: {

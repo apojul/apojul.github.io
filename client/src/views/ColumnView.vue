@@ -15,8 +15,8 @@
         draggable
         max-height="20%"
         @dragstart.self="pickColumn($event, column.rank)"
-        @dragover.prevent
-        @drop.prevent="dropColumn($event, column.rank)"
+        @dragover.stop.prevent
+        @drop.prevent.stop="dropColumn($event, column.rank)"
       >
         <v-card-subtitle class="py-1"
           ><v-row dense>
@@ -55,22 +55,20 @@
           ><v-icon small class="ml-4">mdi-menu</v-icon
           ><v-icon small class="ml-4">mdi-attachment</v-icon>
         </v-card>
-        <p
-          v-if="tasksArray(column.id).length === 0"
-          height="50px"
-          color="success"
-          class="text-center text--disabled font-weight-thin my-auto"
-          @dragover.prevent
-          @drop="dropEmptyTask($event, column.id)"
-        >
-          drop here
-        </p>
-
         <v-card>
           <Task :column-id="column.id" :drop-empty-task="dropEmptyTask" />
         </v-card>
-        <v-card id="add-task" @dragover.stop.prevent
-          ><AddTask :column-id="column.id" :displayed-tasks="displayedTasks"
+        <v-card id="add-task">
+          <p
+            v-if="tasksArray(column.id).length === 0"
+            height="100px"
+            class="text-center text--disabled font-weight-thin my-auto"
+            @dragover.stop.prevent
+            @drop.prevent.stop="dropEmptyTask($event, column.id)"
+          >
+            No task
+          </p>
+          <AddTask :column-id="column.id" :displayed-tasks="displayedTasks"
         /></v-card>
       </v-card>
     </v-col>
