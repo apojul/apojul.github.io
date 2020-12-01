@@ -1,14 +1,15 @@
 <template
   ><div>
     <v-card
-      v-for="(task, index) in tasksInColumnArray(columnId)"
+      v-for="(task, index) in taskArray(columnId)"
       :key="index"
-      class="d-flex ma-4"
+      class="task d-flex ma-4"
       draggable
-      @dragstart.stop="pickTask($event, index, tasksInColumnArray(columnId))"
-      @dragover.stop.prevent
-      @drop.prevent="
-        dropTask($event, tasksInColumnArray(columnId), index, columnId)
+      @dragstart.self="pickTask($event, index, taskArray(columnId))"
+      @dragover.stop.prevent="overTask($event)"
+      @dragleave.stop.prevent="leaveTask($event)"
+      @drop.prevent.stop="
+        dropTask($event, taskArray(columnId), index, columnId)
       "
       ><v-text-field
         :value="task.title"
@@ -35,8 +36,8 @@
     </v-card>
     <v-card
       v-show="taskArray(columnId).length === 0"
-      @dragover.prevent
-      @drop.stop="dropEmptyTask($event, columnId)"
+      @dragover.stop.prevent
+      @drop.prevent.stop="dropEmptyTask($event, columnId)"
     >
       <AddTask :column-id="columnId" :displayed-tasks="taskArray">
         Add or drop task
@@ -68,6 +69,10 @@ export default {
       type: Number,
       required: true,
       default: () => {}
+    },
+    dropHandler: {
+      type: Function
+      // required: true
     }
   },
   data() {
@@ -81,27 +86,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'columnsInBoardArray',
-      'tasksInColumnArray'
-    ]) /* ,
-    displayedTasks: function(id) {
-      let arrayCopy = JSON.parse(JSON.stringify(this.tasksArray(id)))
-      return arrayCopy
-    } */
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray'])
   },
   methods: {
     taskArray(id) {
+      if (this.tasksInColumnArray(id).length === 0) {
+        return []
+      }
       return this.tasksInColumnArray(id)
-    },
-    patchTask: debounce(function(id, key, value) {
-      const data = {}
-      data[key] = value
-      console.log('ext')
-      app.service('tasks').patch({ id: id }, data)
-    }, 800),
-    showPatchTask() {
-      this.patchTaskDisplay = !this.patchTaskDisplay
     },
     dropEmptyTask(event, toColumnId) {
       const fromTaskIndex = parseInt(
@@ -125,55 +117,75 @@ export default {
       // effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
-
+      // recover data from event
       event.dataTransfer.setData('from-task-index', dragTaskIndex)
       event.dataTransfer.setData('from-task-list', JSON.stringify(dragTaskList))
     },
-    dropTask(event, dropTaskList, dropTaskIndex, toColumnId) {
+    dropTask(event, toTaskList, toTaskIndex, toColumnId) {
+      event.currentTarget.style.opacity = ''
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')
       )
-      const dragTaskList = JSON.parse(
+      const fromTaskList = JSON.parse(
         event.dataTransfer.getData('from-task-list')
       )
-      const fromTask = dragTaskList[fromTaskIndex]
-      console.log(
-        'dragTaskList',
-        dragTaskList.map(task => task.id)
-      )
-      console.log(
-        'dropTaskList',
-        dropTaskList.map(task => task.id)
-      )
+      const fromTask = fromTaskList[fromTaskIndex]
+      console.log('fromTaskList', fromTaskList)
+      console.log('toTaskList', toTaskList)
+      // splice fromTask in place of toTask
       let spliceTask = (fromList, fromIndex, toIndex, toList) => {
         let list = toList === undefined ? fromList : toList
-        //      let testIndex = toList.length === 0 ? (toIndex = 0) : toIndex
-        list.splice(toIndex++, 0, fromList.splice(fromIndex, 1)[0])
+        list.splice(toTaskIndex++, 0, fromTaskList.splice(fromTaskIndex, 1)[0])
       }
       if (fromTask.column_id === toColumnId) {
         fromTask.column_id = toColumnId
         // move item in tasks list
-        spliceTask(dragTaskList, fromTaskIndex, dropTaskIndex)
+        spliceTask(fromTaskList, fromTaskIndex, toTaskIndex)
       } else {
         // move item in tasks list
         let toIndex =
-          dropTaskIndex === dropTaskList.length - 1
-            ? (dropTaskIndex = dropTaskList.length)
-            : dropTaskIndex
-        spliceTask(dragTaskList, fromTaskIndex, toIndex, dropTaskList)
+          toTaskIndex === toTaskList.length - 1
+            ? (toTaskIndex = toTaskList.length)
+            : toTaskIndex
+        spliceTask(fromTaskList, fromTaskIndex, toIndex, toTaskList)
 
-        for (let i = 0; i < dropTaskList.length; i++) {
-          app.service('tasks').patch(dropTaskList[i].id, {
+        for (let i = 0; i < toTaskList.length; i++) {
+          app.service('tasks').patch(toTaskList[i].id, {
             rank: i
           })
         }
+        // change column_id in task to match toColumn
         app.service('tasks').patch(fromTask.id, { column_id: toColumnId })
       }
-
+      console.log(
+        'fromTaskList',
+        'taskArray',
+        'toTaskList',
+        toTaskList.map(task => task.id)
+      )
       // save new indexes and new column_id if need
-      for (let i = 0; i < dragTaskList.length; i++) {
-        app.service('tasks').patch(dragTaskList[i].id, { rank: i })
+      for (let i = 0; i < fromTaskList.length; i++) {
+        app.service('tasks').patch(fromTaskList[i].id, { rank: i })
       }
+    },
+    patchTask: debounce(function(id, key, value) {
+      const data = {}
+      data[key] = value
+      console.log('ext')
+      app.service('tasks').patch({ id: id }, data)
+    }, 800),
+    showPatchTask() {
+      this.patchTaskDisplay = !this.patchTaskDisplay
+    },
+
+    enterTask(event) {
+      event.currentTarget.style.opacity = '0.3'
+    },
+    leaveTask(event) {
+      event.currentTarget.style.opacity = '1'
+    },
+    overTask(event) {
+      event.currentTarget.style.opacity = '0.3'
     }
     // ces methods appelés à l'interieur de dropTask
     // removeItem(item) {
@@ -196,5 +208,8 @@ export default {
   }
 }
 </script>
-
-<style></style>
+<style>
+.task {
+  border: 5px solid black;
+}
+</style>

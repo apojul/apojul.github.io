@@ -1,21 +1,18 @@
 <template>
   <v-row
     ><v-col
-      v-for="column in columnsInBoardArray(boardId)"
-      :key="column.rank"
+      v-for="(column, index) in columnArray(boardId)"
+      :key="index"
       cols="2"
-      class="column"
+      class="column mx-auto"
+      draggable
+      max-height="80%vh"
+      @dragstart.self="pickColumn($event, columnArray(boardId), index)"
+      @dragleave.stop.prevent="leaveColumn($event)"
+      @dragover.stop.prevent="overColumn($event)"
+      @drop.prevent.stop="dropColumn($event, index)"
     >
-      <v-card
-        flat
-        class="column mx-auto"
-        color="grey lighten-4"
-        draggable
-        max-height="80%vh"
-        @dragstart.self="pickColumn($event, column.rank)"
-        @dragover.stop.prevent
-        @drop.prevent.stop="dropColumn($event, column.rank)"
-      >
+      <v-card flat class="column mx-auto" color="grey lighten-4">
         <v-card-subtitle class="py-1"
           ><v-row dense>
             <v-col cols="10">
@@ -25,7 +22,7 @@
                 dense
                 class="ms-8 mt-6"
                 :value="column.name"
-                @input="changeColumnName('name', $event)"
+                @input="patchColumn(column.id, 'name', $event)"
               >
               </v-text-field>
             </v-col>
@@ -53,7 +50,7 @@
           ><v-icon small class="ml-4">mdi-attachment</v-icon>
         </v-card>
         <v-card class="flex-col overflow-y">
-          <Task :column-id="column.id" :drop-empty-task="dropEmptyTask" />
+          <Task :column-id="column.id" />
         </v-card>
       </v-card>
     </v-col>
@@ -85,128 +82,49 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
-    taskArray(id) {
-      if (this.tasksInColumnArray(id).length === 0) {
-        return []
-      }
-      return this.tasksInColumnArray(id)
-    }
-  },
-  mounted() {
-    this.displayedColumns(this.boardId)
+    ...mapGetters(['columnsInBoardArray'])
   },
   methods: {
-    // drop events
-    dropEmptyTask(event, toColumnId) {
-      const fromTaskIndex = parseInt(
-        event.dataTransfer.getData('from-task-index')
-      )
-      const dragTaskList = JSON.parse(
-        event.dataTransfer.getData('from-task-list')
-      )
-      const fromTask = dragTaskList[fromTaskIndex]
-      const dropTaskList = this.taskArray(toColumnId)
-      dragTaskList.splice(fromTaskIndex, 1)[0]
-      fromTask.column_id = toColumnId
-      dropTaskList.push(fromTask)
-      app.service('tasks').patch(fromTask.id, {
-        rank: 0,
-        column_id: toColumnId
-      })
+    columnArray(id) {
+      return this.columnsInBoardArray(id)
     },
-    dropTask(event, toTaskList, toTaskIndex, toColumnId) {
-      const fromTaskIndex = parseInt(
-        event.dataTransfer.getData('from-task-index')
-      )
-      const fromTaskList = JSON.parse(
-        event.dataTransfer.getData('from-task-list')
-      )
-      const fromTask = fromTaskList[fromTaskIndex]
-      console.log('fromTaskArray', this.$store.state.fromTaskArray)
-      console.log(
-        'fromTaskList',
-        fromTaskList.map(task => task.id)
-      )
-      console.log(
-        'toTaskList',
-        toTaskList.map(task => task.id)
-      )
-      let spliceTask = (fromList, fromIndex, toIndex, toList) => {
-        let list = toList === undefined ? fromList : toList
-        //      let testIndex = toList.length === 0 ? (toIndex = 0) : toIndex
-        list.splice(toIndex++, 0, fromList.splice(fromIndex, 1)[0])
-      }
-      if (fromTask.column_id === toColumnId) {
-        fromTask.column_id = toColumnId
-        // move item in tasks list
-        spliceTask(fromTaskList, fromTaskIndex, toTaskIndex)
-      } else {
-        // move item in tasks list
-        let toIndex =
-          toTaskIndex === toTaskList.length - 1
-            ? (toTaskIndex = toTaskList.length)
-            : toTaskIndex
-        spliceTask(fromTaskList, fromTaskIndex, toIndex, toTaskList)
-
-        for (let i = 0; i < toTaskList.length; i++) {
-          app.service('tasks').patch(toTaskList[i].id, {
-            rank: i
-          })
-        }
-        app.service('tasks').patch(fromTask.id, { column_id: toColumnId })
-      }
-      console.log(
-        'fromTaskList',
-        'taskArray',
-        'toTaskList',
-        toTaskList.map(task => task.id)
-      )
-      // save new indexes and new column_id if need
-      for (let i = 0; i < fromTaskList.length; i++) {
-        app.service('tasks').patch(fromTaskList[i].id, { rank: i })
-      }
-    },
-    dropColumn(event, dropColumnRank) {
-      // Index vs Rank
-      // Index : seulement quand on travail sur columnArray pour chager la place des columns.
-      // Rank: propieté dans columns qui doit refleter Index.
-      event.currentTarget.style.opacity = ''
-      // recuperer data
-      //let fromColumnRank = event.dataTransfer.getData('from-column-rank')
-      this.toColumnRank = dropColumnRank
-      let columnArray = this.displayedColumns(this.boardId)
-      // recuperer fromColumnIndex, et l'enlever du l'array
-      let fromColumn = columnArray.splice(this.fromColumnRank, 1)[0]
-      // recuperer l'index tocolumn, et mettre fromColumn
-      columnArray.splice(this.toColumnRank, 0, fromColumn)
-      // mapper le col id avec rank = index
-      let idList = columnArray.map(column => column.id)
-      for (let i = 0; i < idList.length; i++) {
-        app.service('columns').patch(idList[i], { rank: i })
-      }
-    },
+    // drag and drop
     // pick events
-    pickTask(event, dragTaskIndex, dragTaskList) {
-      console.log(document.getElementById('board').offsetHeight)
-      // effects
-      event.dataTransfer.effectAllowed = 'move'
-      event.dataTransfer.dropEffect = 'move'
-
-      event.dataTransfer.setData('from-task-index', dragTaskIndex)
-      event.dataTransfer.setData('from-task-list', JSON.stringify(dragTaskList))
-    },
-    pickColumn(event, dragColumnRank) {
+    pickColumn(event, columnList, fromColumnIndex) {
+      console.log('pickColumn ~ columnList', columnList)
       // Effects
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
       // data
-      //event.dataTransfer.setData('from-column-rank', fromColumnRank)
-      this.fromColumnRank = dragColumnRank
+      event.dataTransfer.setData('column-list', JSON.stringify(columnList))
+      event.dataTransfer.setData('from-column-index', fromColumnIndex)
+    },
+
+    dropColumn(event, toColumnIndex) {
+      // Index : seulement quand on travail sur columnArray pour chager la place des columns.
+      event.currentTarget.style.opacity = ''
+      // recuperer data
+      // recuperer fromColumnIndex, et l'enlever du l'array
+      const fromColumnIndex = event.dataTransfer.getData('from-column-index')
+      console.log(
+        "event.dataTransfer.getData('column-list')",
+        event.dataTransfer.getData('column-list')
+      )
+      const columnList = JSON.parse(event.dataTransfer.getData('column-list'))
+      console.log('columnList', columnList)
+
+      let fromColumn = columnList.splice(fromColumnIndex, 1)[0]
+      // recuperer l'index tocolumn, et mettre fromColumn
+      columnList.splice(toColumnIndex, 0, fromColumn)
+      // mapper le col id avec rank = index
+      let idList = columnList.map(column => column.id)
+      for (let i = 0; i < idList.length; i++) {
+        app.service('columns').patch(idList[i], { rank: i })
+      }
     },
     // crud events
     async createColumn() {
-      let rankInit = this.displayedColumns(this.boardId).length
+      let rankInit = this.columnArray(this.boardId).length
       let newColumn = {
         name: 'new Column',
         board_id: this.boardId,
@@ -216,14 +134,10 @@ export default {
         ...newColumn
       })
     },
-    displayedColumns: function(id) {
-      let arrayCopy = JSON.parse(JSON.stringify(this.columnsInBoardArray(id)))
-      return arrayCopy
-    },
-    changeColumnName: debounce(function(key, value) {
+    patchColumn: debounce(function(id, key, value) {
       let data = {}
       data[key] = value
-      app.service('columns').patch({ id: this.column.id }, data)
+      app.service('columns').patch({ id: id }, data)
     }, 800),
 
     enterColumn(event) {
@@ -232,7 +146,7 @@ export default {
     leaveColumn(event) {
       event.currentTarget.style.opacity = ''
     },
-    over_handler(event) {
+    overColumn(event) {
       event.currentTarget.style.opacity = '0.3'
     }
   }
