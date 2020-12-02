@@ -78,11 +78,6 @@ export default {
   data() {
     return {
       patchTaskDisplay: false,
-      fromColumnId: Number,
-      toColumnId: Number,
-      fromTaskIndex: Number,
-      dragTaskList: [],
-      dropTaskList: []
     }
   },
   computed: {

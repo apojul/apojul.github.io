@@ -57,7 +57,7 @@ import PatchBoard from '@/components/PatchBoard'
 
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -70,20 +70,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ boardArray: 'boardsOfUserArray' })
+    ...mapGetters({ boardArray: 'boardsOfUserArray' }),
+    ...mapState(['activeUserId']),
+
   },
   async mounted() {
     if (this.boardsOfUserArray === undefined) await this.getBoards()
   },
   methods: {
-    ...mapState(['activeUserId']),
-    ...mapActions({ getBoards: 'fetch_board_list' }),
     addBoard() {
       const newBoard = {
         name: 'New Board',
         description: '',
         user_id: this.activeUserId
       }
+      console.log('userId', this.activeUserId);
       app.service('boards').create(newBoard)
     },
     deleteChange() {
