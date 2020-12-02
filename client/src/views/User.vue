@@ -54,7 +54,6 @@
 <script>
 import DeleteButton from '@/components/DeleteButton'
 import PatchBoard from '@/components/PatchBoard'
-
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
 import { mapState, mapGetters } from 'vuex'
@@ -72,9 +71,6 @@ export default {
   computed: {
     ...mapState(['activeUserId']),
     ...mapGetters({ boardArray: 'boardsOfUserArray' })
-  },
-  async mounted() {
-    if (this.boardsOfUserArray === undefined) await this.getBoards()
   },
   methods: {
     addBoard() {
@@ -106,15 +102,8 @@ export default {
 
 <style>
 .bg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   background: url('http://localhost:8080/img/natural-wonders-1400924-1600x1200.jpg')
-    no-repeat center center;
+    no-repeat center center fixed;
   background-size: cover;
-  background-color: red;
-  transform: scale(1.1);
 }
 </style>

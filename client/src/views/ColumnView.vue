@@ -116,7 +116,7 @@ export default {
 
       const columnList = JSON.parse(event.dataTransfer.getData('column-list'))
       let fromColumn = columnList.splice(fromColumnIndex, 1)[0]
-      // recuperer l'index tocolumn, et mettre fromColumn
+      // recuperer l'index to column, et mettre fromColumn
       columnList.splice(toColumnIndex, 0, fromColumn)
       // mapper le col id avec rank = index
       let idList = columnList.map(column => column.id)

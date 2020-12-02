@@ -1,10 +1,10 @@
 <template>
-  <v-app>
+  <div>
     <NavBar />
     <BoardDrawer />
     <UserDrawer />
     <router-view id="home-view"></router-view>
-  </v-app>
+  </div>
 </template>
 
 <script>
