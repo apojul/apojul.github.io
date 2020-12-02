@@ -86,15 +86,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray'])
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
+    taskArray() {
+      return id => {
+        if (this.tasksInColumnArray(id).length === 0) {
+          return []
+        }
+        return this.tasksInColumnArray(id)
+      }
+    }
   },
   methods: {
-    taskArray(id) {
-      if (this.tasksInColumnArray(id).length === 0) {
-        return []
-      }
-      return this.tasksInColumnArray(id)
-    },
     dropEmptyTask(event, toColumnId) {
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')

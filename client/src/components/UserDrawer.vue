@@ -25,16 +25,16 @@
                   flat
                   solo
                   dense
-                  :value="user['nickname']"
+                  :value="activeUser['nickname']"
                   @input="handleProfile('nickname', $event, 'users')"
                 ></v-text-field></v-list-item
               ><v-list-item class="align-baseline"
-                >email :
+                >Email :
                 <v-text-field
                   flat
                   solo
                   dense
-                  :value="user['email']"
+                  :value="activeUser['email']"
                   @input="handleProfile('email', $event, 'users')"
                 ></v-text-field
               ></v-list-item>
@@ -44,7 +44,7 @@
                   flat
                   solo
                   dense
-                  :value="user['avatar']"
+                  :value="activeUser['avatar']"
                   @input="handleProfile('avatar', $event, 'users')"
                 ></v-textarea></v-list-item
               ><v-list-item
@@ -81,29 +81,18 @@ export default {
   name: 'UserDrawer',
   data() {
     return {
-      user: {},
       menu: false
     }
   },
   computed: {
-    ...mapGetters(['activeUser'])
-  },
-  watch: {
+    ...mapGetters(['activeUser']),
     activeUser: {
-      handler() {
-        this.user = this.activeUser
+      get() {
+        return this.activeUser
+      },
+      set(field, value, service) {
+        this.handleProfile(field, value, service)
       }
-    }
-  },
-  async mounted() {
-    await app.service('con_users').create({})
-    await this.getBoards()
-  },
-  methods: {
-    ...mapState(['users', 'OnLineUsers', 'userDrawer', 'activeUserId']),
-    ...mapActions({ getBoards: 'fetch_user_list' }),
-    activeUser() {
-      return this.activeUser
     },
     conUserList() {
       if (!this.OnLineUsers) {
@@ -116,7 +105,15 @@ export default {
     },
     url(item) {
       return this.users[item]['avatar']
-    },
+    }
+  },
+  async mounted() {
+    await app.service('con_users').create({})
+    await this.getBoards()
+  },
+  methods: {
+    ...mapState(['users', 'OnLineUsers', 'userDrawer', 'activeUserId']),
+    ...mapActions({ getBoards: 'fetch_user_list' }),
     handleProfile: debounce(function(field, value, service) {
       const data = {}
       data[field] = value

@@ -82,12 +82,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray'])
+    ...mapGetters(['columnsInBoardArray']),
+    columnArray() {
+      return id => {
+        return this.columnsInBoardArray(id)
+      }
+    }
   },
   methods: {
-    columnArray(id) {
-      return this.columnsInBoardArray(id)
-    },
     // drag and drop
     // pick events
     pickColumn(event, columnList, fromColumnIndex) {

@@ -53,6 +53,7 @@ export default {
       return await this.fetch_board_list()
     },
     getBoard() {
+      console.log(this.boards)
       if (this.boardsOfUserArray === undefined) {
         this.getboards()
       }
