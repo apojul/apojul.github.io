@@ -70,13 +70,13 @@ export default {
     }
   },
   computed: {
+    ...mapState(['activeUserId']),
     ...mapGetters({ boardArray: 'boardsOfUserArray' })
   },
   async mounted() {
     if (this.boardsOfUserArray === undefined) await this.getBoards()
   },
   methods: {
-    ...mapState(['activeUserId']),
     ...mapActions({ getBoards: 'fetch_board_list' }),
     addBoard() {
       const newBoard = {

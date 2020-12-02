@@ -85,15 +85,8 @@ export default {
     }
   },
   computed: {
+    ...mapState(['users', 'OnLineUsers', 'userDrawer', 'activeUserId']),
     ...mapGetters(['activeUser']),
-    activeUser: {
-      get() {
-        return this.activeUser
-      },
-      set(field, value, service) {
-        this.handleProfile(field, value, service)
-      }
-    },
     conUserList() {
       if (!this.OnLineUsers) {
         return []
@@ -103,8 +96,10 @@ export default {
     drawer() {
       return this.userDrawer
     },
-    url(item) {
-      return this.users[item]['avatar']
+    url() {
+      return item => {
+        return this.users[item]['avatar']
+      }
     }
   },
   async mounted() {
@@ -112,7 +107,6 @@ export default {
     await this.getBoards()
   },
   methods: {
-    ...mapState(['users', 'OnLineUsers', 'userDrawer', 'activeUserId']),
     ...mapActions({ getBoards: 'fetch_user_list' }),
     handleProfile: debounce(function(field, value, service) {
       const data = {}

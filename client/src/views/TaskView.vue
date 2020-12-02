@@ -119,11 +119,16 @@ export default {
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
       // recover data from event
+      event.dataTransfer.setData('type', 'task')
       event.dataTransfer.setData('from-task-index', dragTaskIndex)
       event.dataTransfer.setData('from-task-list', JSON.stringify(dragTaskList))
     },
     dropTask(event, toTaskList, toTaskIndex, toColumnId) {
+      let type = event.dataTransfer.getData('type')
       event.currentTarget.style.opacity = ''
+      if (type != 'task') {
+        return
+      }
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')
       )
