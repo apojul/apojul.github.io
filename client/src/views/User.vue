@@ -77,7 +77,6 @@ export default {
     if (this.boardsOfUserArray === undefined) await this.getBoards()
   },
   methods: {
-    ...mapActions({ getBoards: 'fetch_board_list' }),
     addBoard() {
       const newBoard = {
         name: 'New Board',

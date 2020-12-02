@@ -107,7 +107,6 @@ export default {
     await this.getBoards()
   },
   methods: {
-    ...mapActions({ getBoards: 'fetch_user_list' }),
     handleProfile: debounce(function(field, value, service) {
       const data = {}
       data[field] = value
