@@ -9,7 +9,7 @@
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "AuADxbEX+esXJSMQDL6AuXMcNeI=",
+    "secret": "oYTMN3w6AgR2cpNh/NWYbSd/LLs=",
     "authStrategies": [
       "jwt",
       "local"
@@ -28,34 +28,46 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "/",
+      "redirect": "http://localhost:8080/oauth",
+      "auth0": {
+        "key": "<auth0 oauth key>",
+        "secret": "<auth0 oauth secret>",
+        "subdomain": "<auth0 subdomain>"
+      },
       "google": {
-        "key": "<google oauth key>",
-        "secret": "<google oauth secret>",
+        "key": "GOOGLE_CLIENT_ID",
+        "secret": "GOOGLE_CLIENT_SECRET",
         "scope": [
+          "openid",
           "email",
-          "profile",
-          "openid"
-        ]
+          "profile"
+        ],
+        "nonce": true
       },
       "facebook": {
-        "key": "<facebook oauth key>",
-        "secret": "<facebook oauth secret>"
+        "key": "FACEBOOK_CLIENT_ID",
+        "secret": "FACEBOOK_CLIENT_SECRET",
+        "scope": ["email, public_profile"]
+      },
+      "twitter": {
+        "key": "<twitter oauth key>",
+        "secret": "<twitter oauth secret>"
+      },
+      "github": {
+        "key": "GITHUB_CLIENT_ID",
+        "secret": "GITHUB_CLIENT_SECRET"
       }
     }
   },
   "postgres": {
     "client": "pg",
     "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
-    "migrations" : {
-      "directory" : "../database/migrations",
-      "tableName" : "knew_migrations"
+    "migrations": {
+      "directory": "../database/migrations",
+      "tableName": "knew_migrations"
     },
-
-      "seeds" : {
-        "directory" : "../database/seeds"
-      }
-
+    "seeds": {
+      "directory": "../database/seeds"
+    }
   }
-
 }
