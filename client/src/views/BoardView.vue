@@ -32,7 +32,7 @@
 import { debounce } from 'debounce'
 import Column from '@/views/ColumnView'
 import app from '@/feathers-client'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -44,24 +44,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['boardsOfUserArray'])
-  },
-  methods: {
+    ...mapGetters(['boardsOfUserArray']),
     ...mapState(['boards']),
-    ...mapActions(['fetch_board_list']),
-    async getBoards() {
-      return await this.fetch_board_list()
-    },
     getBoard() {
       if (this.boardsOfUserArray === undefined) {
-        this.getboards()
+        this.boards()
       }
       if (this.boardId) {
         return this.boards[this.boardId]
       } else {
         return [['no board']]
       }
-    },
+    }
+  },
+  methods: {
     patchBoard: debounce(async function(field, value) {
       const data = {}
       data[field] = value

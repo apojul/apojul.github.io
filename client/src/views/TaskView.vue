@@ -69,10 +69,6 @@ export default {
       type: Number,
       required: true,
       default: () => {}
-    },
-    dropHandler: {
-      type: Function
-      // required: true
     }
   },
   data() {
@@ -81,16 +77,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray'])
+    ...mapGetters(['columnsInBoardArray', 'tasksInColumnArray']),
+    taskArray() {
+      return id => {
+        if (this.tasksInColumnArray(id).length === 0) {
+          return []
+        }
+        return this.tasksInColumnArray(id)
+      }
+    }
   },
   methods: {
-    taskArray(id) {
-      if (this.tasksInColumnArray(id).length === 0) {
-        return []
-      }
-      return this.tasksInColumnArray(id)
-    },
     dropEmptyTask(event, toColumnId) {
+      let type = event.dataTransfer.getData('type')
+      if (type != 'task') {
+        return
+      }
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')
       )
@@ -112,11 +114,16 @@ export default {
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.dropEffect = 'move'
       // recover data from event
+      event.dataTransfer.setData('type', 'task')
       event.dataTransfer.setData('from-task-index', dragTaskIndex)
       event.dataTransfer.setData('from-task-list', JSON.stringify(dragTaskList))
     },
     dropTask(event, toTaskList, toTaskIndex, toColumnId) {
+      let type = event.dataTransfer.getData('type')
       event.currentTarget.style.opacity = ''
+      if (type != 'task') {
+        return
+      }
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')
       )
@@ -172,24 +179,6 @@ export default {
     overTask(event) {
       event.currentTarget.style.opacity = '0.3'
     }
-    // ces methods appelés à l'interieur de dropTask
-    // removeItem(item) {
-    //   this.dragTaskList.splice(this.dragTaskList.indexOf(item), 1)
-    // },
-    // removeItemAt(index) {
-    //   this.dragList.splice(index, 1)
-    // },
-    // moveItem(fromIndex, toIndex) {
-    //   if (toIndex === -1) {
-    //     this.removeItemAt(fromIndex)
-    //   } else {
-    //     this.dropTaskList.splice(
-    //       toIndex,
-    //       0,
-    //       this.dragTaskList.splice(fromIndex, 1)[0]
-    //     )
-    //   }
-    // }
   }
 }
 </script>

@@ -104,8 +104,10 @@ export default {
   },
   async mounted() {
     await app.service('con_users').create({})
+    await this.getBoards()
   },
   methods: {
+    ...mapActions({ getBoards: 'fetch_user_list' }),
     handleProfile: debounce(function(field, value, service) {
       const data = {}
       data[field] = value

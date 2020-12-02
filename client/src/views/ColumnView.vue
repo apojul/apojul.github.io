@@ -82,12 +82,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['columnsInBoardArray'])
+    ...mapGetters(['columnsInBoardArray']),
+    columnArray() {
+      return id => {
+        return this.columnsInBoardArray(id)
+      }
+    }
   },
   methods: {
-    columnArray(id) {
-      return this.columnsInBoardArray(id)
-    },
     // drag and drop
     // pick events
     pickColumn(event, columnList, fromColumnIndex) {
@@ -98,14 +100,20 @@ export default {
       // data
       event.dataTransfer.setData('column-list', JSON.stringify(columnList))
       event.dataTransfer.setData('from-column-index', fromColumnIndex)
+      event.dataTransfer.setData('type', 'column')
     },
 
     dropColumn(event, toColumnIndex) {
-      // Index : seulement quand on travail sur columnArray pour chager la place des columns.
       event.currentTarget.style.opacity = ''
+      const type = event.dataTransfer.getData('type')
+      if (type != 'column') {
+        return
+      }
+      // Index : seulement quand on travail sur columnArray pour chager la place des columns.
       // recuperer data
       // recuperer fromColumnIndex, et l'enlever du l'array
       const fromColumnIndex = event.dataTransfer.getData('from-column-index')
+
       const columnList = JSON.parse(event.dataTransfer.getData('column-list'))
       let fromColumn = columnList.splice(fromColumnIndex, 1)[0]
       // recuperer l'index tocolumn, et mettre fromColumn
