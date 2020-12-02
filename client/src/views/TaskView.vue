@@ -98,6 +98,10 @@ export default {
   },
   methods: {
     dropEmptyTask(event, toColumnId) {
+      let type = event.dataTransfer.getData('type')
+      if (type != 'task') {
+        return
+      }
       const fromTaskIndex = parseInt(
         event.dataTransfer.getData('from-task-index')
       )
