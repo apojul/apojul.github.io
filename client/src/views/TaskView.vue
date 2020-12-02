@@ -69,10 +69,6 @@ export default {
       type: Number,
       required: true,
       default: () => {}
-    },
-    dropHandler: {
-      type: Function
-      // required: true
     }
   },
   data() {
@@ -188,24 +184,6 @@ export default {
     overTask(event) {
       event.currentTarget.style.opacity = '0.3'
     }
-    // ces methods appelés à l'interieur de dropTask
-    // removeItem(item) {
-    //   this.dragTaskList.splice(this.dragTaskList.indexOf(item), 1)
-    // },
-    // removeItemAt(index) {
-    //   this.dragList.splice(index, 1)
-    // },
-    // moveItem(fromIndex, toIndex) {
-    //   if (toIndex === -1) {
-    //     this.removeItemAt(fromIndex)
-    //   } else {
-    //     this.dropTaskList.splice(
-    //       toIndex,
-    //       0,
-    //       this.dragTaskList.splice(fromIndex, 1)[0]
-    //     )
-    //   }
-    // }
   }
 }
 </script>
