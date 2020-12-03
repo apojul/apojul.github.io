@@ -104,7 +104,6 @@ export default {
   },
   async mounted() {
     await app.service('con_users').create({})
-    await this.getBoards()
   },
   methods: {
     handleProfile: debounce(function(field, value, service) {
