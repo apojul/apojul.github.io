@@ -113,3 +113,5 @@ data/
 rest.http
 
 .env
+
+index.md
