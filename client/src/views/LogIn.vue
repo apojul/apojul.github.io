@@ -8,7 +8,7 @@
       ></v-app-bar>
 
       <v-img
-        src="http://localhost:8080/img/lucas-davies-eoaim05D5bM-unsplash.jpg"
+        src="http://localhost:8080/img/lucas.jpg"
         alt="pretty image"
         ><v-card
           max-width="400"
@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
     }
   },
   methods: {
