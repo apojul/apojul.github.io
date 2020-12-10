@@ -56,7 +56,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/google"
+                  href="http:localhost:3030/oauth/google"
                   @click="loading"
                   ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                 >
@@ -65,7 +65,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/facebook"
+                  href="`${serverUrl}/oauth/facebook`"
                   @click="loading"
                   ><v-icon left>mdi-facebook</v-icon> Login with Facebook</v-btn
                 >
@@ -108,6 +108,7 @@
 export default {
   data() {
     return {
+      serverUrl: process.env.VUE_APP_SERVER_URL,
       email: '',
       password: ''
     }

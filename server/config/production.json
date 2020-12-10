@@ -1,4 +1,4 @@
 {
-  "host": "andres-pascal-app.feathersjs.com",
+  "host": "localhost",
   "port": "PORT"
 }
