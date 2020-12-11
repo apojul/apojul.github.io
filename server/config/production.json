@@ -1,4 +1,8 @@
 {
   "host": "localhost",
-  "port": 3030
-}
+  "port": 3030,
+  "authentication": {
+    "oauth": {
+      "redirect": "http://apojul.com/oauth"
+    }
+  }

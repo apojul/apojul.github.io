@@ -56,7 +56,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/google"
+                  href="http://apojul.com/oauth/google"
                   @click="loading"
                   ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                 >
@@ -65,7 +65,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/facebook"
+                  href="http://apojul.com/oauth/facebook"
                   @click="loading"
                   ><v-icon left>mdi-facebook</v-icon> Login with Facebook</v-btn
                 >
@@ -74,7 +74,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/github"
+                  href="http://apojul.com/oauth/github"
                   @click="loading"
                   ><v-icon left>mdi-github</v-icon> Login with Github</v-btn
                 > </v-card-actions
