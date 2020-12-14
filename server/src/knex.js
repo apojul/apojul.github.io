@@ -7,7 +7,7 @@ module.exports = function (app) {
   //test system env variable $APP_DB
   console.log('connection db in knex.js', connection);
   // test sytem env variable APP_SERVER
-  const {oauth} = app.get('authetication')
+  const {oauth} = app.get('authentication')
   console.log('oauth in kenx.js', oauth);
 
   app.set('knexClient', db)
