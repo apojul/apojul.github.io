@@ -3,11 +3,11 @@
   "port": 3030,
   "authentication": {
     "oauth": {
-      "redirect": "$APP_SERVER/oauth"
+      "redirect": "APP_SERVER/oauth"
     }
   },
   "postgres": {
     "client": "pg",
-    "connection": "$APP_DB"
+    "connection": "APP_DB"
   }
 }
