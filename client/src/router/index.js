@@ -109,7 +109,7 @@ router.beforeEach(async (to, from, next) => {
     } catch (err) {
       next('/loggedout')
     }
-  } else if (to.path === '/oauth') {
+  } else if (to.path === '/oauth-client') {
     // goes here after signin or signup with Google etc. (oAuth)
     // app.reAuthenticate() is MANDATORY - otherwise jwt is not in LocalStorage
 
