@@ -3,7 +3,7 @@
   "port": 3030,
   "authentication": {
     "oauth": {
-      "redirect": "APP_SERVER/oauth"
+      "redirect": "APP_SERVER_OAUTH"
     }
   },
   "postgres": {
