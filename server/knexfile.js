@@ -27,8 +27,12 @@ module.exports = {
   },
 
   production: {
-    client: 'pg',
-    connection: 'postgres://andres_pascal:2345@db:5432/andres_pascal',
+    client: 'postgresql',
+    connection: {
+      database: 'kanban',
+      user:     'kanban',
+      password: '2345'
+    },
     pool: {
       min: 2,
       max: 10
