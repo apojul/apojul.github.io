@@ -7,9 +7,7 @@
         ><v-spacer></v-spacer
       ></v-app-bar>
 
-      <v-img
-        src="http://localhost:8080/img/lucas.jpg"
-        alt="pretty image"
+      <v-img src="http://localhost:8080/img/lucas.jpg" alt="pretty image"
         ><v-card
           max-width="400"
           class="mx-auto mt-6"
