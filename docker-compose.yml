@@ -1,0 +1,50 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: andres_pascal
+      POSTGRES_USER: andres_pascal
+      POSTGRES_PASSWORD: 2345
+    volumes:
+      - ./server/data:/data/db:rw
+    restart: always
+    networks:
+      - app-network
+  server:
+    build: server/
+    environment:
+      DB_SCHEMA: andres_pascal
+      DB_USER: andres_pascal
+      DB_PASSWORD: 2345
+      DB_HOST: db
+    volumes:
+      - ./server/:/app/:rw
+    ports:
+      - "3030:3030"
+    depends_on:
+      - db
+    networks:
+      - app-network
+  client:
+    build: client/
+    volumes:
+      - ./client/:/app/:rw
+    depends_on:
+      - server
+    networks:
+      - app-network
+  rp:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+      - client
+    networks:
+      - app-network
+networks:
+      app-network:
+        driver: bridge

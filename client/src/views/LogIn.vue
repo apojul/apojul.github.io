@@ -106,6 +106,7 @@
 export default {
   data() {
     return {
+      serverUrl: process.env.VUE_APP_SERVER_URL,
       email: '',
       password: '',
       google: `${process.env.VUE_APP_SERVER}/oauth/google`,

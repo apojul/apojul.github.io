@@ -1,7 +1,7 @@
 module.exports={
   apps : [{
     name: "kanban-server",
-    cwd: "/home/ap/kanban/server",
+    cwd: "/home/ap/workspace/kanban/server",
     script: "npm",
     args: "start",
     env_production: {

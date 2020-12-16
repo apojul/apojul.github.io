@@ -1,7 +1,6 @@
 {
   "host": "localhost",
   "port": 3030,
-
   "authentication": {
     "entity": "user",
     "service": "users",
@@ -43,7 +42,9 @@
       "facebook": {
         "key": "FACEBOOK_CLIENT_ID",
         "secret": "FACEBOOK_CLIENT_SECRET",
-        "scope": ["email, public_profile"]
+        "scope": [
+          "email, public_profile"
+        ]
       },
       "twitter": {
         "key": "<twitter oauth key>",
