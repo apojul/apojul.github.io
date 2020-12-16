@@ -8,7 +8,7 @@
       ></v-app-bar>
 
       <v-img
-        src="http://localhost:8080/img/lucas-davies-eoaim05D5bM-unsplash.jpg"
+        src="http://localhost:8080/img/lucas.jpg"
         alt="pretty image"
         ><v-card
           max-width="400"
@@ -56,7 +56,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/google"
+                  :href="google"
                   @click="loading"
                   ><v-icon left>mdi-google</v-icon>Login with Google</v-btn
                 >
@@ -65,7 +65,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/facebook"
+                  :href="facebook"
                   @click="loading"
                   ><v-icon left>mdi-facebook</v-icon> Login with Facebook</v-btn
                 >
@@ -74,7 +74,7 @@
                 <v-btn
                   block
                   class="text-lowercase"
-                  href="http://localhost:3030/oauth/github"
+                  :href="github"
                   @click="loading"
                   ><v-icon left>mdi-github</v-icon> Login with Github</v-btn
                 > </v-card-actions
@@ -109,7 +109,10 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      google: `${process.env.VUE_APP_SERVER}/oauth/google`,
+      facebook: `${process.env.VUE_APP_SERVER}/oauth/facebook`,
+      github: `${process.env.VUE_APP_SERVER}/oauth/github`
     }
   },
   methods: {
