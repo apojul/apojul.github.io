@@ -28,7 +28,7 @@
     ><v-container fluid fill-height pa-0
       ><v-card>
         <v-img
-          src="http://localhost:8080/img/billow926-GZB0ugb9a40-unsplash.jpg"
+          src="<%= BASE_URL %>/img/billow926-GZB0ugb9a40-unsplash.jpg"
           alt="pretty image"
           height="800"
         ></v-img
