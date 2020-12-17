@@ -3,10 +3,8 @@
     ><v-col
       v-for="(column, index) in columnArray(boardId)"
       :key="index"
-      cols="2"
       class="column"
       draggable
-      max-height="80%vh"
       @dragstart.self="pickColumn($event, columnArray(boardId), index)"
       @dragleave.stop.prevent="leaveColumn($event)"
       @dragover.stop.prevent="overColumn($event)"
@@ -158,6 +156,14 @@ export default {
 <style>
 .column {
   border: 5px solid blue;
+  width: 272px;
+  margin: 0 4px;
+  height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  position: static;
 }
 .col {
   cursor: pointer;
