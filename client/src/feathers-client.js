@@ -2,7 +2,7 @@
 
 // Feathers configuration
 import io from 'socket.io-client'
-const socket = io(process.env.VUE_APP_SERVER, {
+const socket = io("localhost:3030", {
   transports: ['websocket'],
   force: true
 })
