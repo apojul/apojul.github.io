@@ -113,5 +113,7 @@ data/
 rest.http
 
 .env
+.env.d*
+.env.p*
 
 index.md
