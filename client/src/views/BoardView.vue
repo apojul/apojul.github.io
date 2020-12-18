@@ -73,8 +73,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background: url('http://localhost:8080/img/saira-HukoEzQ6StQ-unsplash.jpg')
-    no-repeat center center;
+  background: url('/img/saira-HukoEzQ6StQ-unsplash.jpg') no-repeat center center;
   background-size: cover;
   background-color: blue;
   transform: scale(1.1);
