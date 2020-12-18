@@ -1,6 +1,6 @@
 {
-  "host": "localhost",
-  "port": 3030,
+  "host": "HOST",
+  "port": "PORT",
   "public": "../public/",
   "paginate": {
     "default": 10,
@@ -18,7 +18,7 @@
       "header": {
         "typ": "access"
       },
-      "audience": "https://yourdomain.com",
+      "audience": "HOST",
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"
@@ -28,7 +28,7 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "http://localhost:8080/after_oauth",
+      "redirect": "/after_oauth",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
@@ -63,13 +63,6 @@
   },
   "postgres": {
     "client": "pg",
-    "connection": "postgres://andres_pascal:2345@localhost:5432/andres_pascal",
-    "migrations": {
-      "directory": "../database/migrations",
-      "tableName": "knew_migrations"
-    },
-    "seeds": {
-      "directory": "../database/seeds"
-    }
+    "connection": "APP_DB"
   }
 }

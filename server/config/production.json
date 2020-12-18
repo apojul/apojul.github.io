@@ -1,14 +1,11 @@
 {
-  "host": "localhost",
-<<<<<<< HEAD
-  "port": "PORT"
-=======
-  "port": 3030,
+  "host": "HOST",
+  "port": "PORT",
 
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "oYTMN3w6AgR2cpNh/NWYbSd/LLs=",
+    "secret": "JWT",
     "authStrategies": [
       "jwt",
       "local"
@@ -17,7 +14,7 @@
       "header": {
         "typ": "access"
       },
-      "audience": "http://apojul.com",
+      "audience": "HOST",
       "issuer": "feathers",
       "algorithm": "HS256",
       "expiresIn": "1d"
@@ -27,7 +24,7 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "APP_SERVER_OAUTH",
+      "redirect": "/after_oauth",
       "auth0": {
         "key": "<auth0 oauth key>",
         "secret": "<auth0 oauth secret>",
@@ -62,5 +59,4 @@
     "client": "pg",
     "connection": "APP_DB"
   }
->>>>>>> 36ee7118aa46d4d8af2d79baccbfa7a51f2d4646
 }
