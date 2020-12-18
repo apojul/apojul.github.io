@@ -4,6 +4,7 @@ module.exports={
     cwd: "/home/ap/workspace/kanban/server",
     script: "npm",
     args: "start",
+    watch: true,
     env_production: {
       NODE_ENV: "production",
     }

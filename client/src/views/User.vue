@@ -102,8 +102,8 @@ export default {
 
 <style>
 .bg {
-  background: url('http://localhost:8080/img/natural-wonders-1400924-1600x1200.jpg')
-    no-repeat center center fixed;
+  background: url('/img/natural-wonders-1400924-1600x1200.jpg') no-repeat center
+    center fixed;
   background-size: cover;
 }
 </style>
