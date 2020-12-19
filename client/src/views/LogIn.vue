@@ -23,9 +23,11 @@
           <v-container>
             <v-card flat color="transparent">
               <v-card-text>
-                <v-form>
+                <v-form v-model="isValid">
                   <v-text-field
                     v-model="email"
+                    :rules="emailRules"
+                    required
                     dense
                     class="white align-baseline"
                     prepend-icon="mdi-email"
@@ -33,6 +35,9 @@
                   ></v-text-field>
                   <v-text-field
                     v-model="password"
+                    type="password"
+                    :rules="passwordRules"
+                    required
                     dense
                     class="white align-baseline"
                     prepend-icon="mdi-lock"
@@ -44,6 +49,7 @@
                 <v-btn
                   block
                   depressed
+                  :disabled="!isValid"
                   color="light-blue lighten-5 headline font-weight-medium"
                   @click="handleSignin"
                   >Login</v-btn
@@ -107,7 +113,10 @@ export default {
   data() {
     return {
       email: '',
+      emailRules: [v => !!v || 'Email is required'],
       password: '',
+      passwordRules: [v => !!v || 'Password is required'],
+      isValid: true,
       google: `${process.env.VUE_APP_SERVER}/oauth/google`,
       facebook: `${process.env.VUE_APP_SERVER}/oauth/facebook`,
       github: `${process.env.VUE_APP_SERVER}/oauth/github`

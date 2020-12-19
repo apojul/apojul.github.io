@@ -22,16 +22,23 @@
               <v-col cols="12">
                 <v-card flat>
                   <v-card-text>
-                    <v-form>
+                    <v-form v-model="isValid">
                       <v-text-field
                         v-model="name"
                         label="Name"
                         placeholder="Enter nickname"
+                        :rules="emailRules"
+                        error-count="2"
+                        required
                       ></v-text-field>
                       <v-text-field
                         v-model="email"
                         label="Email"
                         placeholder="Enter email"
+                        type="password"
+                        :rules="passwordRules"
+                        error-count="5"
+                        required
                       ></v-text-field>
                       <v-text-field
                         v-model="password"
@@ -67,7 +74,19 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      emailRules: [
+        v => !!v || 'Email is required',
+        v => /.+@.+/.test(v) || 'E-mail must be valid'
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => (v && v.length >= 5) || 'Password must have 5+ characters',
+        v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character',
+        v => /(?=.*\d)/.test(v) || 'Must have one number',
+        v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]'
+      ],
+      isValid: true
     }
   },
   methods: {
