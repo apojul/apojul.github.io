@@ -112,7 +112,6 @@ export default {
       passwordRules: [v => !!v || 'Password is required'],
       isValid: true,
       google: `${process.env.VUE_APP_SERVER}/oauth/google`,
-      facebook: `${process.env.VUE_APP_SERVER}/oauth/facebook`,
       github: `${process.env.VUE_APP_SERVER}/oauth/github`
     }
   },
