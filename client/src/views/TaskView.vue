@@ -3,7 +3,7 @@
     <v-card
       v-for="(task, index) in taskArray(columnId)"
       :key="index"
-      class="task d-flex ma-4"
+      class="task d-flex flex-nowrap overflow-y-auto ma-4"
       draggable
       @dragstart.self="pickTask($event, index, taskArray(columnId))"
       @dragover.stop.prevent="overTask($event)"

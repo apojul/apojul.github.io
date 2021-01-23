@@ -1,5 +1,5 @@
 <template>
-  <v-row
+  <v-row fill-height
     ><v-col
       v-for="(column, index) in columnArray(boardId)"
       :key="index"
@@ -39,15 +39,12 @@
             color="green lighten-1"
             class="px-auto"
           >
-            <v-card-title class="d-flex justify-center mt-n7"
+            <v-card-title
               >{{ column.name }} - id:{{ column.id }}</v-card-title
             ></v-card
           >
-          <v-card-text class="mt-n2 mb-n4"></v-card-text
-          ><v-icon small class="ml-4">mdi-menu</v-icon
-          ><v-icon small class="ml-4">mdi-attachment</v-icon>
         </v-card>
-        <v-card class="flex-col overflow-y">
+        <v-card>
           <Task :column-id="column.id" />
         </v-card>
       </v-card>

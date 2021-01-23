@@ -1,55 +1,59 @@
-<template>
-  <v-app id="view">
-    <span class="bg"></span
-    ><v-container fluid pa-0>
-      <v-row class="d-flex flex-nowrap py-3 overflow-auto">
-        <v-col v-for="board in boardArray" :key="board.id" cols="2">
-          <v-card class="ma-2" color="blue lighten-3">
-            <v-card-title
-              ><v-text-field
-                :value="board.name"
-                solo
-                flat
-                dense
-                @input="patchBoard(board.id, 'name', $event)"
-              ></v-text-field
-            ></v-card-title>
-            <v-card-subtitle
-              class="text-wrap"
-              @click.prevent.stop="goToBoard(board.id)"
-              >{{ board['description']
-              }}<v-icon color="primary" right
-                >mdi-transfer-right</v-icon
-              ></v-card-subtitle
-            >
-            <v-card-actions>
-              <v-row
-                ><v-col cols="3">
-                  <DeleteButton :item-id="board.id" service="boards" /> </v-col
-                ><v-spacer></v-spacer
-                ><v-col cols="3"
-                  ><PatchBoard
-                    class="justify-start"
-                    :board-id="board.id"
-                    :dialog="patchBoardDisplay"
-                    @click="showPatchBoard"/></v-col
-              ></v-row>
-            </v-card-actions>
-          </v-card> </v-col
-        ><v-col cols="2"
-          ><v-btn
-            small
-            depressed
-            color="grey lighten-3"
-            class="text-lowercase ma-2"
-            @click="addBoard"
-            ><v-icon dark small>mdi-plus</v-icon>Create new board</v-btn
-          ></v-col
-        >
-      </v-row></v-container
-    ></v-app
-  >
-</template>
+<template
+  ><v-container fluid fill-height>
+    <v-row class="d-flex flex-nowrap overflow-x-auto">
+      <v-col
+        v-for="board in boardArray"
+        :key="board.id"
+        xs="9"
+        sm="6"
+        md="4"
+        lg="3"
+      >
+        <v-card class="ma-2" color="blue lighten-3">
+          <v-card-title
+            ><v-text-field
+              :value="board.name"
+              solo
+              flat
+              dense
+              @input="patchBoard(board.id, 'name', $event)"
+            ></v-text-field
+          ></v-card-title>
+          <v-card-subtitle
+            class="text-wrap"
+            @click.prevent.stop="goToBoard(board.id)"
+            >{{ board['description']
+            }}<v-icon color="primary" right
+              >mdi-transfer-right</v-icon
+            ></v-card-subtitle
+          >
+          <v-card-actions>
+            <v-row
+              ><v-col cols="3">
+                <DeleteButton :item-id="board.id" service="boards" /> </v-col
+              ><v-spacer></v-spacer
+              ><v-col cols="3"
+                ><PatchBoard
+                  class="justify-start"
+                  :board-id="board.id"
+                  :dialog="patchBoardDisplay"
+                  @click="showPatchBoard"/></v-col
+            ></v-row>
+          </v-card-actions>
+        </v-card> </v-col
+      ><v-col cols="2"
+        ><v-btn
+          small
+          depressed
+          color="grey lighten-3"
+          class="text-lowercase ma-2"
+          @click="addBoard"
+          ><v-icon dark small>mdi-plus</v-icon>Create new board</v-btn
+        ></v-col
+      >
+    </v-row></v-container
+  ></template
+>
 
 <script>
 import DeleteButton from '@/components/DeleteButton'

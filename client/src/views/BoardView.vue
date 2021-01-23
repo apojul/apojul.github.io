@@ -1,6 +1,5 @@
 :<template>
-  <v-app
-    ><span class="bg"></span>
+  <v-container fluid fill-height>
     <v-app-bar flat color="transparent">
       <v-col cols="2">
         <v-text-field
@@ -15,17 +14,16 @@
         </v-text-field
       ></v-col>
     </v-app-bar>
-    <v-row id="board" class="d-flex flex-row flex-nowrap overflow-auto"
+    <v-row id="board"
       ><v-btn
         x-small
         class="ma-2"
         color="blue lighten-5"
         :to="{ name: 'user_id' }"
       >
-        <v-icon left small> mdi-arrow-left </v-icon>Back
-      </v-btn>
-      <Column /> </v-row
-  ></v-app>
+        <v-icon left small> mdi-arrow-left </v-icon>Back </v-btn
+      ><Column /></v-row
+  ></v-container>
 </template>
 
 <script>

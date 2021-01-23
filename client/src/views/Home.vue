@@ -1,22 +1,19 @@
 <template>
-  <div>
+  <v-container fill-height>
     <NavBar />
-    <BoardDrawer />
     <UserDrawer />
     <router-view id="home-view"></router-view>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar'
-import BoardDrawer from '@/components/BoardDrawer'
 import UserDrawer from '@/components/UserDrawer'
 
 export default {
   name: 'Home',
   components: {
     NavBar,
-    BoardDrawer,
     UserDrawer
   }
 }
