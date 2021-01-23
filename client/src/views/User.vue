@@ -13,6 +13,7 @@
           <v-card-title
             ><v-text-field
               :value="board.name"
+              background-color="transparent"
               solo
               flat
               dense
