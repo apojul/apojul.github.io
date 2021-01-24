@@ -1,9 +1,9 @@
 <template>
-  <v-container fill-height>
+  <div>
     <NavBar />
     <UserDrawer />
     <router-view id="home-view"></router-view>
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -1,5 +1,9 @@
-<template
-  ><v-container fluid fill-height>
+<template>
+  <v-container fluid fill-height>
+    <v-row>
+      <v-icon medium color="primary">mdi-account-outline</v-icon
+      ><span class="blue--text text-h5">Personal Boards</span>
+    </v-row>
     <v-row class="d-flex flex-nowrap overflow-x-auto">
       <v-col
         v-for="board in boardArray"
@@ -10,37 +14,37 @@
         lg="3"
       >
         <v-card class="ma-2" color="blue lighten-3">
-          <v-card-title
-            ><v-text-field
-              :value="board.name"
-              background-color="transparent"
-              solo
-              flat
-              dense
-              @input="patchBoard(board.id, 'name', $event)"
-            ></v-text-field
-          ></v-card-title>
-          <v-card-subtitle
-            class="text-wrap"
-            @click.prevent.stop="goToBoard(board.id)"
-            >{{ board['description']
-            }}<v-icon color="primary" right
-              >mdi-transfer-right</v-icon
-            ></v-card-subtitle
-          >
-          <v-card-actions>
-            <v-row
-              ><v-col cols="3">
-                <DeleteButton :item-id="board.id" service="boards" /> </v-col
-              ><v-spacer></v-spacer
-              ><v-col cols="3"
-                ><PatchBoard
-                  class="justify-start"
-                  :board-id="board.id"
-                  :dialog="patchBoardDisplay"
-                  @click="showPatchBoard"/></v-col
-            ></v-row>
-          </v-card-actions>
+          <v-img src="/img/billow926-Ihe81vz0VrI-unsplash.jpg" height="180">
+            <v-card-title
+              ><v-text-field
+                :value="board.name"
+                background-color="transparent"
+                solo
+                flat
+                dense
+                @input="patchBoard(board.id, 'name', $event)"
+              ></v-text-field
+            ></v-card-title>
+            <v-card-subtitle
+              class="text-wrap"
+              @click.prevent.stop="goToBoard(board.id)"
+              >{{ board['description']
+              }}<v-icon color="primary" right
+                >mdi-transfer-right</v-icon
+              ></v-card-subtitle
+            >
+            <v-card-actions>
+              <v-row
+                ><v-col cols="2">
+                  <DeleteButton :item-id="board.id" service="boards" /> </v-col
+                ><v-spacer></v-spacer
+                ><v-col cols="2"
+                  ><PatchBoard
+                    :board-id="board.id"
+                    :dialog="patchBoardDisplay"
+                    @click="showPatchBoard"/></v-col
+              ></v-row> </v-card-actions
+          ></v-img>
         </v-card> </v-col
       ><v-col cols="2"
         ><v-btn
