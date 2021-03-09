@@ -3,22 +3,22 @@
     ><v-col
       v-for="(column, index) in columnArray(boardId)"
       :key="index"
-      class="column"
-      draggable
+      draggable="true"
       @dragstart.self="pickColumn($event, columnArray(boardId), index)"
       @dragleave.stop.prevent="leaveColumn($event)"
       @dragover.stop.prevent="overColumn($event)"
       @drop.prevent.stop="dropColumn($event, index)"
     >
       <v-card flat class="column mx-auto" color="grey lighten-4">
-        <v-card-subtitle class="py-1"
-          ><v-row dense>
+        <div class="column-top">
+          <v-row dense>
             <v-col cols="10">
               <v-text-field
+                background-color="transparent"
+                class="mt-n1"
                 solo
                 flat
                 dense
-                class="ms-8 mt-6"
                 :value="column.name"
                 @input="patchColumn(column.id, 'name', $event)"
               >
@@ -30,20 +30,9 @@
                 service="columns"
                 :item-id="column.id"
               />
-            </v-col> </v-row></v-card-subtitle
-        ><v-card>
-          <v-card
-            flat
-            dark
-            height="100px"
-            color="green lighten-1"
-            class="px-auto"
-          >
-            <v-card-title
-              >{{ column.name }} - id:{{ column.id }}</v-card-title
-            ></v-card
-          >
-        </v-card>
+            </v-col>
+          </v-row>
+        </div>
         <v-card>
           <Task :column-id="column.id" />
         </v-card>
@@ -101,7 +90,7 @@ export default {
     dropColumn(event, toColumnIndex) {
       event.currentTarget.style.opacity = ''
       const type = event.dataTransfer.getData('type')
-      if (type != 'column') {
+      if (type !== 'column') {
         return
       }
       // Index : seulement quand on travail sur columnArray pour chager la place des columns.
@@ -151,8 +140,13 @@ export default {
 </script>
 
 <style>
+.column-top {
+  display: grid;
+  height: 20px;
+  grid-template-rows: 30px 1fr;
+}
 .column {
-  border: 5px solid blue;
+  border: 5px solid #0000ff;
   width: 272px;
   margin: 0 4px;
   height: 100%;
@@ -161,11 +155,5 @@ export default {
   vertical-align: top;
   white-space: nowrap;
   position: static;
-}
-.col {
-  cursor: pointer;
-}
-.task-over {
-  background: red;
 }
 </style>

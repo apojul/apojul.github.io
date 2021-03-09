@@ -1,39 +1,35 @@
 <template>
-  <v-container fluid fill-height>
+  <v-container fluid>
     <v-row>
-      <v-icon medium color="primary">mdi-account-outline</v-icon
-      ><span class="blue--text text-h5">Personal Boards</span>
+      <v-icon medium left color="black">mdi-account-multiple-outline</v-icon
+      ><span class="black--text text-h6 pa-10">{{ activeUser.nickname }}</span>
     </v-row>
     <v-row class="d-flex flex-nowrap overflow-x-auto">
       <v-col
         v-for="board in boardArray"
         :key="board.id"
+        class=""
         xs="9"
         sm="6"
         md="4"
         lg="3"
+        @click.prevent.stop="goToBoard(board.id)"
       >
-        <v-card class="ma-2" color="blue lighten-3">
+        <v-card class="ma-2 board" color="blue lighten-3">
           <v-img src="/img/billow926-Ihe81vz0VrI-unsplash.jpg" height="180">
             <v-card-title
               ><v-text-field
                 :value="board.name"
                 background-color="transparent"
+                color="blue--text"
                 solo
                 flat
                 dense
                 @input="patchBoard(board.id, 'name', $event)"
               ></v-text-field
             ></v-card-title>
-            <v-card-subtitle
-              class="text-wrap"
-              @click.prevent.stop="goToBoard(board.id)"
-              >{{ board['description']
-              }}<v-icon color="primary" right
-                >mdi-transfer-right</v-icon
-              ></v-card-subtitle
-            >
-            <v-card-actions>
+            <v-card-subtitle>{{ board['description'] }}</v-card-subtitle>
+            <!-- <v-card-actions>
               <v-row
                 ><v-col cols="2">
                   <DeleteButton :item-id="board.id" service="boards" /> </v-col
@@ -44,34 +40,41 @@
                     :dialog="patchBoardDisplay"
                     @click="showPatchBoard"/></v-col
               ></v-row> </v-card-actions
-          ></v-img>
+          > --></v-img
+          >
         </v-card> </v-col
-      ><v-col cols="2"
+      ><v-col xs="9" sm="6" md="4" lg="3" class="" @click="addBoard"
         ><v-btn
-          small
           depressed
+          class="ma-2 board"
+          height="180"
+          width="85%"
           color="grey lighten-3"
-          class="text-lowercase ma-2"
-          @click="addBoard"
-          ><v-icon dark small>mdi-plus</v-icon>Create new board</v-btn
-        ></v-col
+          flat
+        >
+          <v-card-actions>Create new board </v-card-actions>
+        </v-btn></v-col
       >
     </v-row></v-container
   ></template
 >
 
 <script>
+/**
 import DeleteButton from '@/components/DeleteButton'
 import PatchBoard from '@/components/PatchBoard'
+*/
 import { debounce } from 'debounce'
 import app from '@/feathers-client'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
+  /**
   components: {
     DeleteButton,
     PatchBoard
   },
+    */
   data() {
     return {
       patchBoardDisplay: false
@@ -79,7 +82,8 @@ export default {
   },
   computed: {
     ...mapState(['activeUserId']),
-    ...mapGetters({ boardArray: 'boardsOfUserArray' })
+    ...mapGetters({ boardArray: 'boardsOfUserArray' }),
+    ...mapGetters(['activeUser'])
   },
   methods: {
     addBoard() {
@@ -88,7 +92,6 @@ export default {
         description: '',
         user_id: this.activeUserId
       }
-      console.log('userId', this.activeUserId)
       app.service('boards').create(newBoard)
     },
     deleteChange() {
@@ -110,9 +113,10 @@ export default {
 </script>
 
 <style>
-.bg {
-  background: url('/img/natural-wonders-1400924-1600x1200.jpg') no-repeat center
-    center fixed;
-  background-size: cover;
+.board {
+  cursor: pointer;
+}
+.board:hover {
+  filter: brightness(90%);
 }
 </style>

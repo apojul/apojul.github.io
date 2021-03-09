@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style>
-.container {
+/*m.container {
   border: 1px solid green;
 }
 .row {
@@ -28,5 +28,5 @@ export default {
 }
 .col {
   border: 1px solid blue;
-}
+} */
 </style>

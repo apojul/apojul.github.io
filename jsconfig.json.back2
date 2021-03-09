@@ -1,0 +1,18 @@
+{
+    "include": [
+      "./client/src",
+      "./server/src"
+    ],
+  "compilerOptions": {
+        "baseUrl": "./client",
+        "paths": {
+            "components/*": [
+              "client/src/components/*"
+            ],
+            "@/*": [
+              "client/src/*",
+              "server/src/*"
+            ]
+        }
+    }
+  }

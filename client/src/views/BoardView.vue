@@ -1,18 +1,18 @@
-:<template>
+<template>
   <v-container fluid fill-height>
     <v-app-bar flat color="transparent">
-      <v-col cols="2">
-        <v-text-field
-          :value="getBoard['name']"
-          solo
-          flat
-          dense
-          background-color="blue lighten-4"
-          class="mt-6"
-          @input="patchBoard('name', $event)"
-        >
-        </v-text-field
-      ></v-col>
+      <v-row dense>
+        <v-col cols="2">
+          <v-text-field
+            :value="getBoard['name']"
+            solo
+            flat
+            dense
+            background-color="transparent"
+            @input="patchBoard('name', $event)"
+          >
+          </v-text-field></v-col
+      ></v-row>
     </v-app-bar>
     <v-row id="board"
       ><v-btn
@@ -64,16 +64,4 @@ export default {
   }
 }
 </script>
-<style>
-.bg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: url('/img/saira-HukoEzQ6StQ-unsplash.jpg') no-repeat center center;
-  background-size: cover;
-  background-color: blue;
-  transform: scale(1.1);
-}
-</style>
+<style></style>
